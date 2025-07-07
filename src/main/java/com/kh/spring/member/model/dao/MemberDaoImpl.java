@@ -50,4 +50,9 @@ public class MemberDaoImpl implements MemberDao{
 		return sqlSession.selectOne("member.selectOne", userId);
 	}
 
+	@Override
+	public void insertAuthority(Member m) {
+		sqlSession.insert("member.insertAuthority", m);
+	}
+
 }

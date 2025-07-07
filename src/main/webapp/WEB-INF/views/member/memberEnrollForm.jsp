@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,6 +17,12 @@
 	
 	#enroll-form table {margin:auto;}
 	#enroll-form input {margin:5px;}
+	
+	.error {
+	    color: red;
+	    font-size: 0.9em;
+	    margin-left: 10px;
+	}
 </style>
 </head>
 <body>
@@ -24,45 +31,80 @@
 	<div class="outer">
         <br>
         <h2 align="center">회원가입</h2>
-        <form id="enroll-form" action="<%=request.getContextPath() %>/member/insert" method="post">
-            <!-- 회원가입form안에.txt -->
+        <%--
+        	<form:form modelAttribute="member">
+        	- form 태그에 데이터를 자동으로 바인딩해주는 태그.
+        	- 코드의 가독성과 유지보수성 향상을 위해 사용.
+        	- form 태그에 바인딩할 객체는 서버에서 model에 추가한 값.
+        	
+        	form:form 태그의 핵심 기능
+        	1. 유효성 검사 실패시 입력값 유지 기능.
+        	- <form:input/>
+        	2. 에러 메세지 자동 표시 기능.
+        	- <form:errors/>
+        	- 유효성 검사 결과에 담긴 에러 내용을 출력하는 태그.
+        	3. csrf 공격 방어.
+         --%>
+        <form:form modelAttribute="member" id="enroll-form"
+            action="${pageContext.request.contextPath}/security/insert" method="post">
             <table align="center">
                 <tr>
                     <td>* ID</td>
-                    <td><input type="text" name="userId" required>
+                    <td>
+                        <form:input path="userId" required="required"/>
                         <button type="button" onclick="idCheck();">아이디중복체크</button>
+                        <form:errors path="userId" cssClass="error"/>
                     </td>
                 </tr>
                 <tr>
                     <td>* PWD</td>
-                    <td><input type="password" name="userPwd" required></td>
+                    <td>
+                        <form:password path="userPwd" required="required"/>
+                        <form:errors path="userPwd" cssClass="error"/>
+                    </td>
                 </tr>
                 <tr>
                     <td>* NAME</td>
-                    <td><input type="text" name="userName" required></td>
+                    <td>
+                        <form:input path="userName" required="required"/>
+                        <form:errors path="userName" cssClass="error"/>
+                    </td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;EMAIL</td>
-                    <td><input type="email" name="email"></td>
+                    <td>
+                        <form:input path="email"/>
+                        <form:errors path="email" cssClass="error"/>
+                    </td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;BIRTHDAY</td>
-                    <td><input type="text" name="birthday" placeholder="생년월일(6자리)"></td>
+                    <td>
+                        <form:input path="birthday" placeholder="생년월일(6자리)"/>
+                        <form:errors path="birthday" cssClass="error"/>
+                    </td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;GENDER</td>
                     <td align="center">
-                        <input type="radio" name="gender" value="M" checked> 남
-                        <input type="radio" name="gender" value="F"> 여
+                        <form:radiobutton path="gender" value="M"/> 남
+                        <form:radiobutton path="gender" value="F"/> 여
+                        <form:errors path="gender" cssClass="error"/>
                     </td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;PHONE</td>
-                    <td><input type="text" name="phone" placeholder="-포함"></td>
+                    <td>
+                        <form:input path="phone" placeholder="-포함"/>
+                        <form:errors path="phone" cssClass="error"/>
+                    </td>
                 </tr>
                 <tr>
                     <td>&nbsp;&nbsp;ADDRESS</td>
-                    <td><input type="text" name="address"></td>
+                    <td>
+                        <form:input path="address"/>
+                        <form:errors path="address" cssClass="error"/>
+                    </td>
                 </tr>
             </table>
             <br>
@@ -70,33 +112,31 @@
                 <button type="reset">초기화</button>
                 <button type="submit">회원가입</button>
             </div>
-        </form>
+        </form:form>
     </div>
 	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
 </body>
 <script>
 	function idCheck() {
-		const userId = $("#enroll-form input[name=userId]");
-		
-		$.ajax({
-			url: "${contextPath}/member/idCheck",
-			data: {
-				userId: userId.val()
-			},
-			success: function(result) {
-				// console.log(result);
-				if (result == 1) { // 이미 사용중인 id
-					alertify.alert("아이디 중복 체크 결과", "이미 사용 중인 아이디 입니다.");
-					userId.val("");
-				} else {
-					alertify.alert("아이디 중복 체크 결과", "사용 가능한 아이디 입니다.");
-				}
-			},
-			error: function(error) {
-				console.log(error);
-			}
-		})
+	    const userId = $("#enroll-form input[name='userId']");
+	    $.ajax({
+	        url: "${pageContext.request.contextPath}/member/idCheck",
+	        data: {
+	            userId: userId.val()
+	        },
+	        success: function(result) {
+	            if (result == 1) {
+	                alertify.alert("아이디 중복 체크 결과", "이미 사용중인 아이디 입니다.");
+	                userId.val("");
+	            } else {
+	                alertify.alert("아이디 중복 체크 결과", "사용 가능한 아이디 입니다.");
+	            }
+	        },
+	        error: function(error) {
+	            console.log(error);
+	        }
+	    });
 	}
 </script>
 </html>

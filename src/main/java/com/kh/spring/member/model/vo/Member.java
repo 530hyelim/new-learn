@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Builder;
+//import lombok.Builder;
 
 @NoArgsConstructor
 @AllArgsConstructor
