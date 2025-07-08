@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -128,7 +129,40 @@ public class SecurityController {
 		
 		return "member/myPage";
 	}
+	
+	@PostMapping("/security/update")
+	public String update(
+			@Validated @ModelAttribute MemberExt loginUser,
+			BindingResult bindResult,
+			Authentication auth, // 로그인한 사용자 인증정보
+			RedirectAttributes ra
+			) {
+		if (bindResult.hasErrors()) {
+			return "redirect:/security/myPage";
+		}
+		// 비즈니스 로직
+		// 1. DB의 member 객체를 수정.
+		int result = mService.updateMember(loginUser);
+		
+		// 2. 변경된 회원정보를 DB에서 얻어온 후 새로운 인증정보 생성하여 스레드 로컬에 저장.
+		// - 가장 쉬운 방법은 로그아웃 시키는 것.
+		// - 여기서는 로그인된 상태로 새로운 인증정보 생성.
+		// - 변경된 회원정보(loginUser).
+		// - authorities, credentials 필요.
+		
+		// 새로운 Authentication 객체 생성
+		Authentication newAuth = new UsernamePasswordAuthenticationToken(
+			loginUser, auth.getCredentials(), auth.getAuthorities()
+		);
+		SecurityContextHolder.getContext().setAuthentication(newAuth);
+		ra.addFlashAttribute("alertMsg", "내정보 수정 성공.");
+		
+		return "redirect:/security/myPage";
+	}
 }
+
+
+
 
 
 

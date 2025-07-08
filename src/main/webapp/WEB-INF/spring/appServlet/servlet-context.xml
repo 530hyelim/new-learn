@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+
+	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	
+	<!-- Enables the Spring MVC @Controller programming model
+		
+		@Controller, @Service, @Repository, @Component 어노테이션을 사용 가능하도록 활성화.
+	 -->
+	<annotation-driven />
+
+	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory
+	
+		정적 파일들에 대한 요청을 mapping 하는 속성.
+	 -->
+	<resources mapping="/resources/**" location="/resources/" />
+
+	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
+	<!-- 
+		주소 자동완성 도구
+		- 매번 같은 주소를 추가해야하는 불편한 상황을 처리하기 위해 자동완성기능이 탑재된 클래스.
+		- 컨트롤러에서 문자열 값을 리턴하는 경우 해당 문자열에 접두어와, 접미어를 추가시켜 포워딩 하기 위해 사용.
+	 -->
+	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<beans:property name="prefix" value="/WEB-INF/views/" />
+		<beans:property name="suffix" value=".jsp" />
+	</beans:bean>
+	
+	<!-- 
+		base-package에 등록된 패키지의 하위경로에 존재하는 모든 패키지를 스캔하여 bean(component)객체로 등록 가능한 클래스가 있는지 검사하는 태그.
+		
+		bean
+		- 스프링 프레임워크가 관리하는 의존성으로, 딱 1번만 생성하고 필요한 위치에 주입해준다.
+	 -->
+	<context:component-scan base-package="com.kh.spring" />
+	
+	
+	
+</beans:beans>

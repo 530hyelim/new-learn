@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="board">
+	<select id="getBoardTypeMap" resultType="boardType">
+		select board_cd as "boardCd", board_name from board_type
+	</select>
+	
+	<select id="selectListCount" parameterType="map" resultType="int">
+		select count(*)
+		from board b left join member m on b.board_writer = m.user_no
+		where b.status = 'Y' and b.board_cd = #{boardCode}
+		<if test="keyword != null and keyword != ''">
+			and
+			<choose>
+				<when test="condition.equals('title')">
+					board_title like '%' || #{keyword} || '%'
+				</when>
+				<when test="condition.equals('writer')">
+					user_name like '%' || #{keyword} || '%'
+				</when>
+				<when test="condition.equals('content')">
+					board_content like '%' || #{keyword} || '%'
+				</when>
+				<when test="condition.equals('titleAndContent')">
+					(board_title like '%' || #{keyword} || '%' or
+					board_content like '%' || #{keyword} || '%')
+				</when>
+			</choose>
+		</if>
+	</select>
+	
+	<select id="selectList" parameterType="map" resultType="board">
+		select board_no, board_title, user_name as board_writer, count, create_date
+		from board b left join member m on b.board_writer = m.user_no
+		where b.status = 'Y' and board_cd = #{boardCode}
+		<if test="keyword != null and keyword != ''">
+			and
+			<choose>
+				<when test="condition.equals('title')">
+					board_title like '%' || #{keyword} || '%'
+				</when>
+				<when test="condition.equals('writer')">
+					user_name like '%' || #{keyword} || '%'
+				</when>
+				<when test="condition.equals('content')">
+					board_content like '%' || #{keyword} || '%'
+				</when>
+				<when test="condition.equals('titleAndContent')">
+					(board_title like '%' || #{keyword} || '%' or
+					board_content like '%' || #{keyword} || '%')
+				</when>
+			</choose>
+		</if>
+		order by board_no desc
+		offset #{offset} rows fetch next #{limit} rows only
+	</select>
+</mapper>
+
+
+
+
