@@ -54,6 +54,76 @@
 		order by board_no desc
 		offset #{offset} rows fetch next #{limit} rows only
 	</select>
+	
+	<insert id="insertBoard">
+		<!-- 
+			selectKey
+			- insert 전/후에 실행되어 게시글 번호와 같은 자동 증가값을 가져오는 구문.
+			- keyProperty: 결과값을 저장할 필드명.
+			- resultType: 반환되는 타입의 자료형.
+			- order: insert 전에 실행될지 후에 실행될지를 지정하는 속성.
+			- 같은 트랜잭션에서 현재 테이블의 PK값이 필요한 경우 사용.
+		-->
+		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
+			select seq_bno.nextval from dual
+		</selectKey>
+		insert into board(board_no, board_title, board_content, board_cd, board_writer)
+		values(#{boardNo}, #{boardTitle}, #{boardContent}, #{boardCd}, #{boardWriter}) 
+	</insert>
+	
+	<!-- 
+		다중 인서트문
+		- MyBatis의 foreach 태그를 이용하여 전달받은 배열의 길이만큼 select문을 생성 후, UnionAll 접합.
+	-->
+	<insert id="insertBoardImgList">
+		insert into board_img(board_img_no, origin_name, change_name, ref_bno, img_level)
+		select seq_img_no.nextval, c.*
+		from (
+		<foreach collection="list" item="bi" separator="UNION ALL">
+			select
+				#{bi.originName}, #{bi.changeName}, #{bi.refBno}, #{bi.imgLevel}
+			from dual
+		</foreach>
+		) c
+	</insert>
+	
+	<select id="selectBoard" resultMap="boardExtResultMap">
+		select
+			board_no,
+			board_title,
+			board_content,
+			board_writer,
+			count,
+			create_date,
+			user_name 
+		from board b left join member m on board_writer = user_no
+		where board_no = #{boardNo}
+		and b.status = 'Y'
+	</select>
+	<resultMap type="boardExt" id="boardExtResultMap">
+		<id column="board_no" property="boardNo" />
+		<result column="board_title" property="boardTitle" />
+		<result column="board_content" property="boardContent" />
+		<result column="board_writer" property="boardWriter" />
+		<result column="create_date" property="createDate" />
+		<result column="user_name" property="userName" />
+		<collection property="imgList" javaType="java.util.List" ofType="boardImg" select="selectBoardImgList" column="board_no">
+			
+		</collection>
+	</resultMap>
+	<select id="selectBoardImgList" resultType="boardImg">
+		select * from board_img
+		where ref_bno = #{boardNo}
+		order by img_level
+	</select>
+	
+	<update id="increaseCount">
+		update board
+		<set>
+			count = count + 1
+		</set>
+		where board_no = #{boardNo}
+	</update>
 </mapper>
 
 

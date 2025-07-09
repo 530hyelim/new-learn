@@ -11,7 +11,7 @@ public class ExceptionController {
 	@ExceptionHandler
 	public String exceptionHandler(Exception e, Model model) {
 		e.printStackTrace();
-		model.addAttribute("errorMsg", "서비스 이용 중 문제가 발생했습니다(컨트롤러).");
+		model.addAttribute("errorMsg", "서비스 이용 중 문제가 발생했습니다.");
 		
 		return "common/errorPage";
 	}

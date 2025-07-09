@@ -14,7 +14,9 @@ import com.kh.spring.board.model.vo.BoardType;
 import com.kh.spring.common.model.vo.PageInfo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Repository
 @RequiredArgsConstructor
 public class BoardDaoImpl implements BoardDao {
@@ -90,7 +92,12 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public int insertBoard(Board b) {
-		return 0;
+		log.info("게시글 등록 이전 b: {}", b);
+		
+		int result = session.insert("board.insertBoard", b);
+		
+		log.info("게시글 등록 이후 b: {}", b);
+		return result;
 	}
 
 	@Override
@@ -100,17 +107,17 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public int insertBoardImgList(List<BoardImg> imgList) {
-		return 0;
+		return session.insert("board.insertBoardImgList", imgList);
 	}
 
 	@Override
 	public BoardExt selectBoard(int boardNo) {
-		return null;
+		return session.selectOne("board.selectBoard", boardNo);
 	}
 
 	@Override
 	public int increaseCount(int boardNo) {
-		return 0;
+		return session.update("board.increaseCount", boardNo);
 	}
 
 	@Override

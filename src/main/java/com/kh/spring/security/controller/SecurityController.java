@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.spring.member.model.service.MemberService;
@@ -29,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Controller
 @Slf4j
+@RequestMapping("/security")
 public class SecurityController {
 	private BCryptPasswordEncoder passwordEncoder;
 	private MemberService mService;
@@ -40,14 +42,14 @@ public class SecurityController {
 	}
 	
 	// 에러페이지 포워딩용 url
-	@GetMapping("/security/accessDenied")
+	@RequestMapping("/accessDenied")
 	public String accessDenied(Model model) {
 		model.addAttribute("errorMsg", "접근불가.");
 		return "common/errorPage";
 	}
 	
 	// 회원가입 페이지 이동
-	@GetMapping("/security/insert")
+	@GetMapping("/insert")
 	public String enroll(
 			@ModelAttribute Member member
 			// @ModelAttribute
@@ -80,7 +82,7 @@ public class SecurityController {
 		// birthday=991225와 같은 형식으로 데이터가 들어노는 경우 수행되는 커스텀 에디터 등록
 	}
 	
-	@PostMapping("/security/insert")
+	@PostMapping("/insert")
 	public String register(
 			@Validated @ModelAttribute Member member,
 			BindingResult bindingResult,
@@ -113,7 +115,7 @@ public class SecurityController {
 	 * - Credentials: 인증에 필요한 비밀번호에 대한 정보를 가진 객체(내부적으로 인증 작업시 사용).
 	 * - Authorities: 인증된 사용자가 가진 권한을 저장하는 객체.
 	 */
-	@GetMapping("/security/myPage")
+	@GetMapping("/myPage")
 	public String myPage(Authentication auth2, Principal principal2, Model model) {
 		// 인증된 사용자 정보 가져오기
 		// 1. SecurityContextHolder 이용.
@@ -130,7 +132,7 @@ public class SecurityController {
 		return "member/myPage";
 	}
 	
-	@PostMapping("/security/update")
+	@PostMapping("/update")
 	public String update(
 			@Validated @ModelAttribute MemberExt loginUser,
 			BindingResult bindResult,
