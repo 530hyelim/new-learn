@@ -328,6 +328,134 @@ public class BoardController {
 		.header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + filename)
 		.body(resource);
 	}
+	
+	// 게시판 수정 기능(Get)
+	@GetMapping("/update/{boardCode}/{boardNo}")
+	public String updateBoard(
+			@PathVariable("boardCode") String boardCode,
+			@PathVariable("boardNo") int boardNo,
+			Authentication auth,
+			Model model
+			) {
+		// 업무 로직
+		// 1. 현재 게시글을 수정할 수 있는 사용자인지 체크
+		//    - 게시글의 작성자 == 로그인한 사용자
+		//    - 관리자 권한
+		BoardExt board = boardService.selectBoard(boardNo);
+		
+		if (board == null) {
+			throw new RuntimeException("게시글이 존재하지 않습니다.");
+		}
+		
+//		int boardWriter = Integer.parseInt(board.getBoardWriter());
+//		int userNo = ((Member)auth.getPrincipal()).getUserNo();
+//		
+//		if (!(boardWriter == userNo || (auth.getAuthorities().stream().anyMatch((authority) -> authority.getAuthority().equals("ROLE_ADMIN"))))) {
+//			throw new RuntimeException("게시글 수정 권한이 없습니다.");
+//		}
+		
+		// 2. 게시글 정보 조회
+		//    - newLineClear 메서드를 통해 개행문자 원상복구
+		board.setBoardContent(Utils.newLineClear(board.getBoardContent())); // <br> -> \n
+		
+		// 3. model 영역에 추가후 forward
+		model.addAttribute("board", board);
+		
+		return "board/boardUpdateForm";
+	}
+	
+	@PostMapping("/update/{boardCode}/{boardNo}")
+	public String updateBoard2(
+            @ModelAttribute Board b,
+            @PathVariable("boardCode") String boardCode,
+            @PathVariable("boardNo") int boardNo,
+            Authentication auth,
+            RedirectAttributes ra,
+            Model model,
+            @RequestParam(value = "upfile", required = false) List<MultipartFile> upfiles,
+            String deleteList ,
+            @RequestParam(value = "imgNo", required = false) List<Integer> imgNoList
+			) {
+		// 다음 업무로직의 순서에 맞춰 코드를 작성
+        // 0. 유효성검사(생략)
+        // 1. 현재 게시글을 수정할 수 있는 사용자인지 체크.
+        // 2. 새롭게 등록한 첨부파일이 있는지 체크 후 저장		
+		List<BoardImg> imgList = new ArrayList<>();
+//		for (int i = 0, j = 0; i < imgNoList.size(); i++) {
+//			MultipartFile upfile = upfiles.get(j);
+//			if (upfile.isEmpty()) {
+//				continue;
+//			}
+//			
+//			String changeName = Utils.saveFile(upfile, application, boardCode);
+//			BoardImg bi = new BoardImg();
+//			bi.setBoardImgNo(imgNoList.get(i));
+//			bi.setChangeName(changeName);
+//			bi.setOriginName(upfile.getOriginalFilename());
+//			bi.setImgLevel(i);
+//			bi.setRefBno(boardNo);
+//			imgList.add(bi); // 연관 게시글 번호 refBno 값 추가 필요
+//		}
+		
+		System.out.println(imgNoList.size());
+		System.out.println(upfiles.size());
+		
+		int startlevel = 0;
+		for (int i : imgNoList) {
+			System.out.println(i);
+			if (i != 0) {
+				startlevel++;
+			}
+		}
+		
+		int level = startlevel; // 첨부파일의 레벨
+		// 0 = 썸네일, 0이 아닌 값들은 썸네일이 아닌 기타 파일들.
+		for (MultipartFile upfile : upfiles) {
+			if (upfile.isEmpty()) {
+				continue;
+			}
+			// 첨부파일이 존재한다면 web 서버상에 첨부파일 저장
+			// 첨부파일 관리를 위해 DB에 첨부파일의 위치정보를 저장
+			String changeName = Utils.saveFile(upfile, application, boardCode);
+			BoardImg bi = new BoardImg();
+			bi.setBoardImgNo(imgNoList.get(level));
+			bi.setChangeName(changeName);
+			bi.setOriginName(upfile.getOriginalFilename());
+			bi.setImgLevel(level++);
+			bi.setRefBno(b.getBoardNo());
+			imgList.add(bi); // 연관 게시글 번호 refBno 값 추가 필요
+		}
+		
+        // 3. 게시글 , 첨부파일 수정 서비스 요청
+        //    1) UPDATE에 필요한 데이터를 추가로 바인딩
+		// 게시글 등록 서비스 호출
+		// - 서비스 호출 전, 게시글 정보 바인딩.
+		// - 테이블에 추가하기 위해 필요한 데이터: 회원번호, 게시판 코드
+		Member loginUser = (Member)auth.getPrincipal();
+		b.setBoardWriter(String.valueOf(loginUser.getUserNo()));
+		b.setBoardCd(boardCode);
+		b.setBoardNo(boardNo);
+		
+		// 정보 체크
+		log.debug("board: {}", b);
+		log.debug("imgList: {}", imgList);
+		
+		int result = boardService.updateBoard(b, deleteList, imgList);
+		
+		if (result == 0) {
+			throw new RuntimeException("게시글 수정 실패.");
+		} else {
+			ra.addFlashAttribute("alertMsg", "게시글 수정 성공.");
+		}
+		
+        // 3. 처리 결과에 따라 응답 페이지 지정
+        //    1) 실패시 에러반환
+        //    2) 성공시 작업했떤 view페이지로 redirect
+		
+		
+//		return "redirect:/board/detail/" + boardCode + "/" + boardNo;
+		return "redirect:/board/list/" + boardCode;
+	}
 
 }
 

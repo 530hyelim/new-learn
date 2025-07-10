@@ -104,10 +104,65 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public int updateBoard(Board board, String deleteList, MultipartFile upfile, List<MultipartFile> upfiles)
-			throws Exception {
+	@Transactional(rollbackFor = {Exception.class})
+	public int updateBoard(Board b, String deleteList, List<BoardImg> imgList) {
+        //    서비스 내부 로직
+        //    1. 게시글 수정
+        //       1) XSS, 개행 처리 후 추가
+        //    2. 첨부파일 수정 -> INSERT, UPDATE, DELETE
+        //       1) 새롭게 등록한 첨부파일이 없는 경우 -> 아무것도 하지 않음
+        //       2) 첨부파일이 없던 게시글에 새롭게 추가한 경우 -> INSERT
+        //       3) 첨부파일이 있던 게시글에 새롭게 추가한 경우 -> UPDATE
+        //       4) 첨부파일이 있던 게시글에 첨부파일은 삭제한 경우 -> DELETE
+        //        - 사용하지 않게 된 첨부파일에 대해서는 고려하지 않아도 상관 없음.(스케쥴러를 통해 정리예정)
+		
+		// 데이터 전처리
+		// - 게시글 내용: xss 핸들링 및 개행문자 처리
+		// - 게시글 제목: xss 핸들링
+		b.setBoardContent(Utils.XSSHandling(b.getBoardContent()));
+		b.setBoardContent(Utils.newLineHandling(b.getBoardContent()));
+		b.setBoardTitle(Utils.XSSHandling(b.getBoardTitle()));
+		
+		// 게시글 저장
+		// - MyBatis의 selectKey 기능을 이용하여 boardNo 값을 b 객체에 바인딩.
+		int result = boardDao.updateBoard(b);
 
-		return 0;
+		if (result == 0) {
+			throw new RuntimeException("게시글 업데이트 실패.");
+		}
+		
+		if (deleteList != null && !deleteList.equals("")) {
+			result = boardDao.deleteBoardImg(deleteList);
+			
+			if (result == 0) throw new RuntimeException("첨부파일 삭제 에러.");
+		}
+		
+		// 첨부파일 등록
+		// - 전달받은 imgList가 비어있지 않은 경우 진행.
+		// - 게시글 번호를 추가로 refBno 필드에 바인딩.
+		if (!imgList.isEmpty()) {
+			for (BoardImg bi : imgList) {
+				if(bi.getBoardImgNo() == 0) {
+					result = boardDao.insertBoardImg(bi);
+				} else {
+					result = boardDao.updateBoardImg(bi);
+				}
+				
+				if (result == 0) {
+					throw new RuntimeException("첨부파일 수정 실패.");
+				}
+				
+//				bi.setRefBno(b.getBoardNo());
+			}
+			// 다중 인서트문 실행
+//			int imgResult = boardDao.insertBoardImgList(imgList);
+//			
+//			if (imgResult != imgList.size()) {
+//				throw new RuntimeException("첨부파일 등록 실패.");
+//			}
+		}
+
+		return result;
 	}
 
 	@Override

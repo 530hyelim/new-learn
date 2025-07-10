@@ -124,6 +124,34 @@
 		</set>
 		where board_no = #{boardNo}
 	</update>
+	
+	<update id="updateBoard">
+		update board
+		<set>
+			board_title = #{boardTitle},
+			board_content = #{boardContent}
+		</set>
+		where board_no = #{boardNo}
+	</update>
+	
+	<update id="updateBoardImg">
+		update board_img
+		<set>
+			origin_name = #{originName},
+			change_name = #{changeName}
+		</set>
+		where board_img_no = #{boardImgNo}
+	</update>
+	
+	<delete id="deleteBoardImg">
+		delete from board_img
+		where BOARD_IMG_NO in (${deleteList})
+	</delete>
+	
+	<insert id="insertBoardImg">
+		insert into board_img
+		values(seq_img_no.nextval, #{originName}, #{changeName}, #{refBno}, #{imgLevel})
+	</insert>
 </mapper>
 
 
