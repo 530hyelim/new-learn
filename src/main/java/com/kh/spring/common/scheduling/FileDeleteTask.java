@@ -1,12 +1,21 @@
 package com.kh.spring.common.scheduling;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import com.kh.spring.board.model.service.BoardService;
+import com.kh.spring.board.model.vo.BoardType;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
 public class FileDeleteTask {
+	@Autowired
+	private BoardService bService;
 	/*
      * 파일 삭제 스케쥴러
      *  - 목표 : DB에는 존재하지 않으나 WEB-SERVER상에 존재하는 쓸모없는 파일을 삭제.
@@ -18,5 +27,12 @@ public class FileDeleteTask {
      * 5. DB에 없는 파일(즉, 더 이상 사용되지 않는 파일)이라면 삭제 처리
      * 6. 유저활동량이 적은 매달 1일 4시에 실행되도록 설정
      */
+	@Scheduled(cron="0 0 4 1 * *")
+	public void fileDelete() {
+		List<String> fileList = bService.selectFileList();
+		List<BoardType> boardTypeList = bService.selectBoardTypeList();
+	}
+	
+	
 	
 }

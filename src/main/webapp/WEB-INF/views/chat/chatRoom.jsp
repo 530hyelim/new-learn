@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
- 
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,10 +70,56 @@
 </style>
 </head>
 <body>
-
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
 	
+	<div class="chatting-area">
+		<div id="exit-area">
+			<button class="btn btn-outline-danger" id="exit-btn">나가기</button>
+		</div>
+		<ul class="display-chatting">
+                <c:forEach items="${list}" var="msg">
+                    <c:if test='${msg.userNo eq loginUser.userNo }'>
+                        <li class="myChat">
+                            <span class="chatDate">${msg.createDate}</span>
+                            <p class="chat">${msg.message}</p>
+                        </li>
+                    </c:if>
+                    <c:if test="${msg.userNo ne loginUser.userNo }">
+                        <li>
+                            <b>${msg.userName }</b>
+                            <p class="chat">${msg.message }</p>
+                            <span class="chatDate">${msg.createDate }</span>
+                        </li>
+                    </c:if>
+                </c:forEach>
+            </ul>
+            <div class="input-area">
+                <textarea id="inputChatting" rows="3"></textarea>
+                <button id="send">보내기</button>
+            </div>
+        </div>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script>
+    	// 채팅 설정을 위한 전역변수 등록
+    	const userNo = '${loginUser.userNo}';
+    	const userName = '${loginUser.userName}';
+    	const chatRoomNo = '${chatRoomNo}';
+    	const contextPath = '${contextPath}';
+    	
+    	// 웹소켓 연결 요청
+    	let chattingSocket = new SockJS(contextPath + "/chat");
+    </script>
+    <script type="text/javascript" src="${contextPath }/resources/js/chat.js"></script>
+	
 	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
-
 </body>
 </html>
+
+
+
+
+
+
+
+
+

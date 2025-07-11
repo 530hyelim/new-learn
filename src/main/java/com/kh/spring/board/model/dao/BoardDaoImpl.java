@@ -86,11 +86,6 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public List<BoardType> selectBoardTypeList() {
-		return null;
-	}
-
-	@Override
 	public int insertBoard(Board b) {
 		log.info("게시글 등록 이전 b: {}", b);
 		
@@ -142,7 +137,12 @@ public class BoardDaoImpl implements BoardDao {
 
 	@Override
 	public List<String> selectFileList() {
-		return null;
+		return session.selectList("board.selectFileList");
+	}
+	
+	@Override
+	public List<BoardType> selectBoardTypeList() {
+		return session.selectList("board.selectBoardTypeList");
 	}
 
 }

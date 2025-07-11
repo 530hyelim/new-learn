@@ -152,6 +152,14 @@
 		insert into board_img
 		values(seq_img_no.nextval, #{originName}, #{changeName}, #{refBno}, #{imgLevel})
 	</insert>
+	
+	<select id="selectFileList" resultType="string">
+		select change_name from board_img
+	</select>
+	
+	<select id="selectBoardTypeList" resultType="boardType">
+		select * from board_type
+	</select>
 </mapper>
 
 
