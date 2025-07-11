@@ -1,6 +1,11 @@
 package com.kh.spring.common.scheduling;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+
+import javax.servlet.ServletContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -16,6 +21,9 @@ import lombok.extern.slf4j.Slf4j;
 public class FileDeleteTask {
 	@Autowired
 	private BoardService bService;
+	
+	@Autowired
+	private ServletContext servletContext;
 	/*
      * 파일 삭제 스케쥴러
      *  - 목표 : DB에는 존재하지 않으나 WEB-SERVER상에 존재하는 쓸모없는 파일을 삭제.
@@ -27,10 +35,32 @@ public class FileDeleteTask {
      * 5. DB에 없는 파일(즉, 더 이상 사용되지 않는 파일)이라면 삭제 처리
      * 6. 유저활동량이 적은 매달 1일 4시에 실행되도록 설정
      */
-	@Scheduled(cron="0 0 4 1 * *")
+	@Scheduled(cron="*/5 * * * * *")
 	public void fileDelete() {
+		// 1. 데이터베이스(board_img 테이블)에 등록된 모든 이미지 파일 경로 목록을 조회
 		List<String> fileList = bService.selectFileList();
+		
+		// 2. 모든 게시판 유형(boardType)을 조회하여, 각각의 게시판 디렉토리 경로를 탐색
 		List<BoardType> boardTypeList = bService.selectBoardTypeList();
+		
+		String path = "/resources/images/board/N";
+		
+		System.out.println(servletContext.getContextPath());
+		System.out.println(servletContext.getRealPath(path));
+		
+		File files = new File(servletContext.getRealPath(path));
+		
+		System.out.println(files.isDirectory());
+		System.out.println(files.list());
+		System.out.println(Arrays.toString(files.list()));
+		
+		System.out.println(fileList.toString());
+		
+//		for (BoardType bt : boardTypeList) {
+//			String boardCode = bt.getBoardCd();
+//			String path = "/resources/images/board/N";
+//			
+//		}
 	}
 	
 	
