@@ -100,7 +100,7 @@ public class MemberController {
 //		 * 
 //		 * 2) ModelAndView
 //		 * - ModelAndView 에서 Model은 데이터를 담을 수 있는 맵형태의 객체.
-//		 * - View는 이동할 ㅔㅍ이지에 대한 정보를 담고 있는 객체.
+//		 * - View는 이동할 페이지에 대한 정보를 담고 있는 객체.
 //		 * - 기본 requestScope에 데이터를 보관.
 //		 * 
 //		 * Model은 내부에 데이터를 추가시 addAttribute() 함수를 사용하여 데이터를 추가.
