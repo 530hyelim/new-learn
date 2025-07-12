@@ -58,7 +58,7 @@ public class ChatServiceImpl implements ChatService{
 
 	@Override
 	public void exitChatRoom(ChatRoomJoin join) {
-		
+		dao.exitChatRoom(join);
 	}
 	
 	

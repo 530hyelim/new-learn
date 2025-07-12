@@ -1,7 +1,6 @@
 package com.kh.spring.common.scheduling;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -22,7 +21,7 @@ public class FileDeleteTask {
 	private BoardService bService;
 	
 	@Autowired
-	private ServletContext servletContext;
+	private ServletContext application;
 	/*
      * 파일 삭제 스케쥴러
      *  - 목표 : DB에는 존재하지 않으나 WEB-SERVER상에 존재하는 쓸모없는 파일을 삭제.
@@ -34,7 +33,7 @@ public class FileDeleteTask {
      * 5. DB에 없는 파일(즉, 더 이상 사용되지 않는 파일)이라면 삭제 처리
      * 6. 유저활동량이 적은 매달 1일 4시에 실행되도록 설정
      */
-	@Scheduled(cron="0 0 4 1 * *")
+	@Scheduled(cron="*/5 * * * * *")
 	public void fileDelete() {
 		// 1. 데이터베이스(board_img 테이블)에 등록된 모든 이미지 파일 경로 목록을 조회
 		List<String> dbFileList = bService.selectFileList();
@@ -48,13 +47,13 @@ public class FileDeleteTask {
 			String boardCd = bt.getBoardCd();
 			String pathAndBoardCd = path + boardCd + "/";
 			
-			File serverFiles = new File(servletContext.getRealPath(pathAndBoardCd));
+			File serverFiles = new File(application.getRealPath(pathAndBoardCd));
 			
 			for (String serverFile : serverFiles.list()) {
 				String serverFileName = pathAndBoardCd + serverFile;
 				
 				if (!dbFileList.contains(serverFileName)) {
-					String absolutePath = servletContext.getRealPath(serverFileName);
+					String absolutePath = application.getRealPath(serverFileName);
 					System.out.println("file to be delete: " + absolutePath);
 					File toDelete = new File(absolutePath);
 					System.out.println("deletion result: " + toDelete.delete());

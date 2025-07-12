@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.kh.spring.board.model.dao.BoardDao;
 import com.kh.spring.board.model.vo.Board;
@@ -102,7 +101,7 @@ public class BoardServiceImpl implements BoardService {
 
 		return null;
 	}
-
+	
 	@Override
 	@Transactional(rollbackFor = {Exception.class})
 	public int updateBoard(Board b, String deleteList, List<BoardImg> imgList) {
@@ -132,7 +131,7 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		if (deleteList != null && !deleteList.equals("")) {
-			result = boardDao.deleteBoardImg(deleteList);
+			result = boardDao.deleteBoardImg(deleteList, b.getBoardNo());
 			
 			if (result == 0) throw new RuntimeException("첨부파일 삭제 에러.");
 		}
@@ -151,15 +150,7 @@ public class BoardServiceImpl implements BoardService {
 				if (result == 0) {
 					throw new RuntimeException("첨부파일 수정 실패.");
 				}
-				
-//				bi.setRefBno(b.getBoardNo());
 			}
-			// 다중 인서트문 실행
-//			int imgResult = boardDao.insertBoardImgList(imgList);
-//			
-//			if (imgResult != imgList.size()) {
-//				throw new RuntimeException("첨부파일 등록 실패.");
-//			}
 		}
 
 		return result;

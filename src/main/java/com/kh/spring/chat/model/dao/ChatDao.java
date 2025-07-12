@@ -41,7 +41,7 @@ public class ChatDao {
 	}
 
 	public int exitChatRoom(ChatRoomJoin join) {
-		return 0;
+		return session.delete("chat.exitChatRoom", join);
 	}
 
 	public int countChatRoomMember(ChatRoomJoin join) {

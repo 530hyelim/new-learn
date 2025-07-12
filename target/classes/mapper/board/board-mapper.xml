@@ -134,6 +134,11 @@
 		where board_no = #{boardNo}
 	</update>
 	
+	<insert id="insertBoardImg">
+		insert into board_img
+		values(seq_img_no.nextval, #{originName}, #{changeName}, #{refBno}, #{imgLevel})
+	</insert>
+	
 	<update id="updateBoardImg">
 		update board_img
 		<set>
@@ -145,13 +150,8 @@
 	
 	<delete id="deleteBoardImg">
 		delete from board_img
-		where BOARD_IMG_NO in (${deleteList})
+		where board_img_no in (${deleteList})
 	</delete>
-	
-	<insert id="insertBoardImg">
-		insert into board_img
-		values(seq_img_no.nextval, #{originName}, #{changeName}, #{refBno}, #{imgLevel})
-	</insert>
 	
 	<select id="selectFileList" resultType="string">
 		select change_name from board_img

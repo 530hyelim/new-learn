@@ -37,6 +37,11 @@
 		insert into chat_message
 		values(seq_cm_no.nextval, #{message}, sysdate, #{chatRoomNo}, #{userNo})
 	</insert>
+	
+	<delete id="exitChatRoom">
+		delete from chat_room_join
+		where user_no = #{userNo} and chat_room_no = #{chatRoomNo}
+	</delete>
 </mapper>
 
 

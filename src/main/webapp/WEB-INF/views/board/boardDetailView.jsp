@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,7 +33,7 @@
 					<th>작성자</th>
 					<td>${board.userName }</td>
 					<th>작성일</th>
-					<td>${board.createDate }</td>
+					<td><fmt:formatDate value="${board.createDate }" pattern="yyyy-MM-dd HH:mm:ss" /></td>
 				</tr>
 				<c:set var="imgList" value="${board.imgList}" />
 				<c:if test="${not empty imgList }">

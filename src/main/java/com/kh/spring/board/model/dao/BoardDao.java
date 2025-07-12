@@ -31,7 +31,7 @@ public interface BoardDao {
 
 	int updateBoard(Board board);
 
-	int deleteBoardImg(String deleteList);
+	int deleteBoardImg(String deleteList, int boardNo);
 
 	int updateBoardImg(BoardImg bi);
 

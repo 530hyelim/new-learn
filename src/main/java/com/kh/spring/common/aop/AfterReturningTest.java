@@ -18,7 +18,7 @@ public class AfterReturningTest {
 	public void returnValue(JoinPoint jp, Object returnObj) {
 		if (returnObj instanceof BoardExt) {
 			BoardExt b = (BoardExt)returnObj;
-			b.setBoardTitle("하이");
+//			b.setBoardTitle("하이");
 		}
 	}
 }

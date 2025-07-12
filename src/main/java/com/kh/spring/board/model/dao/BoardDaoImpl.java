@@ -1,9 +1,9 @@
 package com.kh.spring.board.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -126,8 +126,12 @@ public class BoardDaoImpl implements BoardDao {
 	}
 
 	@Override
-	public int deleteBoardImg(String deleteList) {
-		return session.delete("board.deleteBoardImg", deleteList);
+	public int deleteBoardImg(String deleteList, int boardNo) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("deleteList", deleteList);
+		map.put("boardNo", boardNo);
+		
+		return session.delete("board.deleteBoardImg", map);
 	}
 
 	@Override

@@ -69,7 +69,7 @@ public class BoardController {
 		// N = 일반 게시판, P = 사진 게시판
 		Map<String, String> boardTypeMap = boardService.getBoardTypeMap();
 		application.setAttribute("boardTypeMap", boardTypeMap);
-		log.info("boardTypeMap: {}", boardTypeMap);
+//		log.info("boardTypeMap: {}", boardTypeMap);
 	}
 
 	// 게시판 목록보기 서비스
@@ -373,45 +373,27 @@ public class BoardController {
             RedirectAttributes ra,
             Model model,
             @RequestParam(value = "upfile", required = false) List<MultipartFile> upfiles,
-            String deleteList ,
+            String deleteList,
             @RequestParam(value = "imgNo", required = false) List<Integer> imgNoList
 			) {
 		// 다음 업무로직의 순서에 맞춰 코드를 작성
         // 0. 유효성검사(생략)
-        // 1. 현재 게시글을 수정할 수 있는 사용자인지 체크.
-        // 2. 새롭게 등록한 첨부파일이 있는지 체크 후 저장		
+        // 1. 현재 게시글을 수정할 수 있는 사용자인지 체크(생략).
+        // 2. 새롭게 등록한 첨부파일이 있는지 체크 후 저장.
+		log.info("upfiles size: {}", upfiles.size());
+		log.info("imgNoList size: {}", imgNoList.size());
+		
+		log.info("upfiles: {}", upfiles);
+		log.info("imgNoList: {}", imgNoList);
+		log.info("deleteList: {}", deleteList);
+		
 		List<BoardImg> imgList = new ArrayList<>();
-//		for (int i = 0, j = 0; i < imgNoList.size(); i++) {
-//			MultipartFile upfile = upfiles.get(j);
-//			if (upfile.isEmpty()) {
-//				continue;
-//			}
-//			
-//			String changeName = Utils.saveFile(upfile, application, boardCode);
-//			BoardImg bi = new BoardImg();
-//			bi.setBoardImgNo(imgNoList.get(i));
-//			bi.setChangeName(changeName);
-//			bi.setOriginName(upfile.getOriginalFilename());
-//			bi.setImgLevel(i);
-//			bi.setRefBno(boardNo);
-//			imgList.add(bi); // 연관 게시글 번호 refBno 값 추가 필요
-//		}
 		
-		System.out.println(imgNoList.size());
-		System.out.println(upfiles.size());
-		
-		int startlevel = 0;
-		for (int i : imgNoList) {
-			System.out.println(i);
-			if (i != 0) {
-				startlevel++;
-			}
-		}
-		
-		int level = startlevel; // 첨부파일의 레벨
+		int level = 0; // 첨부파일의 레벨
 		// 0 = 썸네일, 0이 아닌 값들은 썸네일이 아닌 기타 파일들.
 		for (MultipartFile upfile : upfiles) {
 			if (upfile.isEmpty()) {
+				level++;
 				continue;
 			}
 			// 첨부파일이 존재한다면 web 서버상에 첨부파일 저장
@@ -436,10 +418,6 @@ public class BoardController {
 		b.setBoardCd(boardCode);
 		b.setBoardNo(boardNo);
 		
-		// 정보 체크
-		log.debug("board: {}", b);
-		log.debug("imgList: {}", imgList);
-		
 		int result = boardService.updateBoard(b, deleteList, imgList);
 		
 		if (result == 0) {
@@ -454,7 +432,7 @@ public class BoardController {
 		
 		
 //		return "redirect:/board/detail/" + boardCode + "/" + boardNo;
-		return "redirect:/board/list/" + boardCode;
+		return "redirect:/board/list/" + boardCode;		
 	}
 
 }

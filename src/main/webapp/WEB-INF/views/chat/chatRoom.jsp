@@ -74,7 +74,7 @@
 	
 	<div class="chatting-area">
 		<div id="exit-area">
-			<button class="btn btn-outline-danger" id="exit-btn">나가기</button>
+			<button class="btn btn-outline-danger" id="exit-btn" onclick="location.href = '${contextPath}/chat/room/${chatRoomNo }/leave'">나가기</button>
 		</div>
 		<ul class="display-chatting">
                 <c:forEach items="${list}" var="msg">
