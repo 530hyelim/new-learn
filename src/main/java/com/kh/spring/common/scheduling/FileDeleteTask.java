@@ -1,8 +1,7 @@
 package com.kh.spring.common.scheduling;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -35,34 +34,33 @@ public class FileDeleteTask {
      * 5. DB에 없는 파일(즉, 더 이상 사용되지 않는 파일)이라면 삭제 처리
      * 6. 유저활동량이 적은 매달 1일 4시에 실행되도록 설정
      */
-	@Scheduled(cron="*/5 * * * * *")
+	@Scheduled(cron="0 0 4 1 * *")
 	public void fileDelete() {
 		// 1. 데이터베이스(board_img 테이블)에 등록된 모든 이미지 파일 경로 목록을 조회
-		List<String> fileList = bService.selectFileList();
+		List<String> dbFileList = bService.selectFileList();
 		
 		// 2. 모든 게시판 유형(boardType)을 조회하여, 각각의 게시판 디렉토리 경로를 탐색
 		List<BoardType> boardTypeList = bService.selectBoardTypeList();
 		
-		String path = "/resources/images/board/N";
+		String path = "/resources/images/board/";
 		
-		System.out.println(servletContext.getContextPath());
-		System.out.println(servletContext.getRealPath(path));
-		
-		File files = new File(servletContext.getRealPath(path));
-		
-		System.out.println(files.isDirectory());
-		System.out.println(files.list());
-		System.out.println(Arrays.toString(files.list()));
-		
-		System.out.println(fileList.toString());
-		
-//		for (BoardType bt : boardTypeList) {
-//			String boardCode = bt.getBoardCd();
-//			String path = "/resources/images/board/N";
-//			
-//		}
+		for (BoardType bt : boardTypeList) {
+			String boardCd = bt.getBoardCd();
+			String pathAndBoardCd = path + boardCd + "/";
+			
+			File serverFiles = new File(servletContext.getRealPath(pathAndBoardCd));
+			
+			for (String serverFile : serverFiles.list()) {
+				String serverFileName = pathAndBoardCd + serverFile;
+				
+				if (!dbFileList.contains(serverFileName)) {
+					String absolutePath = servletContext.getRealPath(serverFileName);
+					System.out.println("file to be delete: " + absolutePath);
+					File toDelete = new File(absolutePath);
+					System.out.println("deletion result: " + toDelete.delete());
+				}
+			}
+		}
 	}
-	
-	
 	
 }
