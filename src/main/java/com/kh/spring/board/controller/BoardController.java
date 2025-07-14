@@ -170,6 +170,7 @@ public class BoardController {
 		// 0 = 썸네일, 0이 아닌 값들은 썸네일이 아닌 기타 파일들.
 		for (MultipartFile upfile : upfiles) {
 			if (upfile.isEmpty()) {
+				level++;
 				continue;
 			}
 			// 첨부파일이 존재한다면 web 서버상에 첨부파일 저장
