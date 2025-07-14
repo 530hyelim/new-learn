@@ -138,6 +138,28 @@
 		<websocket:sockjs></websocket:sockjs>
 	</websocket:handlers>
 	
+	<!-- 
+		STOMP(Simple Text Oriented Messaging Protocol)
+		- WebSocket 위에서 동작하는 메시징 프로토콜로 웹소켓을 활용한 복잡한 기능을 구현할 때 사용.
+		- 메시지에 "목적지", "구독", "명령", "헤더", "바디"를 추가하여 의미있는 통신을 가능하게 한다.
+		- 이를 통해 구독/발행 기반 메시지 처리나 알림 기능을 구현할 수 있다.
+		
+		stomp-endpoint
+		- stomp 서버 연결 경로.
+		
+		application-destination-prefix
+		- 클라이언트가 "서버"로 보낼 메시지의 시작 url.
+		
+		simple-broker
+		- 클라이언트가 메시지를 받을 구독 경로.
+	-->
+	<websocket:message-broker application-destination-prefix="/app">
+		<websocket:stomp-endpoint path="/stomp">
+			<websocket:sockjs></websocket:sockjs>
+		</websocket:stomp-endpoint>
+		<websocket:simple-broker prefix="/topic" />
+	</websocket:message-broker>
+	
 </beans:beans>
 
 

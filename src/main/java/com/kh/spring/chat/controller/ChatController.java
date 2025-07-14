@@ -99,18 +99,18 @@ public class ChatController {
 		return "chat/chatRoom";
 	}
 	
-	@GetMapping("/room/{chatRoomNo}/leave")
-	public String leaveChatRoom(
-			@PathVariable("chatRoomNo") int chatRoomNo,
-			Authentication auth,
-			ChatRoomJoin join
-			) {
-		Member loginUser = (Member)auth.getPrincipal();
-		join.setUserNo(loginUser.getUserNo());
-		chatService.exitChatRoom(join);		
-		
-		return "redirect:/chat/chatRoomList";
-	}
+//	@GetMapping("/room/{chatRoomNo}/leave")
+//	public String leaveChatRoom(
+//			@PathVariable("chatRoomNo") int chatRoomNo,
+//			Authentication auth,
+//			ChatRoomJoin join
+//			) {
+//		Member loginUser = (Member)auth.getPrincipal();
+//		join.setUserNo(loginUser.getUserNo());
+//		chatService.exitChatRoom(join);		
+//		
+//		return "redirect:/chat/chatRoomList";
+//	}
 }
 
 

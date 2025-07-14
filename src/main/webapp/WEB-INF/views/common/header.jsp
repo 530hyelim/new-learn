@@ -85,6 +85,22 @@ height:80%; position:absolute; margin:auto; top:0px; bottom:0px; right:0px; left
 </style>
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+	<script>
+		$(function() {
+			const webSocket = new SockJS("${contextPath}/stomp");
+			const stompClient = Stomp.over(webSocket);
+			
+			stompClient.connect({}, function() {
+				// 전체 공지사항 url 구독
+				stompClient.subscribe("/topic/notice", function(message) {
+					alertify.alert("공지사항", message.body);
+				});
+			});
+		});
+	</script>
+	
 	<c:if test="${not empty alertMsg }">
 		<script>
 			alertify.alert("서비스 요청 성공", "${alertMsg}");

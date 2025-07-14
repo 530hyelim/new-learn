@@ -42,6 +42,17 @@
 		delete from chat_room_join
 		where user_no = #{userNo} and chat_room_no = #{chatRoomNo}
 	</delete>
+	
+	<select id="countChatRoomMember" resultType="int">
+		select count(*) from chat_room_join
+		where chat_room_no = #{chatRoomNo}
+	</select>
+	
+	<update id="closeChatRoom">
+		update chat_room
+		set status = 'N'
+		where chat_room_no = #{chatRoomNo}
+	</update>
 </mapper>
 
 

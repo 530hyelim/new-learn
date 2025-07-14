@@ -33,7 +33,7 @@ public class FileDeleteTask {
      * 5. DB에 없는 파일(즉, 더 이상 사용되지 않는 파일)이라면 삭제 처리
      * 6. 유저활동량이 적은 매달 1일 4시에 실행되도록 설정
      */
-	@Scheduled(cron="*/5 * * * * *")
+	@Scheduled(cron="0 0 4 1 * *")
 	public void fileDelete() {
 		// 1. 데이터베이스(board_img 테이블)에 등록된 모든 이미지 파일 경로 목록을 조회
 		List<String> dbFileList = bService.selectFileList();
@@ -50,6 +50,7 @@ public class FileDeleteTask {
 			File serverFiles = new File(application.getRealPath(pathAndBoardCd));
 			
 			for (String serverFile : serverFiles.list()) {
+				
 				String serverFileName = pathAndBoardCd + serverFile;
 				
 				if (!dbFileList.contains(serverFileName)) {

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kh.spring.chat.model.dao.ChatDao;
 import com.kh.spring.chat.model.vo.ChatMessage;
@@ -56,9 +57,27 @@ public class ChatServiceImpl implements ChatService{
 		return dao.insertMessage(chatMessage);
 	}
 
+	@Transactional(rollbackFor = {Exception.class})
 	@Override
-	public void exitChatRoom(ChatRoomJoin join) {
-		dao.exitChatRoom(join);
+	public void exitChatRoom(ChatMessage message) {
+		// 채팅방 나가기 처리
+		int result = dao.exitChatRoom(message);
+		
+		if (result == 0) {
+			throw new RuntimeException("채팅방 나가기 처리 에러.");
+		}
+		
+		// 마지막으로 나간인원이 본인이라면 채팅방 삭제처리
+		// 현재 채팅방 인원수 체크
+		int cnt = dao.countChatRoomMember(message);
+		
+		if (cnt == 0) {
+			result = dao.closeChatRoom(message);
+			
+			if (result == 0) {
+				throw new RuntimeException("채팅방 삭제 오류.");
+			}
+		}
 	}
 	
 	

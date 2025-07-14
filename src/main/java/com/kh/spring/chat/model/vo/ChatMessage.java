@@ -14,5 +14,12 @@ public class ChatMessage {
 	private int chatRoomNo;
 	private int userNo;
 	
+	// 클라이언트의 메시지 유형을 관리할 속성
+	public enum MessageType {
+		ENTER, EXIT, TALK
+	}
+	
+	private MessageType type;
+	
 	private String userName;
 }
