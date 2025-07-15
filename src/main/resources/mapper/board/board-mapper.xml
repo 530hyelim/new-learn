@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="board">
-	<select id="getBoardTypeMap" resultType="boardType">
+	<!-- <select id="getBoardTypeMap" resultType="boardType">
 		select board_cd as "boardCd", board_name from board_type
 	</select>
 	
@@ -56,14 +56,14 @@
 	</select>
 	
 	<insert id="insertBoard">
-		<!-- 
+		
 			selectKey
 			- insert 전/후에 실행되어 게시글 번호와 같은 자동 증가값을 가져오는 구문.
 			- keyProperty: 결과값을 저장할 필드명.
 			- resultType: 반환되는 타입의 자료형.
 			- order: insert 전에 실행될지 후에 실행될지를 지정하는 속성.
 			- 같은 트랜잭션에서 현재 테이블의 PK값이 필요한 경우 사용.
-		-->
+		
 		<selectKey keyProperty="boardNo" resultType="int" order="BEFORE">
 			select seq_bno.nextval from dual
 		</selectKey>
@@ -71,10 +71,10 @@
 		values(#{boardNo}, #{boardTitle}, #{boardContent}, #{boardCd}, #{boardWriter}) 
 	</insert>
 	
-	<!-- 
+	
 		다중 인서트문
 		- MyBatis의 foreach 태그를 이용하여 전달받은 배열의 길이만큼 select문을 생성 후, UnionAll 접합.
-	-->
+	
 	<insert id="insertBoardImgList">
 		insert into board_img(board_img_no, origin_name, change_name, ref_bno, img_level)
 		select seq_img_no.nextval, c.*
@@ -159,7 +159,7 @@
 	
 	<select id="selectBoardTypeList" resultType="boardType">
 		select * from board_type
-	</select>
+	</select> -->
 </mapper>
 
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="member">
-	<select id="loginMember" resultType="member">
+	<!-- <select id="loginMember" resultType="member">
 		select * from member
 		where user_id = #{userId}
 		and user_pwd = #{userPwd}
@@ -52,7 +52,7 @@
 			modify_date = sysdate
 		</set>
 		
-		where user_id = #{userId} <!-- and user_pwd = #{userPwd} -->
+		where user_id = #{userId} and user_pwd = #{userPwd}
 	</update>
 	
 	<select id="idCheck" resultType="int">
@@ -61,5 +61,5 @@
 	
 	<select id="selectOne" resultType="hashmap">
 		select user_id, user_name from member where user_id = #{userId}
-	</select>
+	</select> -->
 </mapper>

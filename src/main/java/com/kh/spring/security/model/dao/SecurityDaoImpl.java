@@ -8,12 +8,10 @@ import lombok.RequiredArgsConstructor;
 
 @Repository
 @RequiredArgsConstructor
-public class SecurityDaoImpl implements SecurityDao {
-	private final SqlSessionTemplate session;
-
-	@Override
+public class SecurityDaoImpl implements SecurityDao {@Override
 	public UserDetails loadUserByUsername(String username) {
-		return session.selectOne("security.loadUserByUsername", username);
+		// TODO Auto-generated method stub
+		return null;
 	}
-
+	
 }
