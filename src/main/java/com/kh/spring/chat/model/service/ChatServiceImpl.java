@@ -16,74 +16,34 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class ChatServiceImpl implements ChatService{
-	
-	@Autowired
-	private ChatDao dao;
-
-	@Override
+public class ChatServiceImpl implements ChatService{@Override
 	public List<ChatRoom> selectChatRoomList() {
-		return dao.selectChatRoomList();
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public int openChatRoom(ChatRoom room) {
-		room.setTitle(Utils.XSSHandling(room.getTitle()));
-		
-		return dao.openChatRoom(room);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public List<ChatMessage> joinChatRoom(ChatRoomJoin join) {
-		// 현재 회원이 해당 채팅방에 참여하고 있는지 확인.
-		List<ChatMessage> list = null;
-		int result = dao.joinCheck(join);
-		
-		if (result == 0) {
-			// 참여하고 있지 않으면 참여자 정보를 chat_room_join에 insert
-			result = dao.joinChatRoom(join);
-		}
-		
-		// insert 성공시 list를 반환, 실패시 null 반환.
-		if (result > 0) {
-			list = dao.selectChatMessage(join.getChatRoomNo());
-		}
-		
-		return list;
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public int insertMessage(ChatMessage chatMessage) {
-		return dao.insertMessage(chatMessage);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
-	@Transactional(rollbackFor = {Exception.class})
 	@Override
 	public void exitChatRoom(ChatMessage message) {
-		// 채팅방 나가기 처리
-		int result = dao.exitChatRoom(message);
+		// TODO Auto-generated method stub
 		
-		if (result == 0) {
-			throw new RuntimeException("채팅방 나가기 처리 에러.");
-		}
-		
-		// 마지막으로 나간인원이 본인이라면 채팅방 삭제처리
-		// 현재 채팅방 인원수 체크
-		int cnt = dao.countChatRoomMember(message);
-		
-		if (cnt == 0) {
-			result = dao.closeChatRoom(message);
-			
-			if (result == 0) {
-				throw new RuntimeException("채팅방 삭제 오류.");
-			}
-		}
-	}
-	
-	
-	
-	
-	
-	
+	}		
 
 }

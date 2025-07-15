@@ -10,49 +10,53 @@ import com.kh.spring.member.model.vo.Member;
 
 @Repository
 public class MemberDaoImpl implements MemberDao{
-	
-	@Autowired
-	private SqlSessionTemplate sqlSession;
-	
-	@Override
-	public Member loginMember(Member m) {
-		return sqlSession.selectOne("member.loginMember", m);
-	}
-	
+
 	@Override
 	public Member loginUser(String userId) {
-		
+		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public int insertMember(Member m) {
-		return sqlSession.insert("member.insertMember", m);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public int updateMember(Member m) {
-		return sqlSession.update("member.updateMember", m);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public int idCheck(String userId) {
-		return sqlSession.selectOne("member.idCheck", userId);
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 	@Override
 	public void updateMemberChagePwd() {
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
+	public Member loginMember(Member m) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
 	public HashMap<String, Object> selectOne(String userId) {
-		return sqlSession.selectOne("member.selectOne", userId);
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override
 	public void insertAuthority(Member m) {
-		sqlSession.insert("member.insertAuthority", m);
+		// TODO Auto-generated method stub
+		
 	}
 
 }
