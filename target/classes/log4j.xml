@@ -64,7 +64,7 @@
 	     - 패키지별 출력 로그레벨을 정의하는 객체.
 	     - level 태그 생략시 root logger의 level로 설정된다.
 	 -->
-	<logger name="com.kh.spring">
+	<logger name="com.newlearn.playground">
 		<level value="debug" />
 	</logger>
 	
