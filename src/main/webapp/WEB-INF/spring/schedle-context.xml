@@ -14,11 +14,11 @@
 		- 기본 동작 방식은 단일쓰레드 방식이며, 병렬 스케쥴링이 필요한 경우 별도 설정을 통해 병렬 실행도 가능.
 	-->
 	<!-- 스케쥴링관련 어노테이션 활성화 -->
-	<task:annotation-driven scheduler="khScheduler" />
+	<task:annotation-driven scheduler="newlearnScheduler" />
 	<!-- 스케쥴러가 포함된 클래스를 스캔 -->
-	<context:component-scan base-package="com.kh.spring.common.scheduling"></context:component-scan>
-	<context:component-scan base-package="com.kh.spring.board.model"></context:component-scan>
+	<context:component-scan base-package="com.newlearn.playground.common.scheduling"></context:component-scan>
+	<context:component-scan base-package="com.newlearn.playground.board.model"></context:component-scan>
 	
 	<!-- 병렬 실행을 위한 스레드풀을 가지고 있는 Scheduler 생성 -->
-	<task:scheduler id="khScheduler" pool-size="10" />
+	<task:scheduler id="newlearnScheduler" pool-size="10" />
 </beans>

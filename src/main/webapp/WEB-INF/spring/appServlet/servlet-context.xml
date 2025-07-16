@@ -44,7 +44,7 @@
 		bean
 		- 스프링 프레임워크가 관리하는 의존성으로, 딱 1번만 생성하고 필요한 위치에 주입해준다.
 	 -->
-	<context:component-scan base-package="com.kh.spring" />
+	<context:component-scan base-package="com.newlearn.playground" />
 	
 	<!-- @Transactional 어노테이션 활성화 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
@@ -59,7 +59,7 @@
 		<interceptor>
 			<mapping path="/board/update/**" />
 			<mapping path="/board/delete/**" />
-			<beans:bean class="com.kh.spring.common.interceptor.BoardOwnerCheckInterceptor" />
+			<beans:bean class="com.newlearn.playground.common.interceptor.BoardOwnerCheckInterceptor" />
 		</interceptor>
 	</interceptors>
 	
@@ -122,7 +122,7 @@
 		- WebSocket의 하위호환성을 확보하기 위한 라이브러리.
 		- WebSocket/SockJS는 "메시지를 실시간으로 송수신 하기 위한 양방향 채널"이며, 특별한 기능 규약은 존재하지 않는다.		
 	-->
-	<beans:bean id="chatHandler" class="com.kh.spring.chat.model.websocket.ChatWebsocket"></beans:bean>
+	<beans:bean id="chatHandler" class="com.newlearn.playground.chat.model.websocket.ChatWebsocket"></beans:bean>
 	<websocket:handlers>
 		<!-- 웹소켓 요청을 처리할 수 있는 bean 객체 등록 -->
 		<websocket:mapping handler="chatHandler" path="/chat"/>
