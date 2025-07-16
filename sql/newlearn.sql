@@ -160,10 +160,10 @@ CREATE TABLE mypage (
 
 CREATE TABLE friend (
 	user_no	number		references member,
-	friend_no	number		not null,
+	friend_user_no	number		references member,
 	request_date	date		default sysdate,
 	response_date	date,
-    constraints pk_friend primary key (user_no, friend_no)
+    constraint pk_friend primary key (user_no, friend_user_no)
 );
 
 CREATE TABLE mypage_img (
@@ -185,7 +185,7 @@ CREATE TABLE EVENT_JOIN_MEMBER (
 	event_no	number		references calendar,
 	user_no	number		references member,
 	join_date	date	DEFAULT sysdate,
-    constraints pk_event_join_member primary key (event_no, user_no)
+    constraint pk_event_join_member primary key (event_no, user_no)
 );
 
 CREATE TABLE repository (
