@@ -1,4 +1,4 @@
-package com.kh.spring;
+package com.newlearn.playground;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
