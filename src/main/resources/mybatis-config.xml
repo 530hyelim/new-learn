@@ -7,6 +7,6 @@
 	</settings>
 	
 	<typeAliases>
-		<package name="com.kh.spring"/>
+		<package name="com.newlearn.playground"/>
 	</typeAliases>
 </configuration>

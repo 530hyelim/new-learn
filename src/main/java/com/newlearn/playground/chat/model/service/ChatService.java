@@ -1,0 +1,21 @@
+package com.newlearn.playground.chat.model.service;
+
+import java.util.List;
+
+import com.newlearn.playground.chat.model.vo.ChatMessage;
+import com.newlearn.playground.chat.model.vo.ChatRoom;
+import com.newlearn.playground.chat.model.vo.ChatRoomJoin;
+
+public interface ChatService {
+
+	List<ChatRoom> selectChatRoomList();
+
+	int openChatRoom(ChatRoom room);
+
+	List<ChatMessage> joinChatRoom(ChatRoomJoin join);
+
+	int insertMessage(ChatMessage chatMessage);
+
+	void exitChatRoom(ChatMessage message);
+
+}

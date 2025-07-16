@@ -2,11 +2,11 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.kh</groupId>
-	<artifactId>spring</artifactId>
-	<name>spring-project</name>
+	<groupId>com.newlearn</groupId>
+	<artifactId>newlearn</artifactId>
+	<name>project-new-learn</name>
 	<packaging>war</packaging>
-	<version>1.0.0-BUILD-SNAPSHOT</version>
+	<version>0.0.1-pre-build</version>
 	<properties>
 		<java-version>11</java-version>
 		<org.springframework-version>5.3.20</org.springframework-version>
