@@ -8,7 +8,8 @@ create table member (
     email varchar2(50) not null,
     last_login_date date default sysdate,
     member_status char(1) default 'Y',
-    join_date date default sysdate
+    join_date date default sysdate,
+	user_role varchar2(30) default 'ROLE_USER'
 );
 
 CREATE TABLE BEER_STORE (
@@ -30,6 +31,7 @@ CREATE TABLE CLASS_JOIN (
 	class_no	number	references class,
 	user_no	number		references member,
 	class_join_date	date		default sysdate,
+	class_role varchar2(30) not null,
     constraint pk_class_join primary key (class_no, user_no)
 );
 
@@ -54,12 +56,6 @@ CREATE TABLE board (
 	view_count	number	DEFAULT 0	NOT NULL,
 	like_count	number	DEFAULT 0	NOT NULL,
 	board_status	char(1)	DEFAULT 'Y'	NOT NULL
-);
-
-CREATE TABLE authorities (
-	class_no	number		references class,
-	user_no	number		references member,
-	authority	varchar2(50)		default 'ROLE_USER'
 );
 
 CREATE TABLE image (
