@@ -1,0 +1,132 @@
+/* 전체 레이아웃: 3단 구성 (왼쪽 사이드바 - 메인보드 - 오른쪽 사이드바) */
+.content {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  font-family: 'Noto Sans KR', sans-serif;
+  gap: 12px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* 왼쪽 사이드바 */
+.sidebar-left {
+  width: 240px;
+  background-color: #ffeb3b; /* yellow */
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgb(0 0 0 / 0.1);
+}
+
+.mini-profile {
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 12px;
+  font-size: 14px;
+  color: #333;
+}
+
+.mini-profile span {
+  display: block;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  background-color: #fbc02d;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #f9a825;
+}
+
+.friend-list, .chatroom-list {
+  border-top: 1px solid #ccc;
+  padding-top: 12px;
+}
+
+.friend-list h4, .chatroom-list h4 {
+  margin: 8px 0;
+  font-weight: 600;
+  cursor: pointer;
+  color: #555;
+}
+
+.friend-list h4:hover, .chatroom-list h4:hover {
+  color: #000;
+  text-decoration: underline;
+}
+
+/* 가운데 메인 보드 */
+.board {
+  flex-grow: 1;
+  background-color: #f8bbd0; /* pink */
+  padding: 20px;
+  border-radius: 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 0 8px rgb(0 0 0 / 0.1);
+}
+
+.board-category ul {
+  display: flex;
+  gap: 16px;
+  padding-left: 0;
+  list-style: none;
+  border-bottom: 2px solid #e91e63;
+  margin-bottom: 12px;
+}
+
+.board-category li {
+  cursor: pointer;
+  padding-bottom: 6px;
+  font-weight: 600;
+  color: #880e4f;
+  transition: color 0.3s ease, border-bottom 0.3s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.board-category li:hover,
+.board-category li.active {
+  color: #e91e63;
+  border-bottom: 2px solid #e91e63;
+}
+
+.board-list {
+  flex-grow: 1;
+  /* 나중에 동적 컨텐츠 바인딩 영역 */
+}
+
+/* 오른쪽 사이드바 */
+.sidebar-right {
+  width: 280px;
+  background-color: #81d4fa; /* skyblue */
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgb(0 0 0 / 0.1);
+  font-size: 14px;
+  color: #222;
+}
+
+.notification h4 {
+  margin-bottom: 12px;
+  font-weight: 700;
+  border-bottom: 1px solid #4fc3f7;
+  padding-bottom: 6px;
+}
+
+.notification p {
+  margin: 8px 0;
+  line-height: 1.4;
+  cursor: default;
+}
