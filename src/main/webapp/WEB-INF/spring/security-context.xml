@@ -25,7 +25,7 @@
 		
 		<!-- 관리자와 관련된 URL은 관리자 권한을 가지고 있어야만 접근 가능하도록 제한 -->
 		<intercept-url pattern="/admin/**" access="hasRole('ADMIN')" />
-		<intercept-url pattern="/**" access="hasAnyRole('USER', 'ADMIN')" />
+		<!-- <intercept-url pattern="/**" access="hasAnyRole('USER', 'ADMIN')" /> -->
 		
 		<!-- 
 			form-login
