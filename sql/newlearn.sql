@@ -170,7 +170,7 @@ CREATE TABLE mypage_img (
 	mypage_no	number		references mypage,
 	img_no	number		references image,
 	type	varchar2(50)		not null,
-    constraints pk_mypage_img primary key (img_no)
+    constraint pk_mypage_img primary key (img_no)
 );
 
 CREATE TABLE subscription (
