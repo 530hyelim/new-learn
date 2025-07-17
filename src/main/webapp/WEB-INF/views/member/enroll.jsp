@@ -46,8 +46,9 @@
                 <label for="userId">아이디</label>
                 <div class="input-with-btn">
                     <input type="text" id="userId" name="userId" placeholder="아이디 7~15자">
-                    <button type="button" class="btn-check">중복 확인</button>
+                    <button type="button" id="idCheckBtn" class="btn-check">중복 확인</button>
                 </div>
+                <small id="id-feedback" class="form-text"></small>
             </div>
 
             <!-- 비밀번호 -->
@@ -110,6 +111,68 @@
             </div>
         </form>
     </div>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+   
+    $(document).ready(function(){
+
+        const $idFeedback = $('#id-feedback');
+        const $userId = $('#userId');
+
+        // 1. 아이디 글자 수 실시간 검사
+        $userId.on('keyup', function(){
+            const userId = $userId.val();
+
+            // 글자 수 검사 (7자 미만 또는 15자 초과일경우 NG)
+            if (userId.length > 0 && (userId.length < 7 || userId.length > 15)) {
+                $idFeedback.text('아이디는 7~15자 사이로 입력해주세요.');
+                $idFeedback.css('color', 'red');
+            } else {
+                $idFeedback.text('');
+            }
+        });
+
+
+        // 2. '중복 확인' 버튼 클릭 이벤트
+        $('#idCheckBtn').on('click', function(){
+            const userId = $userId.val();
+
+            if (userId.length < 7 || userId.length > 15) {
+                alert('아이디는 7~15자 사이로 입력해주세요.');
+                return; // 함수 종료
+            }
+
+            
+            $.ajax({
+                url: '${pageContext.request.contextPath}/member/idCheck', // 요청을 보낼 주소 추후에 다시 체크
+                type: 'GET', 
+                data: {
+                    checkId: userId 
+                },
+                success: function(result){
+                    // 서버로부터 응답을 성공적으로 받았을 때 실행
+                    if(result === 'available'){
+                        $idFeedback.text('사용 가능한 아이디입니다.');
+                        $idFeedback.css('color', 'green');
+                    } else { 
+                        $idFeedback.text('이미 사용 중인 아이디입니다.');
+                        $idFeedback.css('color', 'red');
+                    }
+                },
+                error: function(){
+                    // 서버와의 통신에 실패했을 때 실행
+                    alert('서버와의 통신에 실패했습니다.');
+                }
+            });
+        });
+
+    });
+</script>
+
+
+
 
 </body>
 </html>
