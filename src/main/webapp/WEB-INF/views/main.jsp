@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<title>new Learn();</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/calendar.css" type="text/css" />
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -25,11 +26,14 @@
 			<div class="friend-list">
 				<h4>즐겨찾기</h4>
 				<h4>일반</h4>
+				<button>친구관리</button>
 			</div>
 			<div class="chatroom-list">
 				<h4>전체채팅</h4>
 				<h4>그룹채팅</h4>
 				<h4>개인채팅</h4>
+				<button>채팅방관리</button>
+				<button>새채팅</button>
 			</div>
         </div>
 
@@ -42,9 +46,24 @@
 					<li>과제제출</li>
 					<li>질문게시판</li>
 				</ul>
+				<button>맥주창고</button>
 			</div>
 			<div class="board-list">
-				<!-- 동적 요소 생성 후 바인딩 -->
+				<table>
+					<thead>
+						<tr>
+							<th>이미지</th>
+							<th>제목</th>
+							<th>글쓴이</th>
+							<th>등록일</th>
+							<th>조회</th>
+							<th>추천</th>
+						</tr>
+					</thead>
+						<!-- 동적 요소 생성 후 바인딩 -->
+					<tbody>
+					</tbody>
+				</table>
 			</div>
 		</div>
 
@@ -56,6 +75,23 @@
 				<p>게시판에 새 글이 있습니다</p>
 				<p>방명록에 새 글이 있습니다</p>
 				<p>제출해야 할 과제가 있습니다</p>
+			</div>
+			<div class="shared-calendar">
+				<form id="dateForm" method="get" action="event.jsp">
+					<input type="hidden" name="selectedDate" id="selectedDate" value="">
+					<jsp:include page="/WEB-INF/views/event/calendar.jsp" />
+				</form>
+			</div>
+			<div class="upcoming-events">
+				<h4>UPCOMING EVENTS</h4>
+				<p>7월 10일 목요일 6 : 00 PM</p>
+				<pre>세미프로젝트 2조 회식 (6명 참여중...)</pre>
+				<button>상세보기</button>
+			</div>
+			<div class="ai-help">
+				<h4>ASK ANYTHING!</h4>
+				<pre>ChatGPT     Gemini     Claude</pre>
+				<p>질문을 입력하세요</p>
 			</div>
 		</div>
 	</div>
