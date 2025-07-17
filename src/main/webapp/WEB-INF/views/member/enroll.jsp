@@ -1,0 +1,115 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>회원가입 - 정보입력</title>
+
+<%-- CSS 파일 경로 --%>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/enroll.css">
+</head>
+<body>
+
+    <h1 class="page-title">회원가입</h1>
+
+    <div class="progress-indicator">
+        <div class="step active">
+            <div class="step-circle"></div>
+            <div class="step-label">약관동의</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step active">
+            <div class="step-circle"></div>
+            <div class="step-label">정보입력</div>
+        </div>
+        <div class="step-line"></div>
+        <div class="step">
+            <div class="step-circle"></div>
+            <div class="step-label">가입완료</div>
+        </div>
+    </div>
+
+    <div class="enroll-container">
+        <div class="form-header">
+            <h2>회원가입</h2>
+            <p>회원이 되어 다양한 경험을 해보세요!</p>
+        </div>
+        
+        <form id="enrollForm" action="${pageContext.request.contextPath}/member/enroll" method="post">
+            
+            <!-- 아이디 -->
+            <div class="form-group">
+                <label for="userId">아이디</label>
+                <div class="input-with-btn">
+                    <input type="text" id="userId" name="userId" placeholder="아이디 7~15자">
+                    <button type="button" class="btn-check">중복 확인</button>
+                </div>
+            </div>
+
+            <!-- 비밀번호 -->
+            <div class="form-group">
+                <label for="userPw">비밀번호</label>
+                <input type="password" id="userPw" name="userPw" placeholder="비밀번호, 문자, 숫자, 특수문자 포함 7~20자">
+            </div>
+
+            <!-- 비밀번호 확인 -->
+            <div class="form-group">
+                <label for="userPwConfirm">비밀번호 확인</label>
+                <input type="password" id="userPwConfirm" name="userPwConfirm">
+            </div>
+
+            <!-- 이름 -->
+            <div class="form-group">
+                <label for="userName">이름</label>
+                <input type="text" id="userName" name="userName">
+            </div>
+
+            <!-- 주민등록번호 -->
+            <div class="form-group">
+                <label>주민등록번호</label>
+                <div class="ssn-group">
+                    <input type="text" name="ssn1" maxlength="6">
+                    <span>-</span>
+                    <input type="password" name="ssn2" maxlength="7">
+                </div>
+            </div>
+
+            <!-- 전화번호 -->
+            <div class="form-group">
+                <label for="phone">전화번호</label>
+                <input type="text" id="phone" name="phone" placeholder="휴대폰 번호 입력('-'제외 11자리 입력)">
+            </div>
+
+            <!-- 이메일 -->
+            <div class="form-group">
+                <label>이메일 주소</label>
+                <div class="email-group">
+                    <input type="text" name="emailId">
+                    <span>@</span>
+                    <input type="text" name="emailDomain">
+                    <button type="button" class="btn-send">인증코드 발송</button>
+                </div>
+            </div>
+
+            <!-- 인증코드 -->
+            <div class="form-group">
+                <label>인증코드</label>
+                <div class="input-with-btn">
+                    <input type="text" name="emailCert">
+                    <button type="button" class="btn-check">확인</button>
+                </div>
+            </div>
+
+            <!-- 다음 버튼 -->
+            <div class="form-footer">
+                <button type="submit" class="btn-next">다음</button>
+            </div>
+        </form>
+    </div>
+
+</body>
+</html>
