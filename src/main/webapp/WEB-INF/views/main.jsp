@@ -17,7 +17,7 @@
 				<!--<sec:authorize access="isAuthenticated()">
 					<span><sec:authentication property="principal.username"/></span>				
 				</sec:authorize>-->
-				<span>한종윤</span>
+				<span>님 환영합니다</span>
 				<span>입실시간 9 : 03 AM</span>
 			</div>
 			<button>마이페이지</button>
