@@ -1,0 +1,9 @@
+.shared-calendar th, .shared-calendar td {
+    border: 1px solid #aaa;
+    padding: 8px;
+}
+.shared-calendar td {
+    cursor: pointer;
+}
+.sunday { color: red; }
+.saturday { color: blue; }
