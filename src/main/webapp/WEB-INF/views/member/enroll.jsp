@@ -94,10 +94,10 @@
             <div class="form-group">
                 <label>이메일 주소</label>
                 <div class="email-group">
-                    <input type="text" name="emailId">
+                    <input type="text" id="emailId" name="emailId">
                     <span>@</span>
-                    <input type="text" name="emailDomain">
-                    <button type="button" class="btn-send">인증코드 발송</button>
+                    <input type="text" id="emailDomain" name="emailDomain">
+                    <button type="button" id="emailCertBtn" class="btn-send">인증코드 발송</button>
                 </div>
             </div>
 
@@ -105,9 +105,10 @@
             <div class="form-group">
                 <label>인증코드</label>
                 <div class="input-with-btn">
-                    <input type="text" name="emailCert">
-                    <button type="button" class="btn-check">확인</button>
+                    <input type="text" id="emailCertInput" name="emailCert">
+                    <button type="button" id="emailCertCheckBtn" class="btn-check">확인</button>
                 </div>
+                <small id="email-cert-feedback" class="form-text"></small>
             </div>
 
             <!-- 다음 버튼 -->
@@ -249,7 +250,50 @@
                 } else {
                     $phoneFeedback.text('');
                 }
-                      
+                                
+                const $emailCertBtn = $('#emailCertBtn');
+                const $emailCertInput = $('#emailCertInput');
+                const $emailCertCheckBtn = $('#emailCertCheckBtn');
+                const $emailCertFeedback = $('#email-cert-feedback');
+                let serverCertCode = "";
+                
+                $emailCertBtn.on('click', function(){
+                    const email = $('#emailId').val() + '@' + $('#emailDomain').val();
+
+                    // 이메일이 입력되었는지 확인
+                    if ($('#emailId').val() === '' || $('#emailDomain').val() === '') {
+                        alert('이메일을 모두 입력해주세요.');
+                        return;
+                    }                    
+                    // 서버에 인증코드 발송 요청
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/member/emailCert',
+                        type: 'POST',
+                        data: {
+                            email: email
+                        },
+                        success: function(certCode){
+                            alert('입력하신 이메일로 인증코드가 발송되었습니다.');
+                            serverCertCode = certCode; 
+                        },
+                        error: function(){
+                            alert('인증코드 발송에 실패했습니다. 다시 시도해주세요.');
+                        }
+                    });
+                });
+
+                
+                $emailCertCheckBtn.on('click', function(){
+                    const userCertCode = $emailCertInput.val();
+
+                    if (serverCertCode !== "" && userCertCode === serverCertCode) {
+                        $emailCertFeedback.text('인증되었습니다.');
+                        $emailCertFeedback.css('color', 'green');
+                    } else {
+                        $emailCertFeedback.text('인증코드가 일치하지 않습니다.');
+                        $emailCertFeedback.css('color', 'red');
+                    }    
+                                                                           
      });
    
 </script>
