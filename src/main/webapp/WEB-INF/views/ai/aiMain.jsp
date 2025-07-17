@@ -26,7 +26,7 @@
                     <button type="button">나가기</button>
                 </div>
                 <div class="answer">
-    
+					<button id="test">테스트용</button>    
                 </div>
                 <div class="main-view-bottom">
                     <div class="input-area">
