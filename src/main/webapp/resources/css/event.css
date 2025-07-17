@@ -1,0 +1,33 @@
+/* 전체 레이아웃: 2단 구성 (왼쪽 사이드바 - 메인 폼) */
+.content {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+  font-family: 'Noto Sans KR', sans-serif;
+  gap: 12px;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+/* 왼쪽 사이드바 */
+.left-side {
+  width: 300px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgb(0 0 0 / 0.1);
+}
+
+/* 메인 폼 */
+.main-body {
+  flex-grow: 1;
+  padding: 20px;
+  border-radius: 8px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow: 0 0 8px rgb(0 0 0 / 0.1);
+}
