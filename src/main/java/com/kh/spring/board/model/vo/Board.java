@@ -9,13 +9,16 @@ import lombok.NoArgsConstructor;
 @Data
 public class Board {
 	private int boardNo;
-	private String boardTitle;
+	private int classNo;
+	private int userNo;
+	private String category;
+	private String boardTitle; // userNo, userName
 	private String boardContent;
-	private String boardCd;
-	private String boardWriter; // userNo, userName
-	private int count;
 	private Date createDate;
-	private String status;
+	private String updateDate;
+	private int viewCount;
+	private int likeCount;
+	private String boardStatus;
 }
 
 
