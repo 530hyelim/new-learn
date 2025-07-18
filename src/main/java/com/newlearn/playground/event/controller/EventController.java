@@ -32,12 +32,12 @@ public class EventController {
 	private EventService eventService;
 	
 	@GetMapping
-	public String eventPage(@RequestParam String selectedDate, HttpSession session, Authentication auth) {
+	public String eventPage(@RequestParam String selectedDate, HttpSession session) {
 		List<Event> sharedEvents = eventService.findAllByDate(selectedDate);
 		session.setAttribute("sharedEvents", sharedEvents);
 		session.setAttribute("selectedDate", selectedDate);
-		session.setAttribute("loginUser", auth.getName());
-		log.debug(auth.getName());
+//		session.setAttribute("loginUser", auth.getName());
+//		log.debug(auth.getName());
 		return "event/event";
 	}
 	
