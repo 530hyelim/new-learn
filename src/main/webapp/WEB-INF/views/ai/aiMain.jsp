@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,12 +30,15 @@
                 </div>
                 <div class="main-view-bottom">
                     <div class="input-area">
-                        <div class="text-input-area">
-                            <textarea name="prompt" id="prompt"></textarea>
-                        </div>
-                        <button id="prompt-send-btn">
-                            전송
-                        </button>
+                    	<form:form modelAttribute="ai" id="prmpt-form"
+                    	action="${pageContext.request.contextPath}/ai/main" method="post">
+	                        <div class="text-input-area">
+	                            <textarea name="prompt" id="prompt"></textarea>
+	                        </div>
+	                        <button type="submit" id="prompt-send-btn">
+	                            전송
+	                        </button>                    	
+                    	</form:form>
                     </div>
                 </div>
             </div>
