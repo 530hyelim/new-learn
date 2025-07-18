@@ -33,6 +33,20 @@
 		align-items: flex-end;  /* 오른쪽 정렬 */
 		gap: 8px; /* 버튼 사이 간격 */
 	}
+
+  .header button {
+    padding: 10px 14px;
+    border: none;
+    border-radius: 6px;
+    background-color: #fbc02d;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+  }
+
+  .header button:hover {
+    background-color: #f9a825;
+  }
   </style>
 </head>
 
