@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<!-- <select id="loginMember" resultType="member">
+		select * from member
+		where user_id = #{userId}
+		and user_pwd = #{userPwd}
+	</select>
+	
+	<insert id="insertMember">
+		insert into member values(
+			seq_uno.nextval,
+			#{userId},
+			#{userPwd},
+			#{userName},
+			#{email},
+			#{birthday},
+			#{gender},
+			#{phone},
+			#{address},
+			default,
+			default,
+			default,
+			default
+		)
+	</insert>
+	
+	<insert id="insertAuthority">
+		insert into authorities values(#{userId}, 'ROLE_USER')
+	</insert>
+	
+	<update id="updateMember">
+		update member
+		<set>
+			user_id = #{userId},
+			user_name = #{userName},
+			<if test="email != null">
+				email = #{email},
+			</if>
+			<if test="birthday != null">
+				birthday = #{birthday},
+			</if>
+			<if test="gender != null">
+				gender = #{gender},
+			</if>
+			<if test="phone != null">
+				phone = #{phone},
+			</if>
+			<if test="address != null">
+				address = #{address},
+			</if>
+			modify_date = sysdate
+		</set>
+		
+		where user_id = #{userId} and user_pwd = #{userPwd}
+	</update>
+	
+	<select id="idCheck" resultType="int">
+		select count(*) from member where user_id = #{userId}
+	</select>
+	
+	<select id="selectOne" resultType="hashmap">
+		select user_id, user_name from member where user_id = #{userId}
+	</select> -->
+</mapper>
