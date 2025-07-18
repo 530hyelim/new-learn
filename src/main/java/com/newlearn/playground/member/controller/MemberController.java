@@ -272,17 +272,17 @@ public class MemberController {
 		return res;
 	}
 	
-	@ResponseBody // 이 메소드는 JSP 페이지가 아닌, 데이터 자체를 반환합니다.
-	@PostMapping("/emailCert") // POST 방식의 /member/emailCert 요청을 처리합니다.
-	public String sendEmail(String email) {
-	    
-	    // MemberService에 있는 sendEmail 메소드를 호출하여 이메일을 발송하고,
-	    // 생성된 인증코드를 반환받습니다.
-	    String certCode = mService.sendEmail(email);
-	    
-	    // 반환받은 인증코드를 프론트엔드(JavaScript)로 다시 보내줍니다.
-	    return certCode;
-	}
+//	@ResponseBody // 이 메소드는 JSP 페이지가 아닌, 데이터 자체를 반환합니다.
+//	@PostMapping("/emailCert") // POST 방식의 /member/emailCert 요청을 처리합니다.
+//	public String sendEmail(String email) {
+//	    
+//	    // MemberService에 있는 sendEmail 메소드를 호출하여 이메일을 발송하고,
+//	    // 생성된 인증코드를 반환받습니다.
+////	    String certCode = mService.sendEmail(email);
+//	    
+//	    // 반환받은 인증코드를 프론트엔드(JavaScript)로 다시 보내줍니다.
+//	    return "/";
+//	}
 	
 }
 

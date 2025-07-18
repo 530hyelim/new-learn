@@ -62,7 +62,7 @@
 	</bean>
 	
 		<!-- 이메일 관련 설정 파일을 포함 -->
-		<import resource="classpath:email/spring-email.xml"/>
+		<!-- <import resource="classpath:email/spring-email.xml"/> -->
 </beans>
 
 

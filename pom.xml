@@ -322,18 +322,18 @@
 		</dependency>
 
 		<!-- Spring에서 JavaMail을 지원하는 라이브러리 -->
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework-version}</version>
 		</dependency>
 
-		<!-- Java 이메일 API 라이브러리 -->
+		Java 이메일 API 라이브러리
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
-		</dependency>
+		</dependency> -->
 	</dependencies>
 	<build>
 		<plugins>

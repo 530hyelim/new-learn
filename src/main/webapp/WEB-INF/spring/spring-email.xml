@@ -6,7 +6,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 
-	<context:property-placeholder location="classpath:email/email.properties"/>
+	<!-- <context:property-placeholder location="classpath:email.properties"/>
 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="${host}" />
@@ -20,7 +20,7 @@
 				<prop key="mail.smtp.starttls.enable">true</prop>
 			</props>
 		</property>
-	</bean>
+	</bean> -->
 	
 </beans>
 
