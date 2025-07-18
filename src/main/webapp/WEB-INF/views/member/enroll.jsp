@@ -45,7 +45,7 @@
             <div class="form-group">
                 <label for="userId">아이디</label>
                 <div class="input-with-btn">
-                    <input type="text" id="userId" name="userId" placeholder="아이디 7~15자">
+                    <input type="text" id="user-id" name="user-id" placeholder="아이디 7~15자">
                     <button type="button" id="idCheckBtn" class="btn-check">중복 확인</button>     
                 </div>
                 <small id="id-feedback" class="form-text"></small>
@@ -54,22 +54,22 @@
             <!-- 비밀번호 -->
             <div class="form-group">
                 <label for="userPw">비밀번호</label>
-                <input type="password" id="userPw" name="userPw" placeholder="비밀번호, 문자, 숫자, 특수문자 포함 7~20자">
+                <input type="password" id="user-pw" name="user-pw" placeholder="비밀번호, 문자, 숫자, 특수문자 포함 7~20자">
             	<small id="pw-feedback" class="form-text"></small>
             </div>
 
             <!-- 비밀번호 확인 -->
             <div class="form-group">
                 <label for="userPwConfirm">비밀번호 확인</label>
-                <input type="password" id="userPwConfirm" name="userPwConfirm">
+                <input type="password" id="user-pw-confirm" name="user-pw-confirm">
                 <small id="pw-confirm-feedback" class="form-text"></small>
             </div>
 
             <!-- 이름 -->
             <div class="form-group">
                 <label for="userName">이름</label>
-                <input type="text" id="userName" name="userName">
-                
+                <input type="text" id="user-name" name="user-name">
+                <small id="name-feedback" class="form-text"></small>
             </div>
 
             <!-- 주민등록번호 -->
@@ -78,7 +78,8 @@
                 <div class="ssn-group">
                     <input type="text" name="ssn1" maxlength="6">
                     <span>-</span>
-                    <input type="password" name="ssn2" maxlength="7">
+                    <input type="password" name="ssn2" maxlength="1">
+                    <small id="ssn-feedback" class="form-text"></small>
                 </div>
             </div>
 
@@ -86,16 +87,17 @@
             <div class="form-group">
                 <label for="phone">전화번호</label>
                 <input type="text" id="phone" name="phone" placeholder="휴대폰 번호 입력('-'제외 11자리 입력)">
+                <small id="phone-feedback" class="form-text"></small>
             </div>
 
             <!-- 이메일 -->
             <div class="form-group">
                 <label>이메일 주소</label>
                 <div class="email-group">
-                    <input type="text" id="emailId" name="emailId">
+                    <input type="text" id="email-id" name="email-id">
                     <span>@</span>
-                    <input type="text" id="emailDomain" name="emailDomain">
-                    <button type="button" id="emailCertBtn" class="btn-send">인증코드 발송</button>
+                    <input type="text" id="email-input" name="email-input">
+                    <button type="button" id="email-send-btn" class="btn-send">인증코드 발송</button>
                 </div>
             </div>
 
@@ -249,17 +251,17 @@
                     $phoneFeedback.text('');
                 }
                                 
-                const $emailCertBtn = $('#emailCertBtn');
+                const $emailSendBtn = $('#email-send-btn');
                 const $emailCertInput = $('#emailCertInput');
                 const $emailCertCheckBtn = $('#emailCertCheckBtn');
                 const $emailCertFeedback = $('#email-cert-feedback');
                 let serverCertCode = "";
                 
                 $emailCertBtn.on('click', function(){
-                    const email = $('#emailId').val() + '@' + $('#emailDomain').val();
+                    const email = $('#emailId').val() + '@' + $('#emailInput').val();
 
                     // 이메일이 입력되었는지 확인
-                    if ($('#emailId').val() === '' || $('#emailDomain').val() === '') {
+                    if ($('#emailId').val() === '' || $('#emailInput').val() === '') {
                         alert('이메일을 모두 입력해주세요.');
                         return;
                     }                    
