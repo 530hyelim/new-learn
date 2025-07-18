@@ -1,6 +1,6 @@
 package com.newlearn.playground.member.model.service;
 
-import javax.mail.MessagingException;
+//import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.util.HashMap;
 import org.springframework.beans.factory.annotation.Autowired;
