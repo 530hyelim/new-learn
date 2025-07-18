@@ -29,7 +29,7 @@
 					- 이를 방지하기 위한 토큰이 CSRF 토큰.
 					- CSRF는 서버측에서 생성한 랜덤 토큰으로, 스프링 시큐리티는 이 토큰이 있는 요청만 유효한 요청으로 간주한다.
 				 -->
-				<form:form action="${pageContext.request.contextPath}/member/login" method="post">
+				<form:form action="${pageContext.request.contextPath}/member/LoginProcess" method="post">
 					<div class="modal-body">
 						<label for="userId" class="mr-sm-2">ID : </label>
 						<input type="text" class="form-controll mb-2 mr-sm-2" placeholder="Enter ID" id="userId" name="userId"> <br>

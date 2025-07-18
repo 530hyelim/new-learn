@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -77,10 +78,7 @@
 				<p>제출해야 할 과제가 있습니다</p>
 			</div>
 			<div class="shared-calendar">
-				<form id="dateForm" method="get" action="event.jsp">
-					<input type="hidden" name="selectedDate" id="selectedDate" value="">
-					<jsp:include page="/WEB-INF/views/event/calendar.jsp" />
-				</form>
+				<jsp:include page="/WEB-INF/views/event/calendar.jsp" />
 			</div>
 			<div class="upcoming-events">
 				<h4>UPCOMING EVENTS</h4>
