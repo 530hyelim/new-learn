@@ -52,8 +52,16 @@
 			        모집기한<form:input path="joinDeadline" type="datetime-local" required="true"/>
 			        세부내용<form:textarea path="content" placeholder="뭐 하고 놀까요?" required="true"/>
 		            <div align="center">
-		                <button type="reset">초기화</button>
-		                <button type="submit">이벤트 생성</button>
+		            	<c:if test="${event.eventName == null}">
+		            		<button type="reset">초기화</button>
+		            		<button type="submit">이벤트 생성</button>
+		            	</c:if>
+		            	<c:otherwise>
+		            		<c:set var="isOwner" value="${event.userNo == loginUser}" />
+			            	<c:if test="isOwner">
+				                <button type="submit">이벤트 수정</button>
+			            	</c:if>
+		            	</c:otherwise>
 		            </div>
 		        </form:form>
 	        </c:if>
