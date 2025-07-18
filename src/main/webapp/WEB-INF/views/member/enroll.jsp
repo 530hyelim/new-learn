@@ -46,14 +46,16 @@
                 <label for="userId">아이디</label>
                 <div class="input-with-btn">
                     <input type="text" id="userId" name="userId" placeholder="아이디 7~15자">
-                    <button type="button" class="btn-check">중복 확인</button>
+                    <button type="button" id="idCheckBtn" class="btn-check">중복 확인</button>     
                 </div>
+                <small id="id-feedback" class="form-text"></small>
             </div>
 
             <!-- 비밀번호 -->
             <div class="form-group">
                 <label for="userPw">비밀번호</label>
                 <input type="password" id="userPw" name="userPw" placeholder="비밀번호, 문자, 숫자, 특수문자 포함 7~20자">
+            	<small id="pw-feedback" class="form-text"></small>
             </div>
 
             <!-- 비밀번호 확인 -->
