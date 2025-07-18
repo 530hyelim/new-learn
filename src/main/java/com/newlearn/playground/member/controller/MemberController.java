@@ -278,10 +278,10 @@ public class MemberController {
 //	    
 //	    // MemberService에 있는 sendEmail 메소드를 호출하여 이메일을 발송하고,
 //	    // 생성된 인증코드를 반환받습니다.
-////	    String certCode = mService.sendEmail(email);
+//	    String certCode = mService.sendEmail(email);
 //	    
 //	    // 반환받은 인증코드를 프론트엔드(JavaScript)로 다시 보내줍니다.
-//	    return "/";
+//	    return certCode;
 //	}
 	
 }
