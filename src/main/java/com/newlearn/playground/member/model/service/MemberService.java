@@ -1,12 +1,28 @@
 package com.newlearn.playground.member.model.service;
 
-public interface MemberService {
+import java.util.HashMap;
 
-	
-	// 아이디 중복 체크
-    int idCheck(String checkId);
-    
+import com.newlearn.playground.member.model.vo.Member;
+
+public interface MemberService {
+ 
     // 이메일 인증 코드(이메일 보낼 계정 관련해서 나중에 한번 물어보기)
     String sendEmail(String email);
+	Member loginMember(String userId);
+	
+	Member loginMember(Member m);
+
+	int insertMember(Member m);
+
+	int updateMember(Member m);
+
+	int idCheck(String userId);
+
+	void updateMemberChagePwd();
+
+	HashMap<String, Object> selectOne(String userId);
+	
+	// 아이디 중복 체크
+	  //  int idCheck(String checkId);
 
 }

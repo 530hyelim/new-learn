@@ -1,13 +1,25 @@
 package com.newlearn.playground.member.model.dao;
 
-import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.stereotype.Repository;
+import java.util.HashMap;
 
-@Repository("memberDao")
-public class MemberDao {
+import com.newlearn.playground.member.model.vo.Member;
 
-    public int idCheck(SqlSessionTemplate sqlSession, String checkId) {
+public interface MemberDao {
 
-        return sqlSession.selectOne("memberMapper.idCheck", checkId);
-    }
+	Member loginUser(String userId);
+
+	int insertMember(Member m);
+
+	int updateMember(Member m);
+
+	int idCheck(String userId);
+
+	void updateMemberChagePwd();
+
+	Member loginMember(Member m);
+
+	HashMap<String, Object> selectOne(String userId);
+
+	void insertAuthority(Member m);
+
 }
