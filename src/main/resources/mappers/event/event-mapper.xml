@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="event">
+	<select id="findAllByDate" resultType="event">
+		select * from calendar
+		join member using(user_no)
+		where trunc(start_date) = to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+	</select>
+	
+	<select id="findByNo" resultType="event">
+		select * from calendar
+		where event_no = #{eventNo}
+	</select>
+</mapper>
