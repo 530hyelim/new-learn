@@ -1,0 +1,184 @@
+/* 기본 스타일 및 폰트 설정 */
+body {
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 50px 20px;
+    box-sizing: border-box;
+}
+
+/* 최상단 '회원가입' 제목 */
+.page-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+/* 진행 단계 표시 */
+.progress-indicator {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 25px;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    flex-shrink: 0; /* 너비가 줄어들지 않도록 */
+}
+
+.step-line {
+    flex-grow: 1;
+    height: 2px;
+    background-color: #e0e0e0;
+    margin: 0;
+    position: relative;
+    top: -12px; /* 원의 중앙에 맞춤 */
+}
+
+.step-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    border: 2px solid #adb5bd;
+    margin-bottom: 8px;
+}
+
+.step.active .step-circle {
+    background-color: #000000;
+    border-color: #000000;
+}
+
+.step-label {
+    font-size: 14px;
+    color: #868e96;
+}
+
+.step.active .step-label {
+    color: #000000;
+    font-weight: bold;
+}
+
+/* 하얀색 컨테이너 박스 */
+.agree-container {
+    width: 100%;
+    max-width: 600px;
+    background-color: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 30px 40px;
+    box-sizing: border-box;
+}
+
+/* 로고 */
+.logo {
+    font-family: monospace;
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #000;
+}
+
+/* 약관 섹션 */
+.terms-section {
+    margin-bottom: 25px;
+}
+
+/* 약관 내용 스크롤 박스 */
+.terms-box {
+    height: 130px;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    padding: 15px;
+    background-color: #f8f9fa;
+    color: #495057;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+/* 약관 박스 안의 제목 */
+.terms-box .terms-title {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #343a40;
+}
+
+/* 스크롤바 스타일 */
+.terms-box::-webkit-scrollbar { width: 8px; }
+.terms-box::-webkit-scrollbar-track { background: #f1f1f1; }
+.terms-box::-webkit-scrollbar-thumb { background: #ced4da; border-radius: 4px;}
+.terms-box::-webkit-scrollbar-thumb:hover { background: #adb5bd; }
+
+/* 약관 박스 하단 (동의 체크박스 영역) */
+.terms-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.terms-footer label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    color: #495057;
+}
+
+input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    margin-left: 8px;
+}
+
+/* 컨테이너 하단 (전체 동의, 다음 버튼) */
+.container-footer {
+    display: flex;
+    justify-content: flex-end; /* 오른쪽 정렬 */
+    align-items: center;
+    padding-top: 20px;
+    margin-top: 15px;
+}
+
+.agree-all-label {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+.agree-all-label input {
+    margin-right: 8px;
+}
+
+/* 다음 버튼 - ID 셀렉터로 수정 */
+#nextBtn {
+    padding: 10px 30px;
+    border: none;
+    border-radius: 6px;
+    background-color: #343a40;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#nextBtn:disabled {
+    background-color: #adb5bd;
+    cursor: not-allowed;
