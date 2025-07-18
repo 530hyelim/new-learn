@@ -238,10 +238,7 @@ public class MemberController {
 	@GetMapping("/member/idCheck")
 	public String idCheck(String userId) {
 		int result = mService.idCheck(userId); // 아이디 존재시 1, 없다면 0
-		
-		// 컨트롤러에서 반환되는 값은 기본적으로 forward 경로 혹은 redirect를 위한 경로로 해석한다.
-		// 즉, 반환되는 문자열 값은 "특정 경로"로써 인식을 하는데
-		// 경로가 아닌 값 자체를 반환시키기 위해서는 @ResponseBody가 필요하다.
+	
 		
 		return "" + result; // /WEB-INF/views/0.jsp -> 1, 0 
 	}
@@ -273,6 +270,18 @@ public class MemberController {
 		}
 		
 		return res;
+	}
+	
+	@ResponseBody // 이 메소드는 JSP 페이지가 아닌, 데이터 자체를 반환합니다.
+	@PostMapping("/emailCert") // POST 방식의 /member/emailCert 요청을 처리합니다.
+	public String sendEmail(String email) {
+	    
+	    // MemberService에 있는 sendEmail 메소드를 호출하여 이메일을 발송하고,
+	    // 생성된 인증코드를 반환받습니다.
+	    String certCode = mService.sendEmail(email);
+	    
+	    // 반환받은 인증코드를 프론트엔드(JavaScript)로 다시 보내줍니다.
+	    return certCode;
 	}
 	
 }
