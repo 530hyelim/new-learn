@@ -58,11 +58,11 @@
 			                 업로드한 파일의 크기가 inMemorySize보다 큰 경우 파일을 디스크에 임시 보관한다. 
 		-->
 		<property name="maxUploadSize" value="10000000"></property>
-		<property name="maxInMemorySize" value="2000000"></property>		
+		<property name="maxInMemorySize" value="2000000"></property>
 	</bean>
 	
 		<!-- 이메일 관련 설정 파일을 포함 -->
-		<!-- <import resource="classpath:email/spring-email.xml"/> -->
+	<!-- <import resource="/email-context.xml"/> -->
 </beans>
 
 
