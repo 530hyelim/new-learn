@@ -1,7 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -23,7 +25,9 @@
 			<h3>전체 이벤트</h3>
 			<!-- 이벤트 리스트 출력 (DB에서 받아온 리스트 사용) -->
 			<c:forEach var="event" items="${sharedEvents}">
-				<a href="">${event.userNo} | ${event.eventName} (${event.startDate})</a>
+				<a href="${pageContext.request.contextPath}/event/detail?eventNo=${event.eventNo}">
+				${event.userName} | ${event.eventName} 
+				(<fmt:formatDate value="${event.startDate}" pattern="h : mm a"/>)</a>
 			</c:forEach>
 			<!-- 새 이벤트 추가 버튼 -->
 			<form action="${pageContext.request.contextPath}/event/new" method="get">
@@ -40,16 +44,19 @@
 			<c:if test="${not empty event}">
 				<form:form modelAttribute="event" method="post"
 	            action="${pageContext.request.contextPath}/event/new">
-                <form:input path="eventName" placeholder="제목" />
-		        <form:input path="userNo" placeholder="작성자" />
-		        <form:input path="startDate" placeholder="시간" />
-		        <form:textarea path="content" placeholder="내용" />
-	            <div align="center">
-	                <button type="reset">초기화</button>
-	                <button type="submit">이벤트 생성</button>
-	            </div>
-	        </form:form>
-        </c:if>
+	                제목<form:input path="eventName" placeholder="이벤트 제목을 입력하세요" required="true"/>
+			        장소<form:input path="place" placeholder="어디서 만날까요?" required="true"/>
+			        시작시간<form:input path="startDate" type="datetime-local" required="true"/>
+			        종료시간<form:input path="endDate" type="datetime-local" required="true"/>
+			        모집인원<form:input path="numPpl" type="number" required="true"/>
+			        모집기한<form:input path="joinDeadline" type="datetime-local" required="true"/>
+			        세부내용<form:textarea path="content" placeholder="뭐 하고 놀까요?" required="true"/>
+		            <div align="center">
+		                <button type="reset">초기화</button>
+		                <button type="submit">이벤트 생성</button>
+		            </div>
+		        </form:form>
+	        </c:if>
 		</div>
 	</div>
 </body>

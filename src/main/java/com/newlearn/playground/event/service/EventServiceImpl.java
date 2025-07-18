@@ -1,6 +1,5 @@
 package com.newlearn.playground.event.service;
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +15,7 @@ public class EventServiceImpl implements EventService {
 	
 	@Override
 	public Event findByNo(int eventNo) {
-		// TODO Auto-generated method stub
-		return null;
+		return eventDao.findByNo(eventNo);
 	}
 
 	@Override
@@ -27,8 +25,8 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<Event> findAllByDate(Date date) {
-		return eventDao.findAllByDate(date);
+	public List<Event> findAllByDate(String selectedDate) {
+		return eventDao.findAllByDate(selectedDate);
 	}
 
 }

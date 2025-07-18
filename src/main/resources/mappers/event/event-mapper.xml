@@ -3,6 +3,12 @@
 <mapper namespace="event">
 	<select id="findAllByDate" resultType="event">
 		select * from calendar
-		where trunc(start_date) = #{date}
+		join member using(user_no)
+		where trunc(start_date) = to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+	</select>
+	
+	<select id="findByNo" resultType="event">
+		select * from calendar
+		where event_no = #{eventNo}
 	</select>
 </mapper>

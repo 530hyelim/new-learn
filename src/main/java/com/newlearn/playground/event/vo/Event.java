@@ -26,4 +26,6 @@ public class Event {
 	private String visibility;
 	private int numPpl;
 	private Date joinDeadline;
+	
+	private String userName;
 }

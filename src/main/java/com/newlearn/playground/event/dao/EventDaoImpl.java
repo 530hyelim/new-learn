@@ -1,6 +1,5 @@
 package com.newlearn.playground.event.dao;
 
-import java.util.Date;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
@@ -15,8 +14,13 @@ public class EventDaoImpl implements EventDao {
 	private SqlSessionTemplate session;
 	
 	@Override
-	public List<Event> findAllByDate(Date date) {
-		return session.selectList("event.findAllByDate", date);
+	public List<Event> findAllByDate(String selectedDate) {
+		return session.selectList("event.findAllByDate", selectedDate);
+	}
+
+	@Override
+	public Event findByNo(int eventNo) {
+		return session.selectOne("event.findByNo", eventNo);
 	}
 
 }

@@ -1,12 +1,19 @@
 package com.newlearn.playground.event.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.newlearn.playground.event.service.EventService;
 import com.newlearn.playground.event.vo.Event;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 @RequestMapping("/event")
 public class EventController {
@@ -22,13 +32,12 @@ public class EventController {
 	private EventService eventService;
 	
 	@GetMapping
-	public String eventPage(@RequestParam String selectedDate, Model model) {
-		String[] parts = selectedDate.split("-");
-		Date date = new Date(Integer.parseInt(parts[0])-1900, 
-				Integer.parseInt(parts[1])-1, Integer.parseInt(parts[2]));
-		List<Event> sharedEvents = eventService.findAllByDate(date);
-		model.addAttribute("sharedEvents", sharedEvents);
-		model.addAttribute("selectedDate", selectedDate);
+	public String eventPage(@RequestParam String selectedDate, HttpSession session, Authentication auth) {
+		List<Event> sharedEvents = eventService.findAllByDate(selectedDate);
+		session.setAttribute("sharedEvents", sharedEvents);
+		session.setAttribute("selectedDate", selectedDate);
+		session.setAttribute("loginUser", auth.getName());
+		log.debug(auth.getName());
 		return "event/event";
 	}
 	
@@ -47,6 +56,14 @@ public class EventController {
 			model.addAttribute("event", selectedEvent);
 		}
 		return "event/event";
+	}
+	
+	// 날짜 형식 변환
+	@InitBinder
+	public void formatDatetime(WebDataBinder binder) {
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+		dateFormat.setLenient(false);
+		binder.registerCustomEditor(Date.class, new CustomDateEditor(dateFormat, true));
 	}
 	
 	@PostMapping("/new")
