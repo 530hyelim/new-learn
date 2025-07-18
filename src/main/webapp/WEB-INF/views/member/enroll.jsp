@@ -62,12 +62,14 @@
             <div class="form-group">
                 <label for="userPwConfirm">비밀번호 확인</label>
                 <input type="password" id="userPwConfirm" name="userPwConfirm">
+                <small id="pw-confirm-feedback" class="form-text"></small>
             </div>
 
             <!-- 이름 -->
             <div class="form-group">
                 <label for="userName">이름</label>
                 <input type="text" id="userName" name="userName">
+                
             </div>
 
             <!-- 주민등록번호 -->

@@ -14,6 +14,7 @@
     <!-- 임시<form action="/member/login" method="post" class="login-form"> -->
     
     	<form id="loginForm" action="/member/login" method="post" class="login-form">
+    	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <div class="input-group">
                 <span class="input-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20px" height="20px">
