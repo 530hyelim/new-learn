@@ -21,5 +21,7 @@ public interface MemberDao {
 	HashMap<String, Object> selectOne(String userId);
 
 	void insertAuthority(Member m);
+	
+	String findId(String userName, String ssn);
 
 }

@@ -1,15 +1,21 @@
 package com.newlearn.playground.member.model.dao;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.newlearn.playground.member.model.vo.Member;
 
 @Repository
 public class MemberDaoImpl implements MemberDao{
+	
+	private final SqlSessionTemplate sqlSession;
+	
+	public MemberDaoImpl(SqlSessionTemplate sqlSession) {
+		this.sqlSession = sqlSession;
+	}
 
 	@Override
 	public Member loginUser(String userId) {
@@ -56,7 +62,16 @@ public class MemberDaoImpl implements MemberDao{
 	@Override
 	public void insertAuthority(Member m) {
 		// TODO Auto-generated method stub
-		
 	}
+	
+	@Override
+	public String findId(String userName, String ssn) {
+	    Map<String, String> params = new HashMap<>();
+	    params.put("userName", userName);
+	    params.put("ssn", ssn);
+	    
+	    return sqlSession.selectOne("memberMapper.findId", params);
+	}
+	
 
 }
