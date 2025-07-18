@@ -50,7 +50,8 @@ import lombok.extern.slf4j.Slf4j;
 public class BoardController {
 
 	private final BoardService boardService;
-
+	
+	// ㅇㅇㅇㅇ;
 	// ServletContext: application scope를 가진 서블릿 전역에서 사용 가능한 객체.
 	private final ServletContext application;
 
