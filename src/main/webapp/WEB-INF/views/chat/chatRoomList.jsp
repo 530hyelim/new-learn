@@ -15,6 +15,7 @@
 	rel="stylesheet">
 <style>
 	.content {
+	
 		height: 100%;
 	}
 </style>

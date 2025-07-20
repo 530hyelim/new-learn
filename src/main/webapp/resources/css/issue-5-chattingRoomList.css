@@ -1,0 +1,835 @@
+@charset "UTF-8";
+/*
+    전체 설정
+*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+.container{
+    width: 1440px;
+    height: 1024px;
+    border: 1px solid black;
+}
+/*
+    헤더 영역
+*/
+.header{
+    height: 80px;
+    background-color: black;
+    color: white;
+    display: flex;
+}
+.header .logo{
+    border: 1px solid black;
+    font-size: 30px;
+    width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+.header .title{
+    border: 1px solid black;
+    width: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+.header .back{
+    border: 1px solid black;
+    width: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+/*
+    메인 영역
+*/
+.main{
+    display: flex;
+    height: 944px;
+}
+/*
+    친구 영역
+*/
+.friendList{
+    border: 1px solid black;
+    background-color: white;
+    width: 20%;
+}
+/*
+    친구 영역 top
+*/
+.friend-top{
+    border: 1px solid black;
+    height: 100px;
+    display: flex;
+    align-items: center;
+}
+.friend-top div:nth-child(1){
+    font-size: 25px;
+    margin-left: 5%;
+}
+.friend-top div:nth-child(2){
+    font-size: 15px;
+    margin-left: 1%;
+}
+.friend-top button{
+    font-size: 15px;
+    margin-left: auto;
+    margin-right: 5%;
+}
+/*
+    친구 영역 mid
+*/
+.friend-mid{
+    overflow-y: auto;
+    height: 844px;
+}
+.friend-mid li{
+    margin-top: 10%;
+    display: flex;
+}
+.friend-mid li div:nth-child(1){
+    margin-left: 5%;
+}
+.friend-mid li div:nth-child(2){
+    margin-left: 5%;
+}
+.friend-mid li .picture{
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-left: 5%;
+    text-align: center;
+    line-height: 60px;
+}
+.friend-mid li .name{
+    border: 1px solid black;
+    width: 100px;
+    height: 30px;
+}
+.friend-mid li .ps{
+    border: 1px solid black;
+    width: 150px;
+    height: 30px;
+}
+/*
+    채팅 영역
+*/
+.chattingRoomList{
+    background-color: whitesmoke;
+    border: 1px solid black;
+    width: 80%;
+}
+/*
+    채팅 영역 top
+*/
+.chattingRoomList-top{
+    border: 1px solid black;
+    height: 100px;
+}
+.chattingRoomList-top div{
+    font-size: 25px;
+    margin-left: 5%;
+    line-height: 100px;
+}
+/*
+    채팅 영역 sub
+*/
+.chattingRoomList-sub{
+    border: 1px solid black;
+    height: 50px;
+    font-size: 20px;
+}
+.chattingRoomList-sub ul{
+    display: flex;
+    height: 100%;
+    align-items: center;
+}
+.chattingRoomList-sub li:nth-child(1){
+    margin-left: 15%;
+}
+.chattingRoomList-sub li:nth-child(2){
+    margin-left: 21%;    
+}
+.chattingRoomList-sub li:nth-child(3){
+    margin-left: 8%;
+}
+.chattingRoomList-sub li:nth-child(4){
+    margin-left: 8%;
+}
+.chattingRoomList-sub li:nth-child(5){
+    margin-left: 6.5%;
+}
+.chattingRoomList-sub li:nth-child(6){
+    margin-left: 6.5%;
+}
+/*
+    채팅 영역 mid
+*/
+.chattingRoomList-mid{
+    border: 1px solid black;
+    height: 744px;
+    overflow-y: auto;
+}
+.chattingRoomList-mid li{
+    margin-top: 2%;
+    display: flex;
+    height: 80px;
+    align-items: center;
+    border: 1px solid black;
+}
+.chattingRoomList-mid li div:nth-child(1){
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-left: 2%;
+    text-align: center;
+    line-height: 60px;
+}
+.chattingRoomList-mid li div:nth-child(2){
+    border: 1px solid black;
+    width: 210px;
+    height: 60px;
+    margin-left: 2%;
+    line-height: 60px;
+}
+.chattingRoomList-mid li div:nth-child(3){
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-left: 2%;
+    text-align: center;
+    line-height: 60px;
+}
+.chattingRoomList-mid li div:nth-child(4){
+    border: 1px solid black;
+    width: 90px;
+    height: 60px;
+    margin-left: 5%;
+    text-align: center;
+    line-height: 60px;
+}
+.chattingRoomList-mid li div:nth-child(5){
+    border: 1px solid black;
+    width: 70px;
+    height: 60px;
+    margin-left: 7%;
+    text-align: center;
+    line-height: 60px;
+}
+.chattingRoomList-mid li div:nth-child(6){
+    border: 1px solid black;
+    width: 100px;
+    height: 60px;
+    margin-left: 7%;
+    text-align: center;
+    line-height: 60px;
+}
+.chattingRoomList-mid li input:first-child{
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-left: 4.5%;
+    text-align: center;
+    line-height: 60px;
+}
+.chattingRoomList-mid li input:nth-child(2){
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-left: 5%;
+    text-align: center;
+    line-height: 60px;
+}
+.room-report{
+    width: 60px;
+    height: 60px;
+    margin-left: 4.5%;
+}
+.room-set{
+    width: 60px;
+    height: 60px;
+    margin-left: 5%;
+}
+/*
+    채팅 영역 bottom
+*/
+.chattingRoomList-bottom{
+    display: flex;
+    border: 1px solid black;
+    height: 50px;
+    align-items: center;
+}
+.chattingRoomList-bottom form{
+    margin: 0 auto;
+}
+.chattingRoomList-bottom select{
+    font-size: 30px;
+}
+.chattingRoomList-bottom input:nth-of-type(1){
+    font-size: 30px;
+}
+.chattingRoomList-bottom input:nth-of-type(2){
+    font-size: 25px;
+}
+/*
+    전체적으로 width/height 사이즈 조정 필요
+    그에 따른 margin 조정 필요
+*/
+
+/*
+    방만들기 모달창
+*/
+.line{
+    width: 80px;
+    height: 1px;
+    background-color: white;
+}
+#createRoomModal{
+    display: none;
+    border: 1px solid black;
+    width: 500px;
+    height: 700px;
+    background-color: red;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+.create-room-modal{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    background-color: orange;
+}
+.create-room-modal span{
+    margin-left: 20px    
+}
+.create-room-title{
+    height: 35px;
+    display: flex;
+    align-items: center;
+    margin-left: 47px;
+    background-color: yellow;
+}
+input[type=text]{
+    height: 25px;
+}
+.room-title-text{
+    display: block;
+    margin: auto;
+    width: 80%;
+}
+.create-open-close{
+    height: 60px;
+    display: flex;
+    background-color: green;
+}
+.modal-open-close{
+    background-color: blue;
+    width: 200px;
+    margin-left: 47px;
+}
+input[type="checkbox"]{
+    width: 25px;
+    height: 25px;
+    margin-left: 5px;
+}
+.close{
+    margin-left: 10%;
+}
+.create-room-passwoard{
+    background-color: violet;
+    margin-left: auto;
+    margin-right: 50px;
+}
+.member-plus{
+    height: 35px;
+    margin-left: 47px;
+    background-color: gray;
+   
+}
+.search-name{
+    height: 35px;
+    margin-left: 47px;
+    background-color: brown;
+}
+.friend-list{
+    height: 425px;
+    background-color: pink;
+}
+.friend-choice{
+    overflow-y: auto;
+    width: 80%;
+    height: 425px;
+    background-color: orchid;
+    margin: auto;
+}
+.friend-choice li{
+    margin-top: 5%;
+    display: flex;
+    background-color: skyblue;
+}
+.friend-choice li .picture{
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-left: 5%;
+    text-align: center;
+    line-height: 60px;
+}
+.friend-choice li .name{
+    border: 1px solid black;
+    width: 100px;
+    height: 30px;
+    margin-left: 10%;
+}
+.friend-choice li .ps{
+    border: 1px solid black;
+    width: 180px;
+    height: 30px;
+    margin-left: 10%;
+}
+.goback{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+    background-color:coral
+}
+.goback input:nth-child(1){
+    width: 60px;
+    margin-right: 10%;
+}
+.goback input:nth-child(2){
+    width: 60px;
+    margin-left: 10%;
+}
+
+/*
+    친구 프로필 모달창
+*/
+#simpleProfileModal{
+    display: none;
+    width: 200px;
+    height: 250px;
+    background-color: red;
+    position: fixed;
+}
+.user-picture{
+    width: 80px;
+    height: 80px;
+    margin: auto;
+    background-color: orange;
+}
+.user-name{
+    text-align: center;
+    font-size: 20px;
+    height: 30px;
+    background-color: yellow;
+}
+.user-ps{
+    text-align: center;
+    font-size: 20px;
+    height: 30px;
+    background-color: green;
+}
+.option{
+    background-color: blue;
+    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.option input[type="button"]{
+    width: 150px;
+    height: 30px;
+}
+.option2{
+    margin-top: 5px;
+}
+.back{
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/*
+    함께 하는 클래스
+*/
+#together-class{
+    display: none;
+    background-color: black;
+    color: white;
+    width: 180px;
+    height: 66px;
+    position: fixed;
+}
+#together-class div:not(.line){
+    width: 160px;
+    height: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.line{
+    border: 1px solid white;
+    margin: 2px auto;
+    width: 160px;
+}
+
+/*
+    채팅방 설정 컨트롤러
+*/
+#chattingRoomSet-controller{
+    display: none;
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    color: white;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+
+/*
+    채팅방 설정 모달
+*/
+/*
+    1. 방장
+*/
+#setRoomModal-creater {
+    border: 1px solid black;
+    width: 500px;
+    height: 700px;
+    background-color: red;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+#setRoomModal-creater .create-room-modal{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    background-color: orange;
+}
+#setRoomModal-creater .create-room-modal span{
+    margin-left: 20px;
+}
+#setRoomModal-creater .create-room-title{
+    height: 35px;
+    display: flex;
+    align-items: center;
+    margin-left: 47px;
+    background-color: yellow;
+}
+#setRoomModal-creater input[type=text]{
+    height: 25px;
+}
+#setRoomModal-creater .room-title-text{
+    display: block;
+    margin: auto;
+    width: 80%;
+}
+#setRoomModal-creater .create-open-close{
+    height: 60px;
+    display: flex;
+    background-color: green;
+}
+#setRoomModal-creater .open-close{
+    background-color: blue;
+    width: 200px;
+    margin-left: 47px;
+}
+#setRoomModal-creater input[type="checkbox"]{
+    width: 25px;
+    height: 25px;
+}
+#setRoomModal-creater input[type="checkbox"] span{
+    font-size: 25px;
+}
+#setRoomModal-creater .close{
+    margin-left: 10%;
+}
+#setRoomModal-creater .create-room-passwoard{
+    background-color: violet;
+    margin-left: auto;
+    margin-right: 47px;
+}
+#setRoomModal-creater .member-plus{
+    height: 35px;
+    margin-left: 47px;
+    background-color: gray;
+    height: 35px;
+    display: flex;
+    align-items: center;
+}
+#setRoomModal-creater .search-name{
+    height: 35px;
+    margin-left: 47px;
+    background-color: brown;
+}
+#setRoomModal-creater .friend-list{
+    height: 425px;
+    background-color: pink;
+}
+#setRoomModal-creater .friend-choice{
+    overflow-y: auto;
+    width: 80%;
+    height: 425px;
+    background-color: orchid;
+    margin: auto;
+}
+#setRoomModal-creater .friend-choice li{
+    margin-top: 5%;
+    display: flex;
+    background-color: skyblue;
+}
+#setRoomModal-creater .friend-choice li .picture{
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-left: 5%;
+    text-align: center;
+    line-height: 60px;
+}
+#setRoomModal-creater .friend-choice li .name{
+    border: 1px solid black;
+    width: 100px;
+    height: 30px;
+    margin-left: 10%;
+}
+#setRoomModal-creater .friend-choice li .ps{
+    border: 1px solid black;
+    width: 180px;
+    height: 30px;
+    margin-left: 10%;
+}
+#setRoomModal-creater .goback{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+    background-color:coral
+}
+#setRoomModal-creater .goback input:nth-child(1){
+    width: 60px;
+    margin-right: 10%;
+}
+#setRoomModal-creater .goback input:nth-child(2){
+    width: 60px;
+    margin-left: 10%;
+}
+
+/*
+    2. 방장x
+*/
+#setRoomModal-member {
+    border: 1px solid black;
+    width: 500px;
+    height: 640px;
+    background-color: red;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+#setRoomModal-member .create-room-modal{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    background-color: orange;
+    
+}
+#setRoomModal-member .create-room-modal span{
+    margin-left: 20px;
+}
+#setRoomModal-member .create-room-title{
+    height: 35px;
+    display: flex;
+    align-items: center;
+    margin-left: 47px;
+    background-color: yellow;
+}
+#setRoomModal-member input[type=text]{
+    height: 25px;
+}
+#setRoomModal-member .room-title-text{
+    display: block;
+    margin: auto;
+    width: 80%;
+}
+#setRoomModal-member .open-close{
+    background-color: blue;
+    width: 200px;
+    margin-left: 47px;
+}
+#setRoomModal-member input[type="checkbox"]{
+    width: 25px;
+    height: 25px;
+}
+#setRoomModal-member input[type="checkbox"] span{
+    font-size: 25px;
+}
+#setRoomModal-member .close{
+    margin-left: 10%;
+}
+#setRoomModal-member .create-room-passwoard{
+    background-color: violet;
+    margin-left: auto;
+    margin-right: 47px;
+}
+#setRoomModal-member .member-plus{
+    height: 35px;
+    margin-left: 47px;
+    background-color: gray;
+    height: 35px;
+    display: flex;
+    align-items: center;
+}
+#setRoomModal-member .search-name{
+    height: 35px;
+    margin-left: 47px;
+    background-color: brown;
+}
+#setRoomModal-member .friend-list{
+    height: 425px;
+    background-color: pink;
+}
+#setRoomModal-member .friend-choice{
+    overflow-y: auto;
+    width: 80%;
+    height: 425px;
+    background-color: orchid;
+    margin: auto;
+}
+#setRoomModal-member .friend-choice li{
+    margin-top: 5%;
+    display: flex;
+    background-color: skyblue;
+}
+#setRoomModal-member .friend-choice li .picture{
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-left: 5%;
+    text-align: center;
+    line-height: 60px;
+}
+#setRoomModal-member .friend-choice li .name{
+    border: 1px solid black;
+    width: 100px;
+    height: 30px;
+    margin-left: 10%;
+}
+#setRoomModal-member .friend-choice li .ps{
+    border: 1px solid black;
+    width: 180px;
+    height: 30px;
+    margin-left: 10%;
+}
+#setRoomModal-member .goback{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+    background-color:coral
+}
+#setRoomModal-member .goback input:nth-child(1){
+    width: 60px;
+    margin-right: 10%;
+}
+#setRoomModal-member .goback input:nth-child(2){
+    width: 60px;
+    margin-left: 10%;
+}
+
+/*
+    채팅방 신고
+*/
+#reportRoomModal{
+    border: 1px solid black;
+    width: 500px;
+    height: 490px;
+    background-color: red;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+#reportRoomModal .header{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    background-color: orange;
+    margin-left: 20px;
+}
+.report-reason{
+    background-color: yellow;
+    width: 80%;
+    height: 40px;
+    margin: auto;
+    font-size: 25px;
+}
+.reasons{
+    background-color: green;
+    width: 400px;
+    height: 360px;
+    margin: auto;
+}
+.reasons div:not(:first-child){
+    margin-top: 3%;
+}
+.reasons input[type="checkbox"]{
+    width: 25px;
+    height: 25px;
+}
+.reasons span{
+    font-size: 20px;
+}
+textarea{
+    resize: none;
+    width: 385px;
+    height: 100px;
+    margin-left: 5px;
+    font-size: 20px;
+}
+.goback{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    background-color:blue
+}
+.goback input:nth-child(1){
+    width: 60px;
+    margin-right: 10%;
+}
+.goback input:nth-child(2){
+    width: 60px;
+    margin-left: 10%;
+}

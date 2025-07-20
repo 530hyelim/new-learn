@@ -1,0 +1,633 @@
+@charset "UTF-8";
+/*
+    전체 설정
+*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+.container{
+    width: 100%;
+    height: 100vh;
+    border: 1px solid black;
+}
+/*
+    헤더 영역
+*/
+.header{
+    height: 10vh;
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 30px;
+}
+.header .logo{
+    width: 20%;
+}
+.header .title{
+    width: 75%;
+}
+.header .back{
+    width: 5%;
+}
+.header button{
+    width: 35px;
+    height: 35px;
+    font-size: 30px;
+}
+/*
+    메인 영역
+*/
+.main{
+    display: flex;
+}
+/*
+    친구 영역
+*/
+.friendList{
+    border: 1px solid black;
+    width: 20%;
+    min-width: 250px;
+    height: 90vh;
+}
+.room-title{
+    min-width: 250px;
+    height: 8vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+}
+.room-inf{
+    height: 7vh;
+    display: flex;
+    font-size: 20px;
+    align-items: center;
+}
+.room-inf div:nth-child(1){
+    border: 1px solid black;
+    margin-left: 5%;
+}
+.room-inf div:nth-child(2){
+    border: 1px solid black;
+    margin-left: 1%;
+}
+.room-inf div:nth-child(3){
+    border: 1px solid black;
+    margin-left: 5%;
+}
+.room-inf button{
+    width: 30px;
+    height: 30px;
+    margin-left: auto;
+    margin-right: 5%;
+}
+.member-list{
+    border: 1px solid black;
+    overflow-y: auto;
+    width: 100%;
+    height: 75vh;
+}
+.member-list li{
+    margin-top: 10%;
+    margin-bottom: 10%;
+    width: 100%;
+    display: flex;
+}
+.member-list li .picture{
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-left: 5%;
+    text-align: center;
+    line-height: 60px;
+}
+.nameps{
+    margin-left: 10px;
+    width: 80%;
+}
+.member-list li .name{
+    border: 1px solid black;
+    width: 100px;
+    height: 30px;
+}
+.member-list li .ps{
+    border: 1px solid black;
+    height: 30px;
+    width: 80%;
+}
+/*
+    채팅 영역
+*/
+.chattingRoom{
+    border: 1px solid black;
+    width: 80%;
+    height: 90vh;
+}
+.chatting-area{
+    height: 80%;
+    position: relative;
+    overflow-y: auto;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+}
+.chatting-notice{
+    position: sticky;
+    top: 0;
+    border: 1px solid black;
+    background-color: gray;
+    width: 90%;
+    height: 35px;
+    margin: auto;
+    text-align: center;
+}
+.chat{
+    width: 100%;
+    height: 20%;
+}
+.chatting-forward{
+    height: 75%;
+}
+.text-forward{
+    width: 100%;
+    height: 100%;
+    font-size: 30px;
+    resize: none;
+}
+.else-forward{
+    height: 25%;
+    display: flex;
+}
+.else-forward button:nth-child(1){
+    font-size: 20px;
+    width: 60px;
+    margin-left: 1%;
+}
+.else-forward button:nth-child(2){
+    font-size: 20px;
+    width: 60px;
+    margin-left: 1%;
+}
+.else-forward button:nth-child(3){
+    font-size: 20px;
+    width: 60px;
+    margin-left: 1%;
+}
+.else-forward button:nth-child(4){
+    font-size: 20px;
+    width: 60px;
+    margin-left: auto;
+    margin-right: 1%;
+}
+/*
+    1. 전체적으로 width/height 사이즈 조정 필요
+    1-1. 그에 따른 margin 조정 필요
+
+    2. 채팅 길이에 따른 입력창과 말풍선 크기 지정
+*/
+
+/*
+    채팅방 설정 컨트롤러
+*/
+#chattingRoomSet-controller{
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    color: white;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+#chattingRoomSet-controller div{
+    margin: 2px;
+}
+
+/*
+    채팅방 설정 모달
+*/
+/*
+    1. 방장
+*/
+#setRoomModal-creater {
+    border: 1px solid black;
+    width: 500px;
+    height: 700px;
+    background-color: red;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+#setRoomModal-creater .create-room-modal{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    background-color: orange;
+}
+#setRoomModal-creater .create-room-modal span{
+    margin-left: 20px;
+}
+#setRoomModal-creater .create-room-title{
+    height: 35px;
+    display: flex;
+    align-items: center;
+    margin-left: 47px;
+    background-color: yellow;
+}
+#setRoomModal-creater input[type=text]{
+    height: 25px;
+}
+#setRoomModal-creater .room-title-text{
+    display: block;
+    margin: auto;
+    width: 80%;
+}
+#setRoomModal-creater .create-open-close{
+    height: 60px;
+    display: flex;
+    background-color: green;
+}
+#setRoomModal-creater .open-close{
+    background-color: blue;
+    width: 200px;
+    margin-left: 47px;
+}
+#setRoomModal-creater input[type="checkbox"]{
+    width: 25px;
+    height: 25px;
+}
+#setRoomModal-creater input[type="checkbox"] span{
+    font-size: 25px;
+}
+#setRoomModal-creater .close{
+    margin-left: 10%;
+}
+#setRoomModal-creater .create-room-passwoard{
+    background-color: violet;
+    margin-left: auto;
+    margin-right: 47px;
+}
+#setRoomModal-creater .member-plus{
+    height: 35px;
+    margin-left: 47px;
+    background-color: gray;
+    height: 35px;
+    display: flex;
+    align-items: center;
+}
+#setRoomModal-creater .search-name{
+    height: 35px;
+    margin-left: 47px;
+    background-color: brown;
+}
+#setRoomModal-creater .friend-list{
+    height: 425px;
+    background-color: pink;
+}
+#setRoomModal-creater .friend-choice{
+    overflow-y: auto;
+    width: 80%;
+    height: 425px;
+    background-color: orchid;
+    margin: auto;
+}
+#setRoomModal-creater .friend-choice li{
+    margin-top: 5%;
+    display: flex;
+    background-color: skyblue;
+}
+#setRoomModal-creater .friend-choice li .picture{
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-left: 5%;
+    text-align: center;
+    line-height: 60px;
+}
+#setRoomModal-creater .friend-choice li .name{
+    border: 1px solid black;
+    width: 100px;
+    height: 30px;
+    margin-left: 10%;
+}
+#setRoomModal-creater .friend-choice li .ps{
+    border: 1px solid black;
+    width: 180px;
+    height: 30px;
+    margin-left: 10%;
+}
+#setRoomModal-creater .goback{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+    background-color:coral
+}
+#setRoomModal-creater .goback input:nth-child(1){
+    width: 60px;
+    margin-right: 10%;
+}
+#setRoomModal-creater .goback input:nth-child(2){
+    width: 60px;
+    margin-left: 10%;
+}
+
+/*
+    2. 방장x
+*/
+#setRoomModal-member {
+    border: 1px solid black;
+    width: 500px;
+    height: 640px;
+    background-color: red;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+#setRoomModal-member .create-room-modal{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    background-color: orange;
+    
+}
+#setRoomModal-member .create-room-modal span{
+    margin-left: 20px;
+}
+#setRoomModal-member .create-room-title{
+    height: 35px;
+    display: flex;
+    align-items: center;
+    margin-left: 47px;
+    background-color: yellow;
+}
+#setRoomModal-member input[type=text]{
+    height: 25px;
+}
+#setRoomModal-member .room-title-text{
+    display: block;
+    margin: auto;
+    width: 80%;
+}
+#setRoomModal-member .open-close{
+    background-color: blue;
+    width: 200px;
+    margin-left: 47px;
+}
+#setRoomModal-member input[type="checkbox"]{
+    width: 25px;
+    height: 25px;
+}
+#setRoomModal-member input[type="checkbox"] span{
+    font-size: 25px;
+}
+#setRoomModal-member .close{
+    margin-left: 10%;
+}
+#setRoomModal-member .create-room-passwoard{
+    background-color: violet;
+    margin-left: auto;
+    margin-right: 47px;
+}
+#setRoomModal-member .member-plus{
+    height: 35px;
+    margin-left: 47px;
+    background-color: gray;
+    height: 35px;
+    display: flex;
+    align-items: center;
+}
+#setRoomModal-member .search-name{
+    height: 35px;
+    margin-left: 47px;
+    background-color: brown;
+}
+#setRoomModal-member .friend-list{
+    height: 425px;
+    background-color: pink;
+}
+#setRoomModal-member .friend-choice{
+    overflow-y: auto;
+    width: 80%;
+    height: 425px;
+    background-color: orchid;
+    margin: auto;
+}
+#setRoomModal-member .friend-choice li{
+    margin-top: 5%;
+    display: flex;
+    background-color: skyblue;
+}
+#setRoomModal-member .friend-choice li .picture{
+    border: 1px solid black;
+    width: 60px;
+    height: 60px;
+    margin-left: 5%;
+    text-align: center;
+    line-height: 60px;
+}
+#setRoomModal-member .friend-choice li .name{
+    border: 1px solid black;
+    width: 100px;
+    height: 30px;
+    margin-left: 10%;
+}
+#setRoomModal-member .friend-choice li .ps{
+    border: 1px solid black;
+    width: 180px;
+    height: 30px;
+    margin-left: 10%;
+}
+#setRoomModal-member .goback{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 35px;
+    background-color:coral
+}
+#setRoomModal-member .goback input:nth-child(1){
+    width: 60px;
+    margin-right: 10%;
+}
+#setRoomModal-member .goback input:nth-child(2){
+    width: 60px;
+    margin-left: 10%;
+}
+
+/*
+    채팅방 신고
+*/
+#reportRoomModal{
+    border: 1px solid black;
+    width: 500px;
+    height: 490px;
+    background-color: red;
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 999;
+}
+#reportRoomModal .header{
+    height: 50px;
+    display: flex;
+    align-items: center;
+    font-size: 30px;
+    background-color: orange;
+    margin-left: 20px;
+}
+.report-reason{
+    background-color: yellow;
+    width: 80%;
+    height: 40px;
+    margin: auto;
+    font-size: 25px;
+}
+.reasons{
+    background-color: green;
+    width: 400px;
+    height: 360px;
+    margin: auto;
+}
+.reasons div:not(:first-child){
+    margin-top: 3%;
+}
+.reasons input[type="checkbox"]{
+    width: 25px;
+    height: 25px;
+}
+.reasons span{
+    font-size: 20px;
+}
+textarea{
+    resize: none;
+    width: 385px;
+    height: 100px;
+    margin-left: 5px;
+    font-size: 20px;
+}
+.goback{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 40px;
+    background-color:blue
+}
+.goback input:nth-child(1){
+    width: 60px;
+    margin-right: 10%;
+}
+.goback input:nth-child(2){
+    width: 60px;
+    margin-left: 10%;
+}
+
+/*
+    채팅 컨트롤러
+*/
+/*
+    내채팅
+*/
+#myChattingOption-controller{
+    width: 100px;
+    height: 133px;
+    background-color: black;
+    color: white;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+#myChattingOption-controller div{
+    margin: 2px;
+}
+/*
+    남채팅
+*/
+#otherChattingOption-controller{
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    color: white;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+#otherChattingOption-controller div{
+    margin: 2px;
+}
+
+/*
+    이미지, 파일 채팅컨트롤러
+*/
+/*
+    내채팅
+*/
+#myImgFileChattingOption-controller{
+    width: 100px;
+    height: 100px;
+    background-color: black;
+    color: white;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+#myImgFileChattingOption-controller div{
+    margin: 2px;
+}
+/*
+    남채팅
+*/
+#otherImgFileChattingOption-controller{
+    width: 100px;
+    height: 133px;
+    background-color: black;
+    color: white;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+#otherImgFileChattingOption-controller div{
+    margin: 2px;
+}
+
+/*
+    공지 컨트롤러
+*/
+#chattingNotice-controller{
+    background-color: black;
+    color: white;
+    width: 100px;
+    height: 60px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+}
+#chattingNotice-controller div{
+    margin: 2px;
+}
