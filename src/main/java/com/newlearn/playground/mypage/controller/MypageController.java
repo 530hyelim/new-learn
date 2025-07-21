@@ -7,18 +7,23 @@ import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.newlearn.playground.mypage.model.vo.Guestbook;
+import com.newlearn.playground.mypage.service.MypageService;
+
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 @RequestMapping("/mypage")
 public class MypageController {
-	@Autowired
-	private ServletContext application; 
+	private final ServletContext application; 
+	private final MypageService mypageService;
 	
 	@GetMapping
 	public String myPage(Model model) {
@@ -34,8 +39,29 @@ public class MypageController {
 		return "mypage/mypage";
 	}
 	
-	@GetMapping("/{type}")
-	public String loadGuestbook(@PathVariable("type") String type) {
-		return "mypage/"+type;
+	@GetMapping("/guestbook")
+	public String loadGuestbook(Model model) {
+		int mypageNo = 1; // 마이페이지 사용자 정보
+		List<Guestbook> gbList = mypageService.loadGuestbook(mypageNo);
+		model.addAttribute("gbList", gbList);
+		return "mypage/guestbook";
+	}
+	
+	@GetMapping("/calendar")
+	public String loadCalendar(Model model) {
+		
+		return "mypage/calendar";
+	}
+	
+	@GetMapping("/calendar/new")
+	public String insertCalendar(Model model) {
+		
+		return "mypage/calendar";
+	}
+	
+	@GetMapping("/storage")
+	public String loadStorage(Model model) {
+		
+		return "mypage/storage";
 	}
 }

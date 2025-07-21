@@ -1,0 +1,96 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f7f9fc;
+    color: #333;
+}
+
+/* top-side */
+.top-side {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* 개인 캘린더 */
+.personal-calendar {
+    flex: 1;
+    min-width: 300px;
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* 오른쪽 사이드 */
+.right-side {
+    flex: 1;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 카드형 컴포넌트 */
+.monthly-attendance,
+.send-notifications {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.monthly-attendance h3 {
+    color: #4a90e2;
+    margin-bottom: 10px;
+}
+
+.send-notifications h3 {
+    color: #50b26c;
+    margin-bottom: 10px;
+}
+
+/* 일정 목록 */
+.right-side h4 {
+    margin: 0;
+    font-size: 18px;
+    color: #222;
+}
+
+.right-side p {
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+/* 일정 추가 버튼 */
+form button {
+    margin-top: 10px;
+    padding: 10px 20px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #357ab8;
+}
+
+/* bottom-side */
+.bottom-side {
+    margin-top: 40px;
+    padding: 20px;
+    text-align: center;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.bottom-side h1 {
+    font-size: 24px;
+    color: #333;
+}

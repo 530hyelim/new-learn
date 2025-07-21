@@ -12,6 +12,15 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/resources/css/mypage.css"
 	type="text/css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/guestbook.css"
+	type="text/css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/mp-calendar.css"
+	type="text/css" />
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/resources/css/calendar.css"
+	type="text/css" />
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
