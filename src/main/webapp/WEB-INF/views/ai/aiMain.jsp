@@ -3,11 +3,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="description" content="AI를 이용할 수 있는 페이지" />
-<meta name="author" content="한종윤" />
-<title>AI 모음 페이지</title>
-<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ai-main.css">
+    <meta charset="utf-8" />
+    <meta name="description" content="AI를 이용할 수 있는 페이지" />
+    <meta name="author" content="한종윤" />
+    <title>AI 모음 페이지</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/ai-main.css">
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -43,4 +44,21 @@
     </div>
 </body>
 <script src="${pageContext.request.contextPath}/resources/js/ai-main.js"></script>
+<script>
+    $("#prompt-send-btn").on("click", function() {
+        //
+        $.ajax({
+            url: "${pageContext.request.contextPath}/ai/getPrompt",
+            data: {
+                prompt: $("#prompt").val()
+            },
+            success: function(result) {
+                console.log(result);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        })
+    });
+</script>
 </html>
