@@ -41,6 +41,7 @@ CREATE TABLE ATTENDANCE (
 	today_date date not null,
 	entry_time	date		default sysdate,
 	exit_time	date		default sysdate,
+	att_status varchar2(3) default '미출석',
     constraint pk_attendance primary key (user_no, class_no, today_date)
 );
 
@@ -75,7 +76,7 @@ CREATE TABLE REPLY (
 	reply_no	number		primary key,
 	board_no	number		references board,
 	user_no	number		references member,
-	content	varchar2(500)		NOT NULL,
+	content	varchar2(1000)		NOT NULL,
 	like_count	number	DEFAULT 0,
 	create_date	date	DEFAULT sysdate,
 	mod_date	date	DEFAULT sysdate,
@@ -90,8 +91,9 @@ CREATE TABLE persistent_login (
 );
 
 CREATE TABLE reply_img (
-	reply_no	number		primary key,
-	img_no	number		references image
+	reply_no	number		references reply,
+	img_no	number		references image,
+	constraint pk_reply_img primary key(reply_no, img_no)
 );
 
 CREATE TABLE CHAT_ROOM (
@@ -99,7 +101,7 @@ CREATE TABLE CHAT_ROOM (
 	class_no	number		references class,
 	chat_title	varchar2(100)		not null,
 	create_date	date		default sysdate,
-	chat_pw	varchar2(50)		not NULL,
+	chat_pw	varchar2(100)		not NULL,
 	chat_public	char(1)		not null,
 	deleted char(1)		default 'N'
 );
@@ -108,7 +110,8 @@ CREATE TABLE CHAT_JOIN (
 	user_no	number		references member,
 	chat_room_no	number		references chat_room,
 	join_date	date		default sysdate,
-	out_date	date		default sysdate
+	out_date	date		default sysdate,
+	constraint pk_chat_join primary key(user_no, chat_room_no)
 );
 
 CREATE TABLE CHAT_MESSAGE (
@@ -122,10 +125,9 @@ CREATE TABLE CHAT_MESSAGE (
 
 CREATE TABLE REPORT (
 	report_no	number		primary key,
-	reply_no	number		references reply,
-	board_no	number		references board,
-	message_no	number		references chat_message,
 	user_no	number		references member,
+	report_type varchar2(30) not null,
+	ref_no number not null,
 	report_content	varchar2(200)		not null,
 	report_time	date		default sysdate,
 	report_status	char(1)		default 'N'
@@ -151,12 +153,13 @@ CREATE TABLE mypage (
 	mypage_no	number		primary key,
 	user_no	number		references member,
 	mypage_name	varchar2(200)		not null,
-	status_message	varchar2(1000)		NULL
+	status_message	varchar2(1000)		NULL,
+	max_storage number default 30
 );
 
 CREATE TABLE friend (
-	user_no	number		references member,
 	friend_user_no	number		references member,
+	user_no	number		references member,
 	request_date	date		default sysdate,
 	response_date	date,
     constraint pk_friend primary key (user_no, friend_user_no)
