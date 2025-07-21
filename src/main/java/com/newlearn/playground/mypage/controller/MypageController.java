@@ -6,13 +6,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.newlearn.playground.event.service.EventService;
+import com.newlearn.playground.event.vo.Event;
 import com.newlearn.playground.mypage.model.vo.Guestbook;
 import com.newlearn.playground.mypage.service.MypageService;
 
@@ -24,6 +27,7 @@ import lombok.RequiredArgsConstructor;
 public class MypageController {
 	private final ServletContext application; 
 	private final MypageService mypageService;
+	private final EventService eventService;
 	
 	@GetMapping
 	public String myPage(Model model) {
@@ -48,8 +52,21 @@ public class MypageController {
 	}
 	
 	@GetMapping("/calendar")
-	public String loadCalendar(Model model) {
-		
+	public String loadCalendar(HttpSession session, Model model) {
+		String selectedDate = (int)session.getAttribute("year") + "-";
+		selectedDate += (int)session.getAttribute("month") + "-";
+		selectedDate += (int)session.getAttribute("today");
+		List<Event> personalEvents = eventService.findAllPersonal(selectedDate);
+		model.addAttribute("personalEvents", personalEvents);
+		model.addAttribute("selectedDate", selectedDate);
+		return "mypage/calendar";
+	}
+	
+	@GetMapping("/calendar/{date}")
+	public String loadCalendar(@PathVariable("date") String date, HttpSession session, Model model) {
+		List<Event> personalEvents = eventService.findAllPersonal(date);
+		model.addAttribute("personalEvents", personalEvents);
+		model.addAttribute("selectedDate", date);
 		return "mypage/calendar";
 	}
 	

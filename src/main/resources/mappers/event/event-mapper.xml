@@ -5,10 +5,37 @@
 		select * from calendar
 		join member using(user_no)
 		where trunc(start_date) = to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+			and event_type = 'SHARED'
+			and visibility = 'Y'
+	</select>
+	
+	<select id="upcomingEvents" resultType="event">
+		select * from (
+			select * from calendar
+			join member using(user_no)
+			where trunc(start_date) >= to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+				and event_type = 'SHARED'
+				and visibility = 'Y'
+			order by start_date
+		) where rownum <![CDATA[<=]]> 3
 	</select>
 	
 	<select id="findByNo" resultType="event">
 		select * from calendar
+		where event_no = #{eventNo}
+			and visibility = 'Y'
+	</select>
+	
+	<select id="findAllPersonal" resultType="event">
+		select * from calendar
+		join member using(user_no)
+		where trunc(start_date) = to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+			and event_type = 'PERSONAL'
+			and visibility = 'Y'
+	</select>
+	
+	<select id="joinMemberCnt" resultType="int">
+		select count(*) from event_join_member
 		where event_no = #{eventNo}
 	</select>
 </mapper>

@@ -18,7 +18,9 @@
 	<div class="content">
 		<div class="left-side">
 			<div class="shared-calendar">
-				<jsp:include page="/WEB-INF/views/event/calendar.jsp" />
+				<form:form id="dateForm" action="${pageContext.request.contextPath}/event" method="get">
+					<jsp:include page="/WEB-INF/views/event/calendar.jsp" />
+				</form:form>
 			</div>
 			<h1>${selectedDate}</h1>
 			
@@ -36,6 +38,12 @@
 			
 			<h3>개인 이벤트</h3>
 			<!-- db에서 event 테이블 event_type 컬럼 personal인 데이터 조회 -->
+			<c:forEach var="event" items="${personalEvents}">
+				<a href="${pageContext.request.contextPath}/event/detail?eventNo=${event.eventNo}">
+				${event.userName} | ${event.eventName} 
+				(<fmt:formatDate value="${event.startDate}" pattern="h : mm a"/>)</a>
+			</c:forEach>
+			<!-- 새 이벤트 추가 버튼 (마이페이지의 추가기능으로 이동) -->
 			<button>추가</button>
 		</div>
 		
@@ -67,4 +75,11 @@
 		</div>
 	</div>
 </body>
+<script>
+	function onDateClick(date) {
+	   	const form = document.getElementById("dateForm");
+	    document.getElementById("selectedDate").value = date;
+	    form.submit();
+	}
+</script>
 </html>

@@ -29,4 +29,19 @@ public class EventServiceImpl implements EventService {
 		return eventDao.findAllByDate(selectedDate);
 	}
 
+	@Override
+	public List<Event> findAllPersonal(String selectedDate) {
+		return eventDao.findAllPersonal(selectedDate);
+	}
+
+	@Override
+	public List<Event> upcomingEvents(String selectedDate) {
+		return eventDao.upcomingEvents(selectedDate);
+	}
+
+	@Override
+	public Integer joinMemberCnt(int eventNo) {
+		return eventDao.joinMemberCnt(eventNo);
+	}
+
 }

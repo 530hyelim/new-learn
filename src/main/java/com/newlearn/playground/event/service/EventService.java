@@ -12,4 +12,10 @@ public interface EventService {
 
 	List<Event> findAllByDate(String selectedDate);
 
+	List<Event> findAllPersonal(String selectedDate);
+
+	List<Event> upcomingEvents(String selectedDate);
+
+	Integer joinMemberCnt(int eventNo);
+
 }

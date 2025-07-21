@@ -10,4 +10,10 @@ public interface EventDao {
 
 	Event findByNo(int eventNo);
 
+	List<Event> findAllPersonal(String selectedDate);
+
+	List<Event> upcomingEvents(String selectedDate);
+
+	Integer joinMemberCnt(int eventNo);
+
 }

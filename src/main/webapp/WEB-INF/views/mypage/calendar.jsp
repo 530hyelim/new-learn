@@ -2,6 +2,8 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 <div class="top-side">
 	<div class="shared-calendar">
@@ -19,10 +21,12 @@
 			<p>친구만</p>
 		</div>
 		<!-- db에서 event 테이블 event_type 컬럼 personal인 데이터 조회 -->
-		<h4>${selectedDate} 일정</h4>
+		<h4>${selectedDate} 나의 개인일정</h4>
 		<c:forEach var="event" items="${personalEvents}">
-			<p>${event.userName} | ${event.eventName} 
-			(<fmt:formatDate value="${event.startDate}" pattern="h : mm a"/>)</p>
+			<span><fmt:formatDate value="${event.startDate}" pattern="h : mm a"/> - 
+			<fmt:formatDate value="${event.endDate}" pattern="h : mm a"/> | 
+			${event.eventName} : ${event.content}</span>
+			<span>수정 | 삭제</span>
 		</c:forEach>
 		<!-- 새 일정 추가 버튼 -->
 		<form action="${pageContext.request.contextPath}/mypage/calendar/new" method="get">

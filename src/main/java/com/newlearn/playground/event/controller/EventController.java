@@ -33,7 +33,9 @@ public class EventController {
 	@GetMapping
 	public String eventPage(@RequestParam String selectedDate, HttpSession session) {
 		List<Event> sharedEvents = eventService.findAllByDate(selectedDate);
+		List<Event> personalEvents = eventService.findAllPersonal(selectedDate);
 		session.setAttribute("sharedEvents", sharedEvents);
+		session.setAttribute("personalEvents", personalEvents);
 		session.setAttribute("selectedDate", selectedDate);
 //		session.setAttribute("loginUser", auth.getName());
 //		log.debug(auth.getName());
@@ -49,10 +51,17 @@ public class EventController {
 	
 	// 상세 이벤트 보기 요청
 	@GetMapping("/detail")
-	public String eventDetail(@RequestParam int eventNo, Model model) {
+	public String eventDetail(@RequestParam int eventNo, @RequestParam String selectedDate, HttpSession session, Model model) {
 		if (eventNo != 0) {
 			Event selectedEvent = eventService.findByNo(eventNo);
 			model.addAttribute("event", selectedEvent);
+		}
+		if (selectedDate != null) {
+			List<Event> sharedEvents = eventService.findAllByDate(selectedDate);
+			List<Event> personalEvents = eventService.findAllPersonal(selectedDate);
+			session.setAttribute("sharedEvents", sharedEvents);
+			session.setAttribute("personalEvents", personalEvents);
+			session.setAttribute("selectedDate", selectedDate);
 		}
 		return "event/event";
 	}

@@ -1,6 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <!DOCTYPE html>
 <html>
@@ -80,13 +83,22 @@
 				<p>제출해야 할 과제가 있습니다</p>
 			</div>
 			<div class="shared-calendar">
-				<jsp:include page="/WEB-INF/views/event/calendar.jsp" />
+				<form:form id="dateForm" action="${pageContext.request.contextPath}/event" method="get">
+					<jsp:include page="/WEB-INF/views/event/calendar.jsp" />
+				</form:form>
 			</div>
 			<div class="upcoming-events">
 				<h4>UPCOMING EVENTS</h4>
-				<p>7월 10일 목요일 6 : 00 PM</p>
-				<pre>세미프로젝트 2조 회식 (6명 참여중...)</pre>
-				<button>상세보기</button>
+				<c:forEach var="event" items="${eventWithMemberCnt}">
+					<p><fmt:formatDate value="${event.key.startDate}" pattern="M월 d일 EEEE h : mm a"/></p>
+					<pre>${event.key.eventName} (${event.value}명 참여중...)</pre>
+					<form action="${pageContext.request.contextPath}/event/detail" method="get">
+						<input type="hidden" name="eventNo" value="${event.key.eventNo}" />
+						<fmt:formatDate value="${event.key.startDate}" pattern="yyyy-M-d" var="formattedDate"/>
+						<input type="hidden" name="selectedDate" value="${formattedDate}" />
+						<button type="submit">상세보기</button>
+					</form>
+				</c:forEach>
 			</div>
 			<div class="ai-help">
 				<h4>ASK ANYTHING!</h4>
@@ -96,4 +108,11 @@
 		</div>
 	</div>
 </body>
+<script>
+	function onDateClick(date) {
+	   	const form = document.getElementById("dateForm");
+	    document.getElementById("selectedDate").value = date;
+	    form.submit();
+	}
+</script>
 </html>

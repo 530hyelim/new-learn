@@ -70,28 +70,41 @@
 			</div>
 		</div>
 	</div>
-	<script
-		src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js"></script>
-	<script>
-	    document.querySelectorAll('.slider[data-simple-slider]').forEach(el => {
-	        simpleslider.getSlider(el);
-	    });
-	    
-	    loadContent('guestbook');
-	    
-	    function loadContent(type) {
-	    	fetch('${pageContext.request.contextPath}/mypage/' + type)
-	    		.then(response => {
-	    			if (!response.ok) throw new Error('에러 발생');
-	    			return response.text();
-	    		})
-	    		.then(html => {
-	    			document.querySelector(".container").innerHTML = html;
-	    		})
-	    		.catch(error => {
-	    			document.querySelector(".container").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
-	    		});
-	    }
-    </script>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js"></script>
+<script>
+    document.querySelectorAll('.slider[data-simple-slider]').forEach(el => {
+        simpleslider.getSlider(el);
+    });
+    
+    loadContent('guestbook');
+    
+    function loadContent(type) {
+    	fetch('${pageContext.request.contextPath}/mypage/' + type)
+    		.then(response => {
+    			if (!response.ok) throw new Error('에러 발생');
+    			return response.text();
+    		})
+    		.then(html => {
+    			document.querySelector(".container").innerHTML = html;
+    		})
+    		.catch(error => {
+    			document.querySelector(".container").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
+    		});
+    }
+    
+	function onDateClick(date) {
+		fetch('${pageContext.request.contextPath}/mypage/calendar/' + date)
+			.then(response => {
+				if (!response.ok) throw new Error('에러 발생');
+				return response.text();
+			})
+			.then(html => {
+				document.querySelector(".container").innerHTML = html;
+			})
+			.catch(error => {
+				document.querySelector(".container").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
+			});
+	}
+</script>
 </html>

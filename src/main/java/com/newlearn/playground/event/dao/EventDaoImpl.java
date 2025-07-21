@@ -23,4 +23,19 @@ public class EventDaoImpl implements EventDao {
 		return session.selectOne("event.findByNo", eventNo);
 	}
 
+	@Override
+	public List<Event> findAllPersonal(String selectedDate) {
+		return session.selectList("event.findAllPersonal", selectedDate);
+	}
+
+	@Override
+	public List<Event> upcomingEvents(String selectedDate) {
+		return session.selectList("event.upcomingEvents", selectedDate);
+	}
+
+	@Override
+	public Integer joinMemberCnt(int eventNo) {
+		return session.selectOne("event.joinMemberCnt", eventNo);
+	}
+
 }
