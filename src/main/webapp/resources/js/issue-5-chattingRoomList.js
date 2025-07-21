@@ -1,46 +1,46 @@
-/*
-    채팅방 만들기
-*/
+// /*
+//     채팅방 만들기
+// */
 $(document).ready(function () {
-    $('#createRoomModal').hide();
+    $('#createroom_modal').hide();
 
-    $('.friend-top button').on('click', function () {
-        $('#createRoomModal').fadeIn(); // 이벤트 버블링 방지
+    $('.friend_top button').on('click', function () {
+        $('#createroom_modal').fadeIn(); // 이벤트 버블링 방지
     });
 
-    $('#createRoomModal .goback input:nth-child(1)').on('click', function () {
-        $('#createRoomModal').fadeOut();
+    $('#createroom_modal .go_back input:nth-child(1)').on('click', function () {
+        $('#createroom_modal').fadeOut();
     });
 });
 
-/*
-    프로필 모달
-*/
+// /*
+//     프로필 모달
+// */
 $(document).ready(function () {
-    $('#simpleProfileModal').hide();
+    $('#friend_profile_modal').hide();
 
-    $('.friend-inf').on('click', function (event) {
+    $('.friend_inf').on('click', function (event) {
         event.stopPropagation();
-        $('#simpleProfileModal').css({
+        $('#friend_profile_modal').css({
             top: event.pageY + 'px',
             left: event.pageX + 'px',
         }).fadeIn();
     });
 
-    $('#simpleProfileModal .back input').on('click', function () {
-        $('#simpleProfileModal').fadeOut();
+    $('#friend_profile_modal .back input').on('click', function () {
+        $('#friend_profile_modal').fadeOut();
     });
 });
 
-/*
-    함께하는 클래스
-*/
+// /*
+//     함께하는 클래스
+// */
 $(document).ready(function () {
-    $('#together-class').hide();
+    $('#together_class').hide();
 
-    $('#simpleProfileModal .option1 input').on('click', function (event) {
+    $('#friend_profile_modal .option1 input').on('click', function (event) {
         event.stopPropagation(); // 모달 뜬 후 바로 사라지는 거 방지
-        $('#together-class').css({
+        $('#together_class').css({
             top: event.pageY + 'px',
             left: event.pageX + 'px'
         }).fadeIn();
@@ -48,11 +48,11 @@ $(document).ready(function () {
 
     // 문서 아무 곳이나 클릭해서 모달 닫기
     $(document).on('click', function () {
-        $('#together-class').fadeOut();
+        $('#together_class').fadeOut();
     });
 
     // 모달 내부 클릭 시에는 닫히지 않게
-    $('#together-class').on('click', function (event) {
+    $('#together_class').on('click', function (event) {
         event.stopPropagation();
     });
 });
@@ -64,11 +64,11 @@ $(document).ready(function () {
     채팅방 설정 컨트롤러
 */
 $(document).ready(function () {
-    $('#chattingRoomSet-controller').hide();
+    $('#chattingroomset-controller').hide();
 
-    $('.chattingRoomList-mid li .room-set').on('click', function (event) {
+    $('.chattingroomlist_mid li .room_set_button').on('click', function (event) {
         event.stopPropagation(); // 모달 뜬 후 바로 사라지는 거 방지
-        $('#chattingRoomSet-controller').css({
+        $('#chattingroomset_controller').css({
             top: event.pageY + 'px',
             left: event.pageX + 'px'
         }).fadeIn();
@@ -76,11 +76,11 @@ $(document).ready(function () {
 
     // 문서 아무 곳이나 클릭해서 모달 닫기
     $(document).on('click', function () {
-        $('#chattingRoomSet-controller').fadeOut();
+        $('#chattingroomset_controller').fadeOut();
     });
 
     // 모달 내부 클릭 시에는 닫히지 않게
-    $('#chattingRoomSet-controller').on('click', function (event) {
+    $('#chattingroomset_controller').on('click', function (event) {
         event.stopPropagation();
     });
 });
@@ -89,16 +89,16 @@ $(document).ready(function () {
 */
 // $(document).ready(function () {
 //     // 모달 숨김
-//     $('#setRoomModal-creater').hide();
+//     $('#setroommodal_creater').hide();
 
 //     // 버튼 클릭 시 모달 보이기
-//     $('#chattingRoomSet-controller .chattingRoomSet').on('click', function () {
-//         $('#setRoomModal-creater').fadeIn();
+//     $('#chattingroomset_controller .chattingroomset').on('click', function () {
+//         $('#setroommodal_creater').fadeIn();
 //     });
 
 //     // 취소 버튼
-//     $('#setRoomModal-creater .goback input:nth-child(1)').on('click', function () {
-//         $('#setRoomModal-creater').fadeOut();
+//     $('#setroommodal_creater .go_back input:nth-child(1)').on('click', function () {
+//         $('#setroommodal_creater').fadeOut();
 //     });
 // });
 
@@ -106,14 +106,14 @@ $(document).ready(function () {
     2. 방장x
 */
 $(document).ready(function () {
-    $('#setRoomModal-member').hide();
+    $('#setroommodal_member').hide();
 
-    $('#chattingRoomSet-controller .chattingRoomSet').on('click', function () {
-        $('#setRoomModal-member').fadeIn();
+    $('#chattingroomset_controller .chattingroomset').on('click', function () {
+        $('#setroommodal_member').fadeIn();
     });
 
-    $('#setRoomModal-member .goback input:nth-child(1)').on('click', function () {
-        $('#setRoomModal-member').fadeOut();
+    $('#setroommodal_member .go_back input:nth-child(1)').on('click', function () {
+        $('#setroommodal_member').fadeOut();
     });
 });
 
@@ -121,13 +121,13 @@ $(document).ready(function () {
     채팅방 신고 모달
 */
 $(document).ready(function () {
-    $('#reportRoomModal').hide();
+    $('#reportroommodal').hide();
 
-    $('#chattingRoomSet-controller .chattingRoomReport').on('click', function () {
-        $('#reportRoomModal').fadeIn();
+    $('#chattingroomset_controller .chattingroomreport').on('click', function () {
+        $('#reportroommodal').fadeIn();
     });
 
-    $('#reportRoomModal .goback input:nth-child(1)').on('click', function () {
-        $('#reportRoomModal').fadeOut();
+    $('#reportroommodal .go_back input:nth-child(1)').on('click', function () {
+        $('#reportroommodal').fadeOut();
     });
 });

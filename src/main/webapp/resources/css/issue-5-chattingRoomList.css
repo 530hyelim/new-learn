@@ -9,7 +9,7 @@
     list-style: none;
 }
 .container{
-    width: 1440px;
+    width: 100%;
     height: 1024px;
     border: 1px solid black;
 }
@@ -21,8 +21,9 @@
     background-color: black;
     color: white;
     display: flex;
+    width: 100%;
 }
-.header .logo{
+.header_logo{
     border: 1px solid black;
     font-size: 30px;
     width: 20%;
@@ -31,7 +32,7 @@
     justify-content: center;
     font-size: 30px;
 }
-.header .title{
+.header_title{
     border: 1px solid black;
     width: 75%;
     display: flex;
@@ -39,12 +40,17 @@
     justify-content: center;
     font-size: 30px;
 }
-.header .back{
+.header_back{
     border: 1px solid black;
     width: 5%;
     display: flex;
     align-items: center;
     justify-content: center;
+    font-size: 30px;
+}
+.header_back_button{
+    width: 35px;
+    height: 35px;
     font-size: 30px;
 }
 /*
@@ -53,11 +59,12 @@
 .main{
     display: flex;
     height: 944px;
+    width: 100%;
 }
 /*
     친구 영역
 */
-.friendList{
+.friend_list{
     border: 1px solid black;
     background-color: white;
     width: 20%;
@@ -65,21 +72,21 @@
 /*
     친구 영역 top
 */
-.friend-top{
+.friend_top{
     border: 1px solid black;
     height: 100px;
     display: flex;
     align-items: center;
 }
-.friend-top div:nth-child(1){
+.friend_top div:nth-child(1){
     font-size: 25px;
     margin-left: 5%;
 }
-.friend-top div:nth-child(2){
+.friend_top div:nth-child(2){
     font-size: 15px;
     margin-left: 1%;
 }
-.friend-top button{
+.friend_top button{
     font-size: 15px;
     margin-left: auto;
     margin-right: 5%;
@@ -87,21 +94,16 @@
 /*
     친구 영역 mid
 */
-.friend-mid{
+.friend_mid{
     overflow-y: auto;
     height: 844px;
 }
-.friend-mid li{
+.friend_mid li{
     margin-top: 10%;
     display: flex;
+    border: 1px solid black;
 }
-.friend-mid li div:nth-child(1){
-    margin-left: 5%;
-}
-.friend-mid li div:nth-child(2){
-    margin-left: 5%;
-}
-.friend-mid li .picture{
+.friend_mid li .friend_picture{
     border: 1px solid black;
     width: 60px;
     height: 60px;
@@ -109,12 +111,16 @@
     text-align: center;
     line-height: 60px;
 }
-.friend-mid li .name{
+.friend_mid li .friend_name_ps{
+    margin-left: 10px;
+    width: 80%;
+}
+.friend_mid .friend_name{
     border: 1px solid black;
     width: 100px;
     height: 30px;
 }
-.friend-mid li .ps{
+.friend_mid li .friend_ps{
     border: 1px solid black;
     width: 150px;
     height: 30px;
@@ -122,7 +128,7 @@
 /*
     채팅 영역
 */
-.chattingRoomList{
+.chattingroom_list{
     background-color: whitesmoke;
     border: 1px solid black;
     width: 80%;
@@ -130,11 +136,11 @@
 /*
     채팅 영역 top
 */
-.chattingRoomList-top{
+.chattingroomlist_top{
     border: 1px solid black;
     height: 100px;
 }
-.chattingRoomList-top div{
+.chattingroomlist_top div{
     font-size: 25px;
     margin-left: 5%;
     line-height: 100px;
@@ -142,50 +148,50 @@
 /*
     채팅 영역 sub
 */
-.chattingRoomList-sub{
+.chattingroomlist_sub{
     border: 1px solid black;
     height: 50px;
     font-size: 20px;
 }
-.chattingRoomList-sub ul{
+.chattingroomlist_sub ul{
     display: flex;
     height: 100%;
     align-items: center;
 }
-.chattingRoomList-sub li:nth-child(1){
+.chattingroomlist_sub li:nth-child(1){
     margin-left: 15%;
 }
-.chattingRoomList-sub li:nth-child(2){
+.chattingroomlist_sub li:nth-child(2){
     margin-left: 21%;    
 }
-.chattingRoomList-sub li:nth-child(3){
+.chattingroomlist_sub li:nth-child(3){
     margin-left: 8%;
 }
-.chattingRoomList-sub li:nth-child(4){
+.chattingroomlist_sub li:nth-child(4){
     margin-left: 8%;
 }
-.chattingRoomList-sub li:nth-child(5){
+.chattingroomlist_sub li:nth-child(5){
     margin-left: 6.5%;
 }
-.chattingRoomList-sub li:nth-child(6){
+.chattingroomlist_sub li:nth-child(6){
     margin-left: 6.5%;
 }
 /*
     채팅 영역 mid
 */
-.chattingRoomList-mid{
+.chattingroomlist_mid{
     border: 1px solid black;
     height: 744px;
     overflow-y: auto;
 }
-.chattingRoomList-mid li{
+.chattingroomlist_mid li{
     margin-top: 2%;
     display: flex;
     height: 80px;
     align-items: center;
     border: 1px solid black;
 }
-.chattingRoomList-mid li div:nth-child(1){
+.chattingroomlist_mid li div:nth-child(1){
     border: 1px solid black;
     width: 60px;
     height: 60px;
@@ -193,14 +199,14 @@
     text-align: center;
     line-height: 60px;
 }
-.chattingRoomList-mid li div:nth-child(2){
+.chattingroomlist_mid li div:nth-child(2){
     border: 1px solid black;
     width: 210px;
     height: 60px;
     margin-left: 2%;
     line-height: 60px;
 }
-.chattingRoomList-mid li div:nth-child(3){
+.chattingroomlist_mid li div:nth-child(3){
     border: 1px solid black;
     width: 60px;
     height: 60px;
@@ -208,7 +214,7 @@
     text-align: center;
     line-height: 60px;
 }
-.chattingRoomList-mid li div:nth-child(4){
+.chattingroomlist_mid li div:nth-child(4){
     border: 1px solid black;
     width: 90px;
     height: 60px;
@@ -216,7 +222,7 @@
     text-align: center;
     line-height: 60px;
 }
-.chattingRoomList-mid li div:nth-child(5){
+.chattingroomlist_mid li div:nth-child(5){
     border: 1px solid black;
     width: 70px;
     height: 60px;
@@ -224,7 +230,7 @@
     text-align: center;
     line-height: 60px;
 }
-.chattingRoomList-mid li div:nth-child(6){
+.chattingroomlist_mid li div:nth-child(6){
     border: 1px solid black;
     width: 100px;
     height: 60px;
@@ -232,51 +238,40 @@
     text-align: center;
     line-height: 60px;
 }
-.chattingRoomList-mid li input:first-child{
-    border: 1px solid black;
+.room_alarm_button{
     width: 60px;
     height: 60px;
     margin-left: 4.5%;
     text-align: center;
     line-height: 60px;
 }
-.chattingRoomList-mid li input:nth-child(2){
-    border: 1px solid black;
+.room_set_button{
     width: 60px;
     height: 60px;
     margin-left: 5%;
     text-align: center;
     line-height: 60px;
 }
-.room-report{
-    width: 60px;
-    height: 60px;
-    margin-left: 4.5%;
-}
-.room-set{
-    width: 60px;
-    height: 60px;
-    margin-left: 5%;
-}
+
 /*
     채팅 영역 bottom
 */
-.chattingRoomList-bottom{
+.chattingroomlist_bottom{
     display: flex;
     border: 1px solid black;
     height: 50px;
     align-items: center;
 }
-.chattingRoomList-bottom form{
+.chattingroomlist_bottom form{
     margin: 0 auto;
 }
-.chattingRoomList-bottom select{
+.chattingroomlist_bottom select{
     font-size: 30px;
 }
-.chattingRoomList-bottom input:nth-of-type(1){
+.chattingroomlist_bottom input:nth-of-type(1){
     font-size: 30px;
 }
-.chattingRoomList-bottom input:nth-of-type(2){
+.chattingroomlist_bottom input:nth-of-type(2){
     font-size: 25px;
 }
 /*
@@ -292,7 +287,7 @@
     height: 1px;
     background-color: white;
 }
-#createRoomModal{
+#createroom_modal{
     display: none;
     border: 1px solid black;
     width: 500px;
@@ -304,17 +299,17 @@
     transform: translate(-50%, -50%);
     z-index: 999;
 }
-.create-room-modal{
+.modal_name{
     height: 50px;
     display: flex;
     align-items: center;
     font-size: 30px;
     background-color: orange;
 }
-.create-room-modal span{
+.modal_name span{
     margin-left: 20px    
 }
-.create-room-title{
+#createroom_modal .room_title{
     height: 35px;
     display: flex;
     align-items: center;
@@ -324,17 +319,17 @@
 input[type=text]{
     height: 25px;
 }
-.room-title-text{
+.input_room_title{
     display: block;
     margin: auto;
     width: 80%;
 }
-.create-open-close{
+.create_open_close{
     height: 60px;
     display: flex;
     background-color: green;
 }
-.modal-open-close{
+.choice_open_close{
     background-color: blue;
     width: 200px;
     margin-left: 47px;
@@ -344,42 +339,44 @@ input[type="checkbox"]{
     height: 25px;
     margin-left: 5px;
 }
-.close{
+.room_close{
     margin-left: 10%;
 }
-.create-room-passwoard{
+.create_passwoard{
     background-color: violet;
     margin-left: auto;
     margin-right: 50px;
 }
-.member-plus{
+.member_plus{
     height: 35px;
     margin-left: 47px;
     background-color: gray;
    
 }
-.search-name{
+.search_name{
     height: 35px;
     margin-left: 47px;
     background-color: brown;
 }
-.friend-list{
+#createroom_modal .friend_list{
     height: 425px;
     background-color: pink;
+    width: 80%;
+    margin: auto;
 }
-.friend-choice{
+.friend_choice{
     overflow-y: auto;
     width: 80%;
     height: 425px;
     background-color: orchid;
     margin: auto;
 }
-.friend-choice li{
+.friend_choice li{
     margin-top: 5%;
     display: flex;
     background-color: skyblue;
 }
-.friend-choice li .picture{
+.friend_choice li .friend_picture{
     border: 1px solid black;
     width: 60px;
     height: 60px;
@@ -387,30 +384,31 @@ input[type="checkbox"]{
     text-align: center;
     line-height: 60px;
 }
-.friend-choice li .name{
+
+#createroom_modal .friend_name_ps .friend_name{
     border: 1px solid black;
     width: 100px;
     height: 30px;
     margin-left: 10%;
 }
-.friend-choice li .ps{
+#createroom_modal .friend_name_ps .friend_ps{
     border: 1px solid black;
     width: 180px;
     height: 30px;
     margin-left: 10%;
 }
-.goback{
+#createroom_modal .go_back{
     display: flex;
     justify-content: center;
     width: 100%;
     height: 35px;
-    background-color:coral
+    background-color:coral;
 }
-.goback input:nth-child(1){
+#createroom_modal .go_back input:nth-child(1){
     width: 60px;
     margin-right: 10%;
 }
-.goback input:nth-child(2){
+#createroom_modal .go_back input:nth-child(2){
     width: 60px;
     margin-left: 10%;
 }
@@ -418,32 +416,32 @@ input[type="checkbox"]{
 /*
     친구 프로필 모달창
 */
-#simpleProfileModal{
+#friend_profile_modal{
     display: none;
     width: 200px;
     height: 250px;
     background-color: red;
     position: fixed;
 }
-.user-picture{
+.profile_picture{
     width: 80px;
     height: 80px;
     margin: auto;
     background-color: orange;
 }
-.user-name{
+.profile_name{
     text-align: center;
     font-size: 20px;
     height: 30px;
     background-color: yellow;
 }
-.user-ps{
+.profile_ps{
     text-align: center;
     font-size: 20px;
     height: 30px;
     background-color: green;
 }
-.option{
+.profile_option{
     background-color: blue;
     height: 70px;
     display: flex;
@@ -451,7 +449,7 @@ input[type="checkbox"]{
     justify-content: center;
     align-items: center;
 }
-.option input[type="button"]{
+.profile_option input[type="button"]{
     width: 150px;
     height: 30px;
 }
@@ -469,7 +467,7 @@ input[type="checkbox"]{
 /*
     함께 하는 클래스
 */
-#together-class{
+#together_class{
     display: none;
     background-color: black;
     color: white;
@@ -477,7 +475,7 @@ input[type="checkbox"]{
     height: 66px;
     position: fixed;
 }
-#together-class div:not(.line){
+#together_class div:not(.line){
     width: 160px;
     height: 30px;
     display: flex;
@@ -494,7 +492,7 @@ input[type="checkbox"]{
 /*
     채팅방 설정 컨트롤러
 */
-#chattingRoomSet-controller{
+#chattingroomset_controller{
     display: none;
     width: 100px;
     height: 100px;
@@ -512,7 +510,7 @@ input[type="checkbox"]{
 /*
     1. 방장
 */
-#setRoomModal-creater {
+#setroommodal_creater {
     border: 1px solid black;
     width: 500px;
     height: 700px;
@@ -524,57 +522,57 @@ input[type="checkbox"]{
     transform: translate(-50%, -50%);
     z-index: 999;
 }
-#setRoomModal-creater .create-room-modal{
+#setroommodal_creater .create_room_modal{
     height: 50px;
     display: flex;
     align-items: center;
     font-size: 30px;
     background-color: orange;
 }
-#setRoomModal-creater .create-room-modal span{
+#setroommodal_creater .create_room_modal span{
     margin-left: 20px;
 }
-#setRoomModal-creater .create-room-title{
+#setroommodal_creater .create_room_title{
     height: 35px;
     display: flex;
     align-items: center;
     margin-left: 47px;
     background-color: yellow;
 }
-#setRoomModal-creater input[type=text]{
+#setroommodal_creater input[type=text]{
     height: 25px;
 }
-#setRoomModal-creater .room-title-text{
+#setroommodal_creater .room_title_text{
     display: block;
     margin: auto;
     width: 80%;
 }
-#setRoomModal-creater .create-open-close{
+#setroommodal_creater .create_open_close{
     height: 60px;
     display: flex;
     background-color: green;
 }
-#setRoomModal-creater .open-close{
+#setroommodal_creater .open_close{
     background-color: blue;
     width: 200px;
     margin-left: 47px;
 }
-#setRoomModal-creater input[type="checkbox"]{
+#setroommodal_creater input[type="checkbox"]{
     width: 25px;
     height: 25px;
 }
-#setRoomModal-creater input[type="checkbox"] span{
+#setroommodal_creater input[type="checkbox"] span{
     font-size: 25px;
 }
-#setRoomModal-creater .close{
+#setroommodal_creater .close_room{
     margin-left: 10%;
 }
-#setRoomModal-creater .create-room-passwoard{
+#setroommodal_creater .create_room_passwoard{
     background-color: violet;
     margin-left: auto;
     margin-right: 47px;
 }
-#setRoomModal-creater .member-plus{
+#setroommodal_creater .member_plus{
     height: 35px;
     margin-left: 47px;
     background-color: gray;
@@ -582,28 +580,31 @@ input[type="checkbox"]{
     display: flex;
     align-items: center;
 }
-#setRoomModal-creater .search-name{
+#setroommodal_creater .search_name{
     height: 35px;
     margin-left: 47px;
     background-color: brown;
 }
-#setRoomModal-creater .friend-list{
+#setroommodal_creater .friend_list{
     height: 425px;
     background-color: pink;
+    width: 80%;
+    margin: auto;
 }
-#setRoomModal-creater .friend-choice{
+#setroommodal_creater .friend_choice{
     overflow-y: auto;
     width: 80%;
     height: 425px;
     background-color: orchid;
     margin: auto;
+    
 }
-#setRoomModal-creater .friend-choice li{
+#setroommodal_creater .friend_choice li{
     margin-top: 5%;
     display: flex;
     background-color: skyblue;
 }
-#setRoomModal-creater .friend-choice li .picture{
+#setroommodal_creater .friend_choice li .friend_picture{
     border: 1px solid black;
     width: 60px;
     height: 60px;
@@ -611,30 +612,32 @@ input[type="checkbox"]{
     text-align: center;
     line-height: 60px;
 }
-#setRoomModal-creater .friend-choice li .name{
+#setroommodal_creater .friend_name_ps{
+    margin-left: 10px;
+    width: 80%;
+}
+#setroommodal_creater .friend_name{
     border: 1px solid black;
     width: 100px;
     height: 30px;
-    margin-left: 10%;
 }
-#setRoomModal-creater .friend-choice li .ps{
+#setroommodal_creater .friend_ps{
     border: 1px solid black;
     width: 180px;
     height: 30px;
-    margin-left: 10%;
 }
-#setRoomModal-creater .goback{
+#setroommodal_creater .go_back{
     display: flex;
     justify-content: center;
     width: 100%;
     height: 35px;
     background-color:coral
 }
-#setRoomModal-creater .goback input:nth-child(1){
+#setroommodal_creater .go_back input:nth-child(1){
     width: 60px;
     margin-right: 10%;
 }
-#setRoomModal-creater .goback input:nth-child(2){
+#setroommodal_creater .go_back input:nth-child(2){
     width: 60px;
     margin-left: 10%;
 }
@@ -642,65 +645,44 @@ input[type="checkbox"]{
 /*
     2. 방장x
 */
-#setRoomModal-member {
+#setroommodal_member {
     border: 1px solid black;
     width: 500px;
     height: 640px;
     background-color: red;
-    display: none;
+    /* display: none; */
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     z-index: 999;
 }
-#setRoomModal-member .create-room-modal{
+#setroommodal_member .create_room_modal{
     height: 50px;
     display: flex;
     align-items: center;
     font-size: 30px;
     background-color: orange;
-    
 }
-#setRoomModal-member .create-room-modal span{
+#setroommodal_member .create_room_modal span{
     margin-left: 20px;
 }
-#setRoomModal-member .create-room-title{
+#setroommodal_member .create_room_title{
     height: 35px;
     display: flex;
     align-items: center;
     margin-left: 47px;
     background-color: yellow;
 }
-#setRoomModal-member input[type=text]{
+#setroommodal_member input[type=text]{
     height: 25px;
 }
-#setRoomModal-member .room-title-text{
+#setroommodal_member .room_title_text{
     display: block;
     margin: auto;
     width: 80%;
 }
-#setRoomModal-member .open-close{
-    background-color: blue;
-    width: 200px;
-    margin-left: 47px;
-}
-#setRoomModal-member input[type="checkbox"]{
-    width: 25px;
-    height: 25px;
-}
-#setRoomModal-member input[type="checkbox"] span{
-    font-size: 25px;
-}
-#setRoomModal-member .close{
-    margin-left: 10%;
-}
-#setRoomModal-member .create-room-passwoard{
-    background-color: violet;
-    margin-left: auto;
-    margin-right: 47px;
-}
-#setRoomModal-member .member-plus{
+#setroommodal_member .member_plus{
     height: 35px;
     margin-left: 47px;
     background-color: gray;
@@ -708,28 +690,31 @@ input[type="checkbox"]{
     display: flex;
     align-items: center;
 }
-#setRoomModal-member .search-name{
+#setroommodal_member .search_name{
     height: 35px;
     margin-left: 47px;
     background-color: brown;
 }
-#setRoomModal-member .friend-list{
+#setroommodal_member .friend_list{
     height: 425px;
     background-color: pink;
+    width: 80%;
+    margin: auto;
 }
-#setRoomModal-member .friend-choice{
+#setroommodal_member .friend_choice{
     overflow-y: auto;
     width: 80%;
     height: 425px;
     background-color: orchid;
     margin: auto;
+    
 }
-#setRoomModal-member .friend-choice li{
+#setroommodal_member .friend_choice li{
     margin-top: 5%;
     display: flex;
     background-color: skyblue;
 }
-#setRoomModal-member .friend-choice li .picture{
+#setroommodal_member .friend_choice li .friend_picture{
     border: 1px solid black;
     width: 60px;
     height: 60px;
@@ -737,30 +722,32 @@ input[type="checkbox"]{
     text-align: center;
     line-height: 60px;
 }
-#setRoomModal-member .friend-choice li .name{
+#setroommodal_member .friend_name_ps{
+    margin-left: 10px;
+    width: 80%;
+}
+#setroommodal_member .friend_name{
     border: 1px solid black;
     width: 100px;
     height: 30px;
-    margin-left: 10%;
 }
-#setRoomModal-member .friend-choice li .ps{
+#setroommodal_member .friend_ps{
     border: 1px solid black;
     width: 180px;
     height: 30px;
-    margin-left: 10%;
 }
-#setRoomModal-member .goback{
+#setroommodal_member .go_back{
     display: flex;
     justify-content: center;
     width: 100%;
     height: 35px;
     background-color:coral
 }
-#setRoomModal-member .goback input:nth-child(1){
+#setroommodal_member .go_back input:nth-child(1){
     width: 60px;
     margin-right: 10%;
 }
-#setRoomModal-member .goback input:nth-child(2){
+#setroommodal_member .go_back input:nth-child(2){
     width: 60px;
     margin-left: 10%;
 }
@@ -768,7 +755,7 @@ input[type="checkbox"]{
 /*
     채팅방 신고
 */
-#reportRoomModal{
+#reportroommodal{
     border: 1px solid black;
     width: 500px;
     height: 490px;
@@ -780,7 +767,7 @@ input[type="checkbox"]{
     transform: translate(-50%, -50%);
     z-index: 999;
 }
-#reportRoomModal .header{
+#reportroommodal .modal_name{
     height: 50px;
     display: flex;
     align-items: center;
@@ -788,7 +775,7 @@ input[type="checkbox"]{
     background-color: orange;
     margin-left: 20px;
 }
-.report-reason{
+.report_reason{
     background-color: yellow;
     width: 80%;
     height: 40px;
@@ -818,18 +805,18 @@ textarea{
     margin-left: 5px;
     font-size: 20px;
 }
-.goback{
+#reportroommodal .go_back{
     display: flex;
     justify-content: center;
     width: 100%;
     height: 40px;
     background-color:blue
 }
-.goback input:nth-child(1){
+#reportroommodal .go_back input:nth-child(1){
     width: 60px;
     margin-right: 10%;
 }
-.goback input:nth-child(2){
+#reportroommodal .go_back input:nth-child(2){
     width: 60px;
     margin-left: 10%;
 }

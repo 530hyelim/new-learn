@@ -26,16 +26,16 @@
     text-align: center;
     font-size: 30px;
 }
-.header .logo{
+.header_logo{
     width: 20%;
 }
-.header .title{
+.header_title{
     width: 75%;
 }
-.header .back{
+.header_back{
     width: 5%;
 }
-.header button{
+.header_back_button{
     width: 35px;
     height: 35px;
     font-size: 30px;
@@ -49,13 +49,13 @@
 /*
     친구 영역
 */
-.friendList{
+.member_area{
     border: 1px solid black;
     width: 20%;
     min-width: 250px;
     height: 90vh;
 }
-.room-title{
+.room_title{
     min-width: 250px;
     height: 8vh;
     display: flex;
@@ -63,43 +63,44 @@
     justify-content: center;
     font-size: 30px;
 }
-.room-inf{
+.room_inf{
     height: 7vh;
     display: flex;
     font-size: 20px;
     align-items: center;
 }
-.room-inf div:nth-child(1){
+.room_inf div:nth-child(1){
     border: 1px solid black;
     margin-left: 5%;
 }
-.room-inf div:nth-child(2){
+.room_inf div:nth-child(2){
     border: 1px solid black;
     margin-left: 1%;
 }
-.room-inf div:nth-child(3){
-    border: 1px solid black;
-    margin-left: 5%;
+.room_inf .room_alarm_button{
+    width: 30px;
+    height: 30px;
+    margin-left: 10%
 }
-.room-inf button{
+.room_inf .room_set_button{
     width: 30px;
     height: 30px;
     margin-left: auto;
     margin-right: 5%;
 }
-.member-list{
+.member_list{
     border: 1px solid black;
     overflow-y: auto;
     width: 100%;
     height: 75vh;
 }
-.member-list li{
+.member_list li{
     margin-top: 10%;
     margin-bottom: 10%;
     width: 100%;
     display: flex;
 }
-.member-list li .picture{
+.member_list li .member_picture{
     border: 1px solid black;
     width: 60px;
     height: 60px;
@@ -107,16 +108,16 @@
     text-align: center;
     line-height: 60px;
 }
-.nameps{
+.member_list li .member_name_ps{
     margin-left: 10px;
     width: 80%;
 }
-.member-list li .name{
+.member_list li .member_name{
     border: 1px solid black;
     width: 100px;
     height: 30px;
 }
-.member-list li .ps{
+.member_list li .member_ps{
     border: 1px solid black;
     height: 30px;
     width: 80%;
@@ -124,12 +125,12 @@
 /*
     채팅 영역
 */
-.chattingRoom{
+.chatting_area{
     border: 1px solid black;
     width: 80%;
     height: 90vh;
 }
-.chatting-area{
+.chatting_main{
     height: 80%;
     position: relative;
     overflow-y: auto;
@@ -137,7 +138,7 @@
     display: flex;
     flex-direction: column;
 }
-.chatting-notice{
+.chatting_notice_top{
     position: sticky;
     top: 0;
     border: 1px solid black;
@@ -147,39 +148,39 @@
     margin: auto;
     text-align: center;
 }
-.chat{
+.forward_main{
     width: 100%;
     height: 20%;
 }
-.chatting-forward{
+.forward_text{
     height: 75%;
 }
-.text-forward{
+.text{
     width: 100%;
     height: 100%;
     font-size: 30px;
     resize: none;
 }
-.else-forward{
+.forward_img_file{
     height: 25%;
     display: flex;
 }
-.else-forward button:nth-child(1){
+.forward_img_file .gallery{
     font-size: 20px;
     width: 60px;
     margin-left: 1%;
 }
-.else-forward button:nth-child(2){
+.forward_img_file .file{
     font-size: 20px;
     width: 60px;
     margin-left: 1%;
 }
-.else-forward button:nth-child(3){
+.forward_img_file .search{
     font-size: 20px;
     width: 60px;
     margin-left: 1%;
 }
-.else-forward button:nth-child(4){
+.forward_img_file .forward{
     font-size: 20px;
     width: 60px;
     margin-left: auto;
@@ -195,7 +196,7 @@
 /*
     채팅방 설정 컨트롤러
 */
-#chattingRoomSet-controller{
+#controller_set{
     width: 100px;
     height: 100px;
     background-color: black;
@@ -206,7 +207,7 @@
     justify-content: center;
     position: fixed;
 }
-#chattingRoomSet-controller div{
+#controller_set div{
     margin: 2px;
 }
 
@@ -216,7 +217,7 @@
 /*
     1. 방장
 */
-#setRoomModal-creater {
+#chattingroomset_modal_creater {
     border: 1px solid black;
     width: 500px;
     height: 700px;
@@ -228,57 +229,57 @@
     transform: translate(-50%, -50%);
     z-index: 999;
 }
-#setRoomModal-creater .create-room-modal{
+#chattingroomset_modal_creater .modal_name{
     height: 50px;
     display: flex;
     align-items: center;
     font-size: 30px;
     background-color: orange;
 }
-#setRoomModal-creater .create-room-modal span{
+#chattingroomset_modal_creater .modal_name span{
     margin-left: 20px;
 }
-#setRoomModal-creater .create-room-title{
+#chattingroomset_modal_creater .change_title{
     height: 35px;
     display: flex;
     align-items: center;
     margin-left: 47px;
     background-color: yellow;
 }
-#setRoomModal-creater input[type=text]{
+#chattingroomset_modal_creater input[type=text]{
     height: 25px;
 }
-#setRoomModal-creater .room-title-text{
+#chattingroomset_modal_creater .insert_title{
     display: block;
     margin: auto;
     width: 80%;
 }
-#setRoomModal-creater .create-open-close{
+#chattingroomset_modal_creater .open_close_passworld{
     height: 60px;
     display: flex;
     background-color: green;
 }
-#setRoomModal-creater .open-close{
+#chattingroomset_modal_creater .open_close{
     background-color: blue;
     width: 200px;
     margin-left: 47px;
 }
-#setRoomModal-creater input[type="checkbox"]{
+#chattingroomset_modal_creater span{
+    font-size: 15px;
+}
+#chattingroomset_modal_creater input[type="checkbox"]{
     width: 25px;
     height: 25px;
 }
-#setRoomModal-creater input[type="checkbox"] span{
-    font-size: 25px;
-}
-#setRoomModal-creater .close{
+#chattingroomset_modal_creater .room_close{
     margin-left: 10%;
 }
-#setRoomModal-creater .create-room-passwoard{
+#chattingroomset_modal_creater .passworld{
     background-color: violet;
     margin-left: auto;
     margin-right: 47px;
 }
-#setRoomModal-creater .member-plus{
+#chattingroomset_modal_creater .member_plus{
     height: 35px;
     margin-left: 47px;
     background-color: gray;
@@ -286,28 +287,28 @@
     display: flex;
     align-items: center;
 }
-#setRoomModal-creater .search-name{
+#chattingroomset_modal_creater .member_search{
     height: 35px;
     margin-left: 47px;
     background-color: brown;
 }
-#setRoomModal-creater .friend-list{
+#chattingroomset_modal_creater .member_list{
     height: 425px;
     background-color: pink;
 }
-#setRoomModal-creater .friend-choice{
+#chattingroomset_modal_creater .member_choice{
     overflow-y: auto;
     width: 80%;
     height: 425px;
     background-color: orchid;
     margin: auto;
 }
-#setRoomModal-creater .friend-choice li{
+#chattingroomset_modal_creater .member_choice li{
     margin-top: 5%;
     display: flex;
     background-color: skyblue;
 }
-#setRoomModal-creater .friend-choice li .picture{
+#chattingroomset_modal_creater .member_choice li .member_picture{
     border: 1px solid black;
     width: 60px;
     height: 60px;
@@ -315,30 +316,30 @@
     text-align: center;
     line-height: 60px;
 }
-#setRoomModal-creater .friend-choice li .name{
+#chattingroomset_modal_creater .member_choice li .member_name{
     border: 1px solid black;
     width: 100px;
     height: 30px;
     margin-left: 10%;
 }
-#setRoomModal-creater .friend-choice li .ps{
+#chattingroomset_modal_creater .member_choice li .member_ps{
     border: 1px solid black;
     width: 180px;
     height: 30px;
     margin-left: 10%;
 }
-#setRoomModal-creater .goback{
+#chattingroomset_modal_creater .go_back{
     display: flex;
     justify-content: center;
     width: 100%;
     height: 35px;
     background-color:coral
 }
-#setRoomModal-creater .goback input:nth-child(1){
+#chattingroomset_modal_creater .go_back input:nth-child(1){
     width: 60px;
     margin-right: 10%;
 }
-#setRoomModal-creater .goback input:nth-child(2){
+#chattingroomset_modal_creater .go_back input:nth-child(2){
     width: 60px;
     margin-left: 10%;
 }
@@ -346,10 +347,10 @@
 /*
     2. 방장x
 */
-#setRoomModal-member {
+#chattingroomset_modal_member {
     border: 1px solid black;
     width: 500px;
-    height: 640px;
+    height: 650px;
     background-color: red;
     display: none;
     position: fixed;
@@ -358,82 +359,60 @@
     transform: translate(-50%, -50%);
     z-index: 999;
 }
-#setRoomModal-member .create-room-modal{
+#chattingroomset_modal_member .modal_name{
     height: 50px;
     display: flex;
     align-items: center;
     font-size: 30px;
     background-color: orange;
-    
 }
-#setRoomModal-member .create-room-modal span{
+#chattingroomset_modal_member .modal_name span{
     margin-left: 20px;
 }
-#setRoomModal-member .create-room-title{
+#chattingroomset_modal_member .change_title{
     height: 35px;
     display: flex;
     align-items: center;
     margin-left: 47px;
     background-color: yellow;
 }
-#setRoomModal-member input[type=text]{
+#chattingroomset_modal_member input[type=text]{
     height: 25px;
 }
-#setRoomModal-member .room-title-text{
+#chattingroomset_modal_member .insert_title{
     display: block;
     margin: auto;
     width: 80%;
 }
-#setRoomModal-member .open-close{
-    background-color: blue;
-    width: 200px;
-    margin-left: 47px;
-}
-#setRoomModal-member input[type="checkbox"]{
-    width: 25px;
-    height: 25px;
-}
-#setRoomModal-member input[type="checkbox"] span{
-    font-size: 25px;
-}
-#setRoomModal-member .close{
-    margin-left: 10%;
-}
-#setRoomModal-member .create-room-passwoard{
-    background-color: violet;
-    margin-left: auto;
-    margin-right: 47px;
-}
-#setRoomModal-member .member-plus{
+#chattingroomset_modal_member .member_plus{
     height: 35px;
     margin-left: 47px;
     background-color: gray;
-    height: 35px;
     display: flex;
     align-items: center;
 }
-#setRoomModal-member .search-name{
+#chattingroomset_modal_member .member_search{
     height: 35px;
     margin-left: 47px;
     background-color: brown;
 }
-#setRoomModal-member .friend-list{
+#chattingroomset_modal_member .member_list{
     height: 425px;
     background-color: pink;
 }
-#setRoomModal-member .friend-choice{
+#chattingroomset_modal_member .member_choice{
     overflow-y: auto;
     width: 80%;
     height: 425px;
     background-color: orchid;
     margin: auto;
 }
-#setRoomModal-member .friend-choice li{
+#chattingroomset_modal_member .member_choice li{
     margin-top: 5%;
     display: flex;
     background-color: skyblue;
 }
-#setRoomModal-member .friend-choice li .picture{
+#chattingroomset_modal_member .member_choice li .member_picture{
     border: 1px solid black;
     width: 60px;
     height: 60px;
@@ -441,30 +420,30 @@
     text-align: center;
     line-height: 60px;
 }
-#setRoomModal-member .friend-choice li .name{
+#chattingroomset_modal_member .member_choice li .member_name{
     border: 1px solid black;
     width: 100px;
     height: 30px;
     margin-left: 10%;
 }
-#setRoomModal-member .friend-choice li .ps{
+#chattingroomset_modal_member .member_choice li .member_ps{
     border: 1px solid black;
     width: 180px;
     height: 30px;
     margin-left: 10%;
 }
-#setRoomModal-member .goback{
+#chattingroomset_modal_member .go_back{
     display: flex;
     justify-content: center;
     width: 100%;
     height: 35px;
     background-color:coral
 }
-#setRoomModal-member .goback input:nth-child(1){
+#chattingroomset_modal_member .go_back input:nth-child(1){
     width: 60px;
     margin-right: 10%;
 }
-#setRoomModal-member .goback input:nth-child(2){
+#chattingroomset_modal_member .go_back input:nth-child(2){
     width: 60px;
     margin-left: 10%;
 }
@@ -472,7 +451,7 @@
 /*
     채팅방 신고
 */
-#reportRoomModal{
+#reportroom_modal{
     border: 1px solid black;
     width: 500px;
     height: 490px;
@@ -484,7 +463,7 @@
     transform: translate(-50%, -50%);
     z-index: 999;
 }
-#reportRoomModal .header{
+#reportroom_modal .modal_name{
     height: 50px;
     display: flex;
     align-items: center;
@@ -492,7 +471,7 @@
     background-color: orange;
     margin-left: 20px;
 }
-.report-reason{
+.report_reason{
     background-color: yellow;
     width: 80%;
     height: 40px;
@@ -506,7 +485,7 @@
     margin: auto;
 }
 .reasons div:not(:first-child){
-    margin-top: 3%;
+    margin-top: 5%;
 }
 .reasons input[type="checkbox"]{
     width: 25px;
@@ -522,18 +501,18 @@ textarea{
     margin-left: 5px;
     font-size: 20px;
 }
-.goback{
+.go_back{
     display: flex;
     justify-content: center;
     width: 100%;
     height: 40px;
     background-color:blue
 }
-.goback input:nth-child(1){
+.go_back input:nth-child(1){
     width: 60px;
     margin-right: 10%;
 }
-.goback input:nth-child(2){
+.go_back input:nth-child(2){
     width: 60px;
     margin-left: 10%;
 }
@@ -544,7 +523,7 @@ textarea{
 /*
     내채팅
 */
-#myChattingOption-controller{
+#mychattingoption_controller{
     width: 100px;
     height: 133px;
     background-color: black;
@@ -555,13 +534,13 @@ textarea{
     justify-content: center;
     position: fixed;
 }
-#myChattingOption-controller div{
+#mychattingoption_controller div{
     margin: 2px;
 }
 /*
     남채팅
 */
-#otherChattingOption-controller{
+#otherchattingoption_controller{
     width: 100px;
     height: 100px;
     background-color: black;
@@ -572,7 +551,7 @@ textarea{
     justify-content: center;
     position: fixed;
 }
-#otherChattingOption-controller div{
+#otherchattingoption_controller div{
     margin: 2px;
 }
 
@@ -582,7 +561,7 @@ textarea{
 /*
     내채팅
 */
-#myImgFileChattingOption-controller{
+#myimgfilechattingoption_controller{
     width: 100px;
     height: 100px;
     background-color: black;
@@ -593,13 +572,13 @@ textarea{
     justify-content: center;
     position: fixed;
 }
-#myImgFileChattingOption-controller div{
+#myimgfilechattingoption_controller div{
     margin: 2px;
 }
 /*
     남채팅
 */
-#otherImgFileChattingOption-controller{
+#otherimgfilechattingoption_controller{
     width: 100px;
     height: 133px;
     background-color: black;
@@ -610,14 +589,14 @@ textarea{
     justify-content: center;
     position: fixed;
 }
-#otherImgFileChattingOption-controller div{
+#otherimgfilechattingoption_controller div{
     margin: 2px;
 }
 
 /*
     공지 컨트롤러
 */
-#chattingNotice-controller{
+#chattingnotice_controller{
     background-color: black;
     color: white;
     width: 100px;
@@ -628,6 +607,6 @@ textarea{
     justify-content: center;
     position: fixed;
 }
-#chattingNotice-controller div{
+#chattingnotice_controller div{
     margin: 2px;
 }
