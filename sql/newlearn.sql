@@ -35,6 +35,16 @@ CREATE TABLE CLASS_JOIN (
     constraint pk_class_join primary key (class_no, user_no)
 );
 
+CREATE TABLE CLASS_NOTI (
+	class_no	number	references class,
+	user_no	number		references member,
+	announcement_noti   char(1)   not null   default 'Y',
+	assignment_noti   char(1)   not null   default 'Y',
+	shared_event_noti   char(1)   not null   default 'Y',
+	personal_event_noti   char(1)   not null   default 'Y',
+    constraint pk_class_join primary key (class_no, user_no)
+);
+
 CREATE TABLE ATTENDANCE (
 	user_no	number		references member,
 	class_no	number		references class,
@@ -173,6 +183,11 @@ CREATE TABLE subscription (
 	sub_no	number		primary key,
 	class_no	number		references class,
 	user_no	number		references member,
+	dont_disturb  char(1)     not null    default 'N',
+	guestbook_noti  char(1)     not null    default 'Y',
+	chat_noti  char(1)     not null    default 'Y',
+	friend_request_noti  char(1)     not null    default 'Y',
+	class_invitation_noti  char(1)     not null    default 'Y',
 	mapping_url	varchar2(225)		NULL
 );
 
