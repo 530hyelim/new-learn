@@ -103,7 +103,7 @@ CREATE TABLE reply_img (
 
 CREATE TABLE CHAT_ROOM (
 	chat_room_no	number		primary key,
-	class_no	number		references class,
+	user_no	number		references member,
 	chat_title	varchar2(100)		not null,
 	create_date	date		default sysdate,
 	chat_pw	varchar2(100)		not NULL,
