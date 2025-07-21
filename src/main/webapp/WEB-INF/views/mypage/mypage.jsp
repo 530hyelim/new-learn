@@ -43,7 +43,7 @@
 				</div>
 				<div class="slider" id="slider2">
 					<c:forEach var="img" items="${fileList}">
-						<img src="${pageContext.request.contextPath}/resources/main/${img.name}"/>
+						<img src="${pageContext.request.contextPath}/resources/main/bono.jpg"/>
 					</c:forEach>
 				</div>
 				<div class="slider" id="slider3">

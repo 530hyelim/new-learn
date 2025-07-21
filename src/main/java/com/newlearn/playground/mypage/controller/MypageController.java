@@ -29,7 +29,7 @@ public class MypageController {
 			List<File> fileList = Arrays.asList(files);
 			model.addAttribute("fileList", fileList);
 			for(File f : fileList) {
-				System.out.println(fileList);
+				System.out.println(f.getName());
 			}
 		}
 		return "mypage/mypage";
