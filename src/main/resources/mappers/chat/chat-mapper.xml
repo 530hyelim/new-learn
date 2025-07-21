@@ -1,12 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="chat">
-	<select id="countFriend" resultType="friend">
-		select *
-		from 
-	</select>
+	<select id="selectChatRoomList" resultType="chatRoom">
+		SELECT
+			CHAT_ROOM_NO , 
+			TITLE ,
+			USER_NAME, 
+			(SELECT COUNT(*)
+			FROM CHAT_ROOM_JOIN CRJ 
+			WHERE CRJ.CHAT_ROOM_NO = CR.CHAT_ROOM_NO ) AS CNT
+		FROM CHAT_ROOM CR
+		LEFT JOIN MEMBER USING (USER_NO)
+		WHERE CR.STATUS = 'Y'
+		ORDER BY CHAT_ROOM_NO DESC
+	</select>  	
+	<select id="selectChattingRoomList" resultType="chatRoom"></select>
 </mapper>
-
-
-
-

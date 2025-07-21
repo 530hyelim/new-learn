@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChattingRoomListVO {
+public class ChattingRoomList {
 	/*
 	 * 1. 사용자 번호 -> 친구 번호, 속한 클래스 번호, 속한 채팅방 번호
 	 * 

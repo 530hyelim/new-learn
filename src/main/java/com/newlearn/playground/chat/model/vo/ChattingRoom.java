@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class ChattingRoomVO {
+public class ChattingRoom {
 	/*
 	 * 1. 채팅방 번호로 
 	 * 3. 친구 번호로 프로필사진, 이름, 상태메세지, 속한 클래스 조회

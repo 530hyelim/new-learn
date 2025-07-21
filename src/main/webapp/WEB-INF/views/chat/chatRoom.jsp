@@ -3,129 +3,407 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-<link href="${contextPath }/resources/css/chat-style.css" rel="stylesheet">
-<link href="${contextPath }/resources/css/main-style.css" rel="stylesheet">
-<style>
-	.chatting-area{
-		margin :auto;
-		height : 600px;
-		width : 800px;
-		margin-top : 50px;
-		margin-bottom : 500px;
-	}
-	#exit-area{
-		text-align:right;
-		margin-bottom : 10px;
-	}
-	.display-chatting {
-		width:42%;
-		height:450px;
-		border : 1px solid gold;
-		overflow: auto; /*스크롤 처럼*/
-		list-style:none;
-		padding: 10px 10px;
-		background : lightblue;
-		z-index: 1;
-   		margin: auto;
-		background-image : url(${contextPath}/resources/main/chunsickbackground.png);
-	    background-position: center;
-	}
-	.img {
-		width:100%;
-		height:100%;
- 		position: relative;
- 		z-index:-100;
-	}
-	.chat{
-		display : inline-block;
-		border-radius : 5px;
-		padding : 5px;
-		background-color : #eee;
-	}
-	.input-area{
-		width:100%;
-		display:flex;
-		justify-content: center;
-	}
-	#inputChatting{
-		width: 32%;
-		resize : none;
-	}
-	#send{
-		width:20%;
-	}
-	.myChat{
-		text-align: right;
-	}
-	.myChat > p {
-		background-color : gold;
-	}
-	.chatDate{
-		font-size : 10px;
-	}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>chattingRoom</title>
+    <link rel="stylesheet" href="/page/css/chattingRoom.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="/page/js/chattingRoom.js"></script>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/views/common/header.jsp"></jsp:include>
-	
-	<div class="chatting-area">
-		<div id="exit-area">
-			<%-- <button class="btn btn-outline-danger" id="exit-btn" onclick="location.href = '${contextPath}/chat/room/${chatRoomNo }/leave'">나가기</button> --%>
-			<button class="btn btn-outline-danger" id="exit-btn">나가기</button>
-		</div>
-		<ul class="display-chatting">
-                <c:forEach items="${list}" var="msg">
-                    <c:if test='${msg.userNo eq loginUser.userNo }'>
-                        <li class="myChat">
-                            <span class="chatDate">${msg.createDate}</span>
-                            <p class="chat">${msg.message}</p>
-                        </li>
-                    </c:if>
-                    <c:if test="${msg.userNo ne loginUser.userNo }">
+    <div id="container">
+        <div class="header">
+            <div class="header_logo">new Learn();</div>
+            <div class="header_title">KH 자바스터디 G반</div>
+            <div class="header_back"><button class="header_back_button">X</button></div>
+        </div>
+        <div class="main">
+            <div class="member_area">
+                <div class="room_title">방 제목</div>
+                <div class="room_inf">
+                    <div class="room_member">참여자</div>
+                    <div class="room_member_count">?명</div>
+                    <button class="room_alarm_button">알림</button>
+                    <button class="room_set_button">설정</button>
+                </div>
+                <div class="member_list">
+                    <ul>
                         <li>
-                            <b>${msg.userName }</b>
-                            <p class="chat">${msg.message }</p>
-                            <span class="chatDate">${msg.createDate }</span>
+                            <div class="member_picture">사진</div>
+                            <div class="member_name_ps">
+                                <div class="member_name">이름</div>
+                                <div class="member_ps">상메</div>
+                            </div>
                         </li>
-                    </c:if>
-                </c:forEach>
-            </ul>
-            <div class="input-area">
-                <textarea id="inputChatting" rows="3"></textarea>
-                <button id="send">보내기</button>
+                        <li>
+                            <div class="member_picture">사진</div>
+                            <div class="member_name_ps">
+                                <div class="member_name">이름</div>
+                                <div class="member_ps">상메</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="member_picture">사진</div>
+                            <div class="member_name_ps">
+                                <div class="member_name">이름</div>
+                                <div class="member_ps">상메</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="member_picture">사진</div>
+                            <div class="member_name_ps">
+                                <div class="member_name">이름</div>
+                                <div class="member_ps">상메</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="member_picture">사진</div>
+                            <div class="member_name_ps">
+                                <div class="member_name">이름</div>
+                                <div class="member_ps">상메</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="member_picture">사진</div>
+                            <div class="member_name_ps">
+                                <div class="member_name">이름</div>
+                                <div class="member_ps">상메</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="member_picture">사진</div>
+                            <div class="member_name_ps">
+                                <div class="member_name">이름</div>
+                                <div class="member_ps">상메</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="member_picture">사진</div>
+                            <div class="member_name_ps">
+                                <div class="member_name">이름</div>
+                                <div class="member_ps">상메</div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="member_picture">사진</div>
+                            <div class="member_name_ps">
+                                <div class="member_name">이름</div>
+                                <div class="member_ps">상메</div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="chatting_area">
+                <div class="chatting_main">
+                    <ul>
+                        <div class="chatting_notice_top">공지</div>
+                        <li class="chatting_text">채팅</li><br><br><br><br><br>
+                        <li class="chatting_text">채팅</li><br><br><br><br><br>
+                        <li class="chatting_text">채팅</li><br><br><br><br><br>
+                        <li class="chatting_text">채팅</li><br><br><br><br><br>
+                        <li class="chatting_text">채팅</li><br><br><br><br><br>
+                        <li class="chatting_text">채팅</li><br><br><br><br><br>
+                        <li class="chatting_text">채팅</li><br><br><br><br><br>
+                        <li class="chatting_text">채팅</li><br><br><br><br><br>
+                        <li class="chatting_img_file">이미지,파일 채팅</li><br><br><br><br><br>
+                        <li class="chatting_text">채팅</li><br><br><br><br><br>
+                        <li class="chatting_img_file">이미지,파일 채팅</li><br><br><br><br><br>
+                    </ul>
+                </div>
+                <div class="forwoard_main">
+                    <div class="forward_text">
+                        <textarea name="" class="text"></textarea>
+                    </div>
+                    <div class="forward_img_file">
+                        <button class="gallery">갤러리</button>
+                        <button class="file">파일</button>
+                        <button class="search">검색</button>
+                        <button class="forward">전송</button>
+                    </div>
+                </div>
             </div>
         </div>
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
-    <script>
-    	// 채팅 설정을 위한 전역변수 등록
-    	const userNo = '${loginUser.userNo}';
-    	const userName = '${loginUser.userName}';
-    	const chatRoomNo = '${chatRoomNo}';
-    	const contextPath = '${contextPath}';
-    	
-    	// 웹소켓 연결 요청
-    	let chattingSocket = new SockJS(contextPath + "/chat");
-    	
-    	// stompClient 연결 설정
-    	const stompClient = Stomp.over(new SockJS(contextPath + "/stomp"));
-    </script>
-    <script type="text/javascript" src="${contextPath }/resources/js/chat.js"></script>
-    <script type="text/javascript" src="${contextPath }/resources/js/stomp.js"></script>
-	
-	<jsp:include page="/WEB-INF/views/common/footer.jsp"></jsp:include>
+    </div>
+
+    <!--
+        채팅방 설정 컨트롤러
+    -->
+    <div id="controller_set">
+        <div class="chattingroom_set">설정</div>
+        <div class="line"></div>
+        <div class="chattingroom_exit">나가기</div>
+        <div class="line"></div>
+        <div class="chattingroom_report">신고</div>
+    </div>
+
+    <!--
+        채팅방 설정 모달
+    -->
+    <!--
+        1. 방장
+    -->
+    <div id="chattingroomset_modal_creater">
+        <div class="modal_name"><span>채팅방 설정</span></div>
+        <div class="change_title">방 제목 변경</div>
+        <input type="text" name="" id="" class="insert_title">
+        <div class="open_close_passworld">
+            <div class="open_close">
+                <div class="choice_open_close">공개 여부</div>
+                <span class="room_open">공개<input type="checkbox" name="open" id=""></span>
+                <span class="room_close">비공개<input type="checkbox" name="close" id=""></span>
+            </div>
+            <div class="passworld">
+                <div class="insert_passworld">비밀번호</div><input type="text" name="" id="" class="room_passworld">
+            </div>
+        </div>
+        <div class="member_plus">대화 상대 초대</div>
+        <div class="member_search">
+            <span>이름 검색</span><input type="text" name="" id="">
+        </div>
+        <div class="member_list">
+            <div class="member_choice">
+                <ul>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="go_back">
+            <input type="button" value="취소">
+            <input type="button" value="확인">
+        </div>
+    </div>
+    
+    <!--
+        2. 방장x
+    -->
+    <div id="chattingroomset_modal_member">
+        <div class="modal_name"><span>채팅방 설정</span></div>
+        <div class="change_title">방 제목 변경</div>
+        <input type="text" name="" id="" class="insert_title">
+        <div class="member_plus">대화 상대 초대</div>
+        <div class="member_search">
+            <span>이름 검색</span><input type="text" name="" id="">
+        </div>
+        <div class="member_list">
+            <div class="member_choice">
+                <ul>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                    <li>
+                        <div class="member_picture">사진</div>
+                        <div class="member_name_ps">
+                            <div class="member_name">이름</div>
+                            <div class="member_ps">상메</div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="go_back">
+            <input type="button" value="취소">
+            <input type="button" value="확인">
+        </div>
+    </div>
+
+     <!--
+        신고 모달
+    -->
+    <div id="reportroom_modal">
+        <div class="modal_name">신고</div>
+        <div class="report_reason">신고 사유</div>
+        <div class="reasons">
+            <div class="reason1"><input type="checkbox" name="" id=""><span>욕설/공격젹인 언어 사용</span></div>
+            <div class="reason2"><input type="checkbox" name="" id=""><span>혐오발언</span></div>
+            <div class="reason3"><input type="checkbox" name="" id=""><span>음란물 유포</span></div>
+            <div class="reason4"><input type="checkbox" name="" id=""><span>불법 정보(도박/사행성)</span></div>
+            <div class="reason5"><input type="checkbox" name="" id=""><span>기타</span></div>
+            <div class="reason-detail"><textarea name="" id="" placeholder="신고 사유"></textarea></div>
+        </div>
+        <div class="go_back">
+            <input type="button" value="취소">
+            <input type="button" value="신고">
+        </div>
+    </div>
+
+    <!--
+        채팅 컨트롤러
+    -->
+    <!--
+        내 채팅
+    -->
+    <div id="mychattingoption_controller">
+        <div class="chatting_modify">수정</div>
+        <div class="line"></div>
+        <div class="chatting_reply">답장</div>
+        <div class="line"></div>
+        <div class="chatting_notice">공지</div>
+        <div class="line"></div>
+        <div class="chatting_delete">삭제</div>
+    </div>
+
+    <!--
+        남채팅
+    -->
+    <div id="otherchattingoption_controller">
+        <div class="chatting_reply">답장</div>
+        <div class="line"></div>
+        <div class="chatting_notice">공지</div>
+        <div class="line"></div>
+        <div class="chatting_report">신고</div>
+    </div>
+
+    <!--
+        이미지,파일 채팅 컨트롤러
+    -->
+    <!--
+        내채팅
+    -->
+    <div id="myimgfilechattingoption_controller">
+        <div class="chatting_reply">답장</div>
+        <div class="line"></div>
+        <div class="chatting_notice">공지</div>
+        <div class="line"></div>
+        <div class="chatting_delete">삭제</div>
+    </div>   
+    <!--
+        남채팅
+    -->
+    <div id="otherimgfilechattingoption_controller">
+        <div class="img_download">다운로드</div>
+        <div class="line"></div>
+        <div class="chatting_reply">답장</div>
+        <div class="line"></div>
+        <div class="chatting_notice">공지</div>
+        <div class="line"></div>
+        <div class="chatting_report">신고</div>
+    </div>
+
+    <!--
+        공지 컨트롤러
+    -->
+    <div id="chattingnotice_controller">
+        <div class="chatting_view">보기</div>
+        <div class="line"></div>
+        <div class="chatting_delete">삭제</div>
+    </div>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
