@@ -45,7 +45,7 @@ CREATE TABLE ATTENDANCE (
 	today_date date not null,
 	entry_time	date		default sysdate,
 	exit_time	date		default sysdate,
-	att_status varchar2(3) default '미출석',
+	att_status varchar2(30) default '미출석',
     constraint pk_attendance primary key (user_no, class_no, today_date)
 );
 
@@ -139,7 +139,7 @@ create table CHAT_MESSAGE_READ (
 	user_no number references member,
 	read_status char(1) default 'N',
 	constraint pk_chat_message_read primary key (message_no, user_no)
-)
+);
 
 CREATE TABLE REPORT (
 	report_no	number		primary key,
@@ -196,11 +196,11 @@ CREATE TABLE subscription (
 	sub_no	number		primary key,
 	class_no	number		references class,
 	user_no	number		references member,
-	dont_disturb  char(1)     not null    default 'N',
-	guestbook_noti  char(1)     not null    default 'Y',
-	chat_noti  char(1)     not null    default 'Y',
-	friend_request_noti  char(1)     not null    default 'Y',
-	class_invitation_noti  char(1)     not null    default 'Y',
+	dont_disturb  char(1) default 'N',
+	guestbook_noti  char(1) default 'Y',
+	chat_noti  char(1) default 'Y',
+	friend_request_noti  char(1) default 'Y',
+	class_invitation_noti  char(1) default 'Y',
 	mapping_url	varchar2(225)		NULL
 );
 
