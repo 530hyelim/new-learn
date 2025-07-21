@@ -9,7 +9,11 @@
 		AND SSN = #{ssn}
 	</select>
 
-
+	<update id="updatePassword">
+		UPDATE MEMBER
+		  SET USER_PW = #{newPassword}
+		WHERE USER_ID = #{userId}
+	</update>
 
 
 

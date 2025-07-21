@@ -23,5 +23,7 @@ public interface MemberDao {
 	void insertAuthority(Member m);
 	
 	String findId(String userName, String ssn);
+	
+	int updatePassword(String userId, String newPassword);
 
 }

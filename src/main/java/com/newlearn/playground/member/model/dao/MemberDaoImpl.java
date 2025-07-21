@@ -73,5 +73,20 @@ public class MemberDaoImpl implements MemberDao{
 	    return sqlSession.selectOne("memberMapper.findId", params);
 	}
 	
+	@Override
+	public int updatePassword(String userId, String newPassword) {
+		Map<String, String> params = new HashMap<>();
+		params.put("userId", userId);
+		params.put("newPassword", newPassword);
+		
+		return sqlSession.update("memberMapper.updatePassword", params);
+	}
+	
+	
+	
+	
+	
+	
+	
 
 }

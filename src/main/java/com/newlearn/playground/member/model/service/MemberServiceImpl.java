@@ -8,6 +8,7 @@ import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.newlearn.playground.member.model.dao.MemberDao;
@@ -20,6 +21,10 @@ public class MemberServiceImpl implements MemberService {
 
 	@Autowired
 	private MemberDao memberDao;
+	
+	// 비밀번호 암호화
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 
 	@Override
 	public Member loginMember(String userId) {
@@ -107,7 +112,12 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.findId(userName, ssn);
 	}
 	
-	
+	@Override
+	public int updatePassword(String userId, String newPassword) {
+		String encryptedPassword = bcryptPasswordEncoder.encode(newPassword);
+		
+		return memberDao.updatePassword(userId, encryptedPassword);
+	}
 	
 	
 	

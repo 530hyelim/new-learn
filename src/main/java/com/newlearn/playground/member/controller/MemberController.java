@@ -321,4 +321,31 @@ public class MemberController {
 	
 	}
 	
+	// 비밀번호 찾기(보안)
+	@PostMapping("/resetPassword")
+	public String resetPassword(@RequestParam("newPassword")
+		   String newPassword, HttpSession session) {
+	
+	String userId = (String) session.getAttribute("userIdForReset");
+	
+	if(userId == null) {
+		return "redirect:/member/findPassword";
+	}
+	
+	int result = mService.updatePassword(userId, newPassword);
+	
+	session.removeAttribute("userIdForReset");
+	
+	return "redirect:/member/changePasswordComplete";
+	
+}
+	
+	@GetMapping("/passwordChangeComplete")
+	public String passwordChangeComplete() {
+		
+		return "member/changePasswordComplete";
+	}
+	
+	
+	
 }
