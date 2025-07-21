@@ -36,30 +36,18 @@
 		<div class="main-body">
 			<!-- 슬라이딩 이미지 -->
 			<div class="sliders-container">
-				<!-- <div class="slider" data-simple-slider>
-				    <img src="resources/main/chunsickbackground.png" />
-				    <img src="resources/main/chunsickbackground.png" />
-				</div>
-				<div class="slider" data-simple-slider>
-				    <img src="resources/main/chunsickbackground.png" />
-				    <img src="resources/main/chunsickbackground.png" />
-				</div>
-				<div class="slider" data-simple-slider>
-				    <img src="resources/main/chunsickbackground.png" />
-				    <img src="resources/main/chunsickbackground.png" />
-				</div> -->
 				<div class="slider" id="slider1">
-					<c:forEach var="img" items="${fileList}" begin="0" end="2">
-						<img src="${pageContext.request.contextPath}/resources/main/${img.name}"/>
+					<c:forEach var="img" items="${fileList}">
+						<img src="resources/main/${img.name}"/>
 					</c:forEach>
 				</div>
 				<div class="slider" id="slider2">
-					<c:forEach var="img" items="${fileList}" begin="3" end="5">
+					<c:forEach var="img" items="${fileList}">
 						<img src="${pageContext.request.contextPath}/resources/main/${img.name}"/>
 					</c:forEach>
 				</div>
 				<div class="slider" id="slider3">
-					<c:forEach var="img" items="${fileList}" begin="6" end="${fn:length(fileList) - 1}">
+					<c:forEach var="img" items="${fileList}">
 						<img src="${pageContext.request.contextPath}/resources/main/${img.name}"/>
 					</c:forEach>
 				</div>

@@ -3,6 +3,7 @@ package com.newlearn.playground.mypage.controller;
 import java.io.File;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 
@@ -27,7 +28,9 @@ public class MypageController {
 			File[] files = path.listFiles();
 			List<File> fileList = Arrays.asList(files);
 			model.addAttribute("fileList", fileList);
-			System.out.println(fileList);
+			for(File f : fileList) {
+				System.out.println(fileList);
+			}
 		}
 		return "mypage/mypage";
 	}
