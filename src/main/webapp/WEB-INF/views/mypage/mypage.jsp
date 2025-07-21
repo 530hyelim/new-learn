@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 
@@ -36,41 +37,27 @@
 		<div class="main-body">
 			<!-- 슬라이딩 이미지 -->
 			<div class="sliders-container">
-				<div class="slider" id="slider1">
-					<c:forEach var="img" items="${fileList}">
-						<img src="resources/main/${img.name}"/>
+				<div class="slider" data-simple-slider>
+					<c:forEach var="img" items="${fileList}" begin="2">
+						<img src="${pageContext.request.contextPath}/resources/main/${img}"/>
 					</c:forEach>
 				</div>
-				<div class="slider" id="slider2">
-					<c:forEach var="img" items="${fileList}">
-						<img src="${pageContext.request.contextPath}/resources/main/bono.jpg"/>
+				<div class="slider" data-simple-slider>
+					<c:forEach var="img" items="${fileList}" begin="1">
+						<img src="${pageContext.request.contextPath}/resources/main/${img}"/>
 					</c:forEach>
 				</div>
-				<div class="slider" id="slider3">
-					<c:forEach var="img" items="${fileList}">
-						<img src="${pageContext.request.contextPath}/resources/main/${img.name}"/>
+				<div class="slider" data-simple-slider>
+					<c:forEach var="img" items="${fileList}" begin="0">
+						<img src="${pageContext.request.contextPath}/resources/main/${img}"/>
 					</c:forEach>
 				</div>
 			</div>
-			<!-- 방명록 / 캘린더 / 저장소 div -->
+			<button onclick="loadContent('guestbook')">방명록</button>
+			<button onclick="loadContent('calendar')">내 캘린더</button>
+			<button onclick="loadContent('storage')">내 저장소</button>
 			<div class="container">
-				<table>
-					<thead>
-						<tr>
-							<th>NO.1</th>
-							<th>사용자</th>
-							<th>마이페이지</th>
-							<th>작성 날짜</th>
-							<th>HIDE</th>
-							<th>DELETE</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td colspan="6">방명록 내용</td>
-						</tr>
-					</tbody>
-				</table>
+				<!-- 방명록 / 캘린더 / 저장소 div -->
 			</div>
 		</div>
 	</div>
@@ -80,6 +67,22 @@
 	    document.querySelectorAll('.slider[data-simple-slider]').forEach(el => {
 	        simpleslider.getSlider(el);
 	    });
+	    
+	    loadContent('guestbook');
+	    
+	    function loadContent(type) {
+	    	fetch('${pageContext.request.contextPath}/mypage/' + type)
+	    		.then(response => {
+	    			if (!response.ok) throw new Error('에러 발생');
+	    			return response.text();
+	    		})
+	    		.then(html => {
+	    			document.querySelector(".container").innerHTML = html;
+	    		})
+	    		.catch(error => {
+	    			document.querySelector(".container").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
+	    		});
+	    }
     </script>
 </body>
 </html>

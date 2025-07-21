@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -24,14 +25,17 @@ public class MypageController {
 		String imgDir = application.getRealPath("/resources/main");
 		File path = new File(imgDir);
 		if (path.exists()) {
-			System.out.println(path);
 			File[] files = path.listFiles();
-			List<File> fileList = Arrays.asList(files);
-			model.addAttribute("fileList", fileList);
-			for(File f : fileList) {
-				System.out.println(f.getName());
-			}
+			List<String> fileList = Arrays.stream(files)
+		            .map(File::getName)
+		            .collect(Collectors.toList());
+		    model.addAttribute("fileList", fileList);
 		}
 		return "mypage/mypage";
+	}
+	
+	@GetMapping("/{type}")
+	public String loadGuestbook(@PathVariable("type") String type) {
+		return "mypage/"+type;
 	}
 }
