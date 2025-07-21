@@ -37,11 +37,6 @@ import lombok.extern.slf4j.Slf4j;
 public class AiController {
 	private final AiService aiService;
 	
-//	try (FileInputStream fis = new FileInputStream("경로/driver.properties")) {
-//        props.load(fis);
-//    } catch (IOException e) {
-//        e.printStackTrace();
-//    }
 	@Value("${dataSource.openaiApiKey}")
 	private String myApiKey;
 	
