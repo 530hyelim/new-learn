@@ -1,0 +1,11 @@
+diff a/src/main/webapp/WEB-INF/views/ai/aiMain.html b/src/main/webapp/WEB-INF/views/ai/aiMain.html	(rejected hunks)
+@@ -4,8 +4,8 @@
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>AI 메인 페이지</title>
+-    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css" />
+     <link rel="stylesheet" href="../../../resources/css/ai-main.css">
++    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+ </head>
+ <body>
+     <div class="content-wrapper">
