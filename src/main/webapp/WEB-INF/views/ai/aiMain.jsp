@@ -20,7 +20,7 @@
             <div class="main-view">
                 <div class="main-view-top">
                     <select name="national">
-                        <option value="gpt-4o" selected>ChatGPT-4o</option>
+                        <option value="gpt-4-1-nano" selected>ChatGPT-4.1-nano</option>
                         <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
                     </select>
                     <button type="button" id="return-to-main"><a href="${pageContext.request.contextPath}/">나가기</a></button>

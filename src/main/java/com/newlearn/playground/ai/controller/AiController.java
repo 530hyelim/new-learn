@@ -21,6 +21,7 @@ import com.openai.core.http.StreamResponse;
 import com.openai.models.ChatModel;
 import com.openai.models.chat.completions.ChatCompletionChunk;
 import com.openai.models.chat.completions.ChatCompletionCreateParams;
+import com.openai.models.chat.completions.ChatCompletionStreamOptions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -65,6 +66,7 @@ public class AiController {
 		Map<String, String> developerMessage = new HashMap<>();
 		developerMessage.put("role", "developer");
 		developerMessage.put("content", "Always respond in HMTL format, but your answer will be appended into a div tag, so modify your respond properly.");
+//		developerMessage.put("content", "");
 		messageHistory.add(developerMessage);
 		
 		// Add the new user message to history
@@ -86,12 +88,33 @@ public class AiController {
 			}
 		}
 		
+		ChatCompletionStreamOptions options = ChatCompletionStreamOptions.builder().includeUsage(true).build();
+		
+		paramsBuilder.streamOptions(options);
+		
 		ChatCompletionCreateParams params = paramsBuilder.build();
 		
 		StringBuilder sb = new StringBuilder();
 		try (StreamResponse<ChatCompletionChunk> streamResponse = client.chat().completions().createStreaming(params)) {
 		    streamResponse.stream().forEach(chunk -> {
-		        chunk.choices().get(0).delta().content().ifPresent(v -> sb.append(v));
+		        if (!chunk.choices().isEmpty()) {
+		        	chunk.choices().get(0).delta().content().ifPresent(v -> sb.append(v));
+		        	
+//		        	System.out.println(chunk);
+		        	
+//		        	chunk.usage().ifPresent(usage -> {
+//		        		System.out.println(usage);
+//		        	});
+		        }
+		        
+		        
+//		        System.out.println(chunk);
+		        
+//		        if (chunk.choices().get(0).finishReason().isPresent()) {
+//		        	chunk.usage().ifPresent(usage -> {
+//                        usage.
+//                    });
+//		        }
 		    });
 //		    System.out.println("No more chunks!");
 		    System.out.println(sb.toString());

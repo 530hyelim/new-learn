@@ -9,6 +9,7 @@
 	<title>new Learn();</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/calendar.css" type="text/css" />
+	<link rel="icon" href="https://cdn-icons-png.flaticon.com/16/1998/1998614.png">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
