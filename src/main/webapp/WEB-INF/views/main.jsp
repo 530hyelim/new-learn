@@ -92,8 +92,8 @@
 				<c:forEach var="event" items="${eventWithMemberCnt}">
 					<p><fmt:formatDate value="${event.key.startDate}" pattern="M월 d일 EEEE h : mm a"/></p>
 					<pre>${event.key.eventName} (${event.value}명 참여중...)</pre>
-					<form action="${pageContext.request.contextPath}/event/detail" method="get">
-						<input type="hidden" name="eventNo" value="${event.key.eventNo}" />
+					<form action="${pageContext.request.contextPath}/event/detail/${event.key.eventNo}" method="get">
+						<%-- <input type="hidden" name="eventNo" value="${event.key.eventNo}" /> --%>
 						<fmt:formatDate value="${event.key.startDate}" pattern="yyyy-M-d" var="formattedDate"/>
 						<input type="hidden" name="selectedDate" value="${formattedDate}" />
 						<button type="submit">상세보기</button>

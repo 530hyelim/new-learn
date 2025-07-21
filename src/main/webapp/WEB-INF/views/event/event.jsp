@@ -26,6 +26,9 @@
 			
 			<h3>전체 이벤트</h3>
 			<!-- 이벤트 리스트 출력 (DB에서 받아온 리스트 사용) -->
+			<div id="shared-events">
+			
+			</div>
 			<c:forEach var="event" items="${sharedEvents}">
 				<a href="${pageContext.request.contextPath}/event/detail?eventNo=${event.eventNo}">
 				${event.userName} | ${event.eventName} 

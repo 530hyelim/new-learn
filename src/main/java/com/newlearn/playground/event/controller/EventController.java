@@ -14,6 +14,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,8 +38,6 @@ public class EventController {
 		session.setAttribute("sharedEvents", sharedEvents);
 		session.setAttribute("personalEvents", personalEvents);
 		session.setAttribute("selectedDate", selectedDate);
-//		session.setAttribute("loginUser", auth.getName());
-//		log.debug(auth.getName());
 		return "event/event";
 	}
 	
@@ -51,18 +50,25 @@ public class EventController {
 	
 	// 상세 이벤트 보기 요청
 	@GetMapping("/detail")
-	public String eventDetail(@RequestParam int eventNo, @RequestParam String selectedDate, HttpSession session, Model model) {
+	public String eventDetailByEventNo(@RequestParam int eventNo, Model model) {
 		if (eventNo != 0) {
 			Event selectedEvent = eventService.findByNo(eventNo);
 			model.addAttribute("event", selectedEvent);
 		}
-		if (selectedDate != null) {
-			List<Event> sharedEvents = eventService.findAllByDate(selectedDate);
-			List<Event> personalEvents = eventService.findAllPersonal(selectedDate);
-			session.setAttribute("sharedEvents", sharedEvents);
-			session.setAttribute("personalEvents", personalEvents);
-			session.setAttribute("selectedDate", selectedDate);
+		return "event/event";
+	}
+	
+	@GetMapping("/detail/{eventNo}")
+	public String eventDetail(@PathVariable("eventNo") int eventNo, @RequestParam String selectedDate, HttpSession session, Model model) {
+		if (eventNo != 0) {
+			Event selectedEvent = eventService.findByNo(eventNo);
+			model.addAttribute("event", selectedEvent);
 		}
+		List<Event> sharedEvents = eventService.findAllByDate(selectedDate);
+		List<Event> personalEvents = eventService.findAllPersonal(selectedDate);
+		session.setAttribute("sharedEvents", sharedEvents);
+		session.setAttribute("personalEvents", personalEvents);
+		session.setAttribute("selectedDate", selectedDate);
 		return "event/event";
 	}
 	
