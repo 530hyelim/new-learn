@@ -32,16 +32,10 @@ CREATE TABLE CLASS_JOIN (
 	user_no	number		references member,
 	class_join_date	date		default sysdate,
 	class_role varchar2(30) not null,
-    constraint pk_class_join primary key (class_no, user_no)
-);
-
-CREATE TABLE CLASS_NOTI (
-	class_no	number	references class,
-	user_no	number		references member,
-	announcement_noti   char(1)   not null   default 'Y',
-	assignment_noti   char(1)   not null   default 'Y',
-	shared_event_noti   char(1)   not null   default 'Y',
-	personal_event_noti   char(1)   not null   default 'Y',
+	accouncement_noti char(1) default 'N',
+	assignment_noti char(1) default 'N',
+	shared_event_noti char(1) default 'N',
+	personal_event_noti char(1) default 'N',
     constraint pk_class_join primary key (class_no, user_no)
 );
 
