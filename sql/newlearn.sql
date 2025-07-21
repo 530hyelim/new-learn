@@ -79,7 +79,8 @@ CREATE TABLE image (
 CREATE TABLE board_img (
 	board_no	number		references board,
 	img_no	number		references image,
-	img_order	number		default 0
+	img_order	number		default 0,
+	constraint pk_board_img primary key (board_no, img_no)
 );
 
 CREATE TABLE REPLY (
@@ -116,6 +117,12 @@ CREATE TABLE CHAT_ROOM (
 	deleted char(1)		default 'N'
 );
 
+create table chat_img (
+	message_no number references chat_message,
+	img_no number references image,
+	constraint pk_chat_img primary key (message_no, img_no)
+);
+
 CREATE TABLE CHAT_JOIN (
 	user_no	number		references member,
 	chat_room_no	number		references chat_room,
@@ -132,6 +139,13 @@ CREATE TABLE CHAT_MESSAGE (
 	content	varchar2(2000)		not null,
 	deleted	char(1)		default 'N'
 );
+
+create table CHAT_MESSAGE_READ (
+	message_no number references chat_message,
+	user_no number references member,
+	read_status char(1) default 'N',
+	constraint pk_chat_message_read primary key (message_no, user_no)
+)
 
 CREATE TABLE REPORT (
 	report_no	number		primary key,
@@ -168,8 +182,10 @@ CREATE TABLE mypage (
 );
 
 CREATE TABLE friend (
-	friend_user_no	number		references member,
 	user_no	number		references member,
+	friend_user_no	number		references member,
+	favorite char(1) default 'N',
+	response_status varchar2(30) default '대기',
 	request_date	date		default sysdate,
 	response_date	date,
     constraint pk_friend primary key (user_no, friend_user_no)
@@ -179,7 +195,7 @@ CREATE TABLE mypage_img (
 	mypage_no	number		references mypage,
 	img_no	number		references image,
 	type	varchar2(50)		not null,
-    constraint pk_mypage_img primary key (img_no)
+    constraint pk_mypage_img primary key (mypage_no, img_no)
 );
 
 CREATE TABLE subscription (
@@ -196,23 +212,24 @@ CREATE TABLE subscription (
 
 
 CREATE TABLE EVENT_JOIN_MEMBER (
-	event_no	number		references calendar,
 	user_no	number		references member,
+	event_no	number		references calendar,
 	join_date	date	DEFAULT sysdate,
-    constraint pk_event_join_member primary key (event_no, user_no)
+    constraint pk_event_join_member primary key (user_no, event_no)
 );
 
 CREATE TABLE repository (
 	repo_no	number		primary key,
 	mypage_no	number		references mypage,
-	dir_name	varchar2(100)		not null
+	dir_name	varchar2(100)		not null,
+	parent_repo_no number references repository
 );
 
 CREATE TABLE guest_book (
-	gb_no	number		primary key,
+	guestbook_no	number		primary key,
 	mypage_no	number		references mypage,
 	user_no	number		references member,
-	content	varchar2(1000)		not null,
+	content	clob		not null,
 	create_date	date		default sysdate,
 	visibility	char(1) default 'Y',
 	deleted	char(1)		default 'N'
@@ -233,7 +250,8 @@ CREATE TABLE ASSIGNMENT_SUBMISSION (
 	submission_no	number		primary key,
 	assignment_no	number		references assignment,
 	user_no	number		references member,
-	submission_date	date		default sysdate
+	submission_date	date		default sysdate,
+	grade number
 );
 
 CREATE TABLE upload_file (
@@ -243,8 +261,9 @@ CREATE TABLE upload_file (
 	message_no	number		references chat_message,
 	origin_name	varchar2(225)		not null,
 	change_name	varchar2(225)		not NULL,
-	visibility	varchar2(10)	DEFAULT 'public',
+	visibility	varchar2(20)	DEFAULT 'private',
 	create_date	date		default sysdate,
+	file_size number not null,
     deleted char(1) default 'N'
 );
 
@@ -257,6 +276,7 @@ CREATE TABLE AI (
 CREATE TABLE AI_USAGE (
 	user_no	number		references member,
 	model_no	number		references ai,
+	use_date date default sysdate,
 	num_used_token_no	number		default 0
 );
 
