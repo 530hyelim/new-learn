@@ -92,6 +92,7 @@
 				<h4>ASK ANYTHING!</h4>
 				<pre>ChatGPT     Gemini     Claude</pre>
 				<p>질문을 입력하세요</p>
+				<button><a href="${pageContext.request.contextPath}/ai/main">AI 사용하기</a></button>
 			</div>
 		</div>
 	</div>
