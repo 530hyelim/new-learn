@@ -1,18 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="chat">
-	<select id="selectChatRoomList" resultType="chatRoom">
+	<!-- 친구 목록 조회 -->
+	<select id="selectFriendList" resultType="Friend">
+		<!-- USER_NO가 ${userNo}인 회원의 친구 정보 조회 -->
 		SELECT
-			CHAT_ROOM_NO , 
-			TITLE ,
-			USER_NAME, 
-			(SELECT COUNT(*)
-			FROM CHAT_ROOM_JOIN CRJ 
-			WHERE CRJ.CHAT_ROOM_NO = CR.CHAT_ROOM_NO ) AS CNT
-		FROM CHAT_ROOM CR
-		LEFT JOIN MEMBER USING (USER_NO)
-		WHERE CR.STATUS = 'Y'
-		ORDER BY CHAT_ROOM_NO DESC
-	</select>  	
-	<select id="selectChattingRoomList" resultType="chatRoom"></select>
+			친구 프사,
+			친구 이름,
+			친구 상메,
+			클래스 이름,
+			클래수 수
+		FROM FRIEND F
+		JOIN MEMBER M ON M.USER_NO = F.USER_NO
+		
+		
+		
+	</select>
+	
+	<!-- 채팅방 목록 조회 -->
+	<select id="selectChattingRoomList" resultType="ChattingRoom">
+
+	</select>
+	
+	<!-- 친구 프로필 조회 -->
+	<insert id="createRoom"
+	
+	></insert>
 </mapper>

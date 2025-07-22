@@ -8,18 +8,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ChattingRoom {
-	/*
-	 * 1. 채팅방 번호로 
-	 * 3. 친구 번호로 프로필사진, 이름, 상태메세지, 속한 클래스 조회
+	/* 채팅방
 	 * 
-	 * 3. 사용자 번호로 속한 채팅방 번호 조회
-	 * 4. 채팅방 번호로 채팅방에 속한 사람, 개설자, 방 제목, 참여자 수, 공개여부, 알림여부 조회
+	 * 방 번호
+	 * 방 제목
+	 * 개설자
+	 * 개설자 사진
+	 * 새소식 수
+	 * 참여자 수
+	 * 공개 여부
+	 * 알림 여부
 	 */
-	private int userNo; // 사용자 번호
-	private int friendUserNo; // 친구 번호
-	private String userName; // 친구 이름
-	private int imgNo; // 친구 프로필사진
-	private String statusMessage; // 친구 상태메세지
-	private int classNo; // 클래스 번호
-	private String className; // 클래스 이름
+	private int createrNo;
+	private String createrName;
+	private String createrProfileImg;
+	private String roomTitle;
+	private int JoinnerCount;
+	private String roomPublic;
+	private String roomPassworld;
+	private String roomAlarm;
 }	

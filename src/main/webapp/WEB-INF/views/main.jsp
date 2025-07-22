@@ -33,7 +33,8 @@
 				<h4>전체채팅</h4>
 				<h4>그룹채팅</h4>
 				<h4>개인채팅</h4>
-				<button>채팅방관리</button>
+				<!-- <button>채팅방관리</button> -->
+				<button onclick="location.href='/newlearn/chat/chatRoomList'">채팅방관리</button>
 				<button>새채팅</button>
 			</div>
         </div>
