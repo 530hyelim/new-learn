@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class Ai {
+public class Ai2 {
 	private int modelNo;
 	private String modelName;
 	private String activeStatus;
