@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="class">
+	<select id="getAttendance" resultType="attendance">
+		select * from attendance
+		where trunc(today_date) = trunc(sysdate)
+			and class_no = #{classNo}
+			and user_no = #{userNo}
+	</select>
+	
+	<select id="getClassroom" resultType="classroom">
+		select * from class
+		where class_no = #{classNo}
+	</select>
+	
+	<insert id="addAttendance">
+		insert into attendance values
+		(#{userNo}, #{classNo}, sysdate, sysdate, null, null)
+	</insert>
+</mapper>

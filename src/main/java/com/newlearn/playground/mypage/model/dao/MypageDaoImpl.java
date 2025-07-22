@@ -19,4 +19,19 @@ public class MypageDaoImpl implements MypageDao {
 		return session.selectList("guestbook.loadGuestbook", mypageNo);
 	}
 
+	@Override
+	public int guestbookHide(int guestbookNo) {
+		return session.update("guestbook.guestbookHide", guestbookNo);
+	}
+
+	@Override
+	public int guestbookDelete(int guestbookNo) {
+		return session.update("guestbook.guestbookDelete", guestbookNo);
+	}
+
+	@Override
+	public int guestbookInsert(Guestbook g) {
+		return session.insert("guestbook.guestbookInsert", g);
+	}
+
 }

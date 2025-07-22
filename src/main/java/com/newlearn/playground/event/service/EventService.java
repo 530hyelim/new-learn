@@ -8,7 +8,7 @@ public interface EventService {
 
 	Event findByNo(int eventNo);
 
-	void insertEvent(Event event);
+	int insertEvent(Event event);
 
 	List<Event> findAllByDate(String selectedDate);
 
@@ -17,5 +17,7 @@ public interface EventService {
 	List<Event> upcomingEvents(String selectedDate);
 
 	Integer joinMemberCnt(int eventNo);
+
+	int updateEvent(Event event);
 
 }

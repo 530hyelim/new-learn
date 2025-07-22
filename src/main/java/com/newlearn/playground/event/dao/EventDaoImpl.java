@@ -38,4 +38,14 @@ public class EventDaoImpl implements EventDao {
 		return session.selectOne("event.joinMemberCnt", eventNo);
 	}
 
+	@Override
+	public int insertEvent(Event event) {
+		return session.insert("event.insertEvent", event);
+	}
+
+	@Override
+	public int updateEvent(Event event) {
+		return session.update("event.updateEvent", event);
+	}
+
 }

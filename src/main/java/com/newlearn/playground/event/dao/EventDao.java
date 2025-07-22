@@ -16,4 +16,8 @@ public interface EventDao {
 
 	Integer joinMemberCnt(int eventNo);
 
+	int insertEvent(Event event);
+
+	int updateEvent(Event event);
+
 }

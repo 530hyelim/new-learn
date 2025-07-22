@@ -8,4 +8,10 @@ public interface MypageDao {
 
 	List<Guestbook> loadGuestbook(int mypageNo);
 
+	int guestbookHide(int guestbookNo);
+
+	int guestbookDelete(int guestbookNo);
+
+	int guestbookInsert(Guestbook g);
+
 }

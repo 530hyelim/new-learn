@@ -2,25 +2,34 @@ package com.newlearn.playground;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.newlearn.playground.classroom.model.vo.Attendance;
+import com.newlearn.playground.classroom.model.vo.Classroom;
+import com.newlearn.playground.classroom.service.ClassroomService;
 import com.newlearn.playground.event.service.EventService;
 import com.newlearn.playground.event.vo.Event;
 
+import lombok.RequiredArgsConstructor;
+
 @Controller
+@RequiredArgsConstructor
 public class MainController {
-	@Autowired
-	private EventService eventService;
+	private final EventService eventService;
+	private final ClassroomService classroomService;
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(HttpSession session, Model model) {
@@ -52,7 +61,49 @@ public class MainController {
 		}
 		model.addAttribute("upcomingEvents", upcomingEvents);
 		model.addAttribute("eventWithMemberCnt", eventWithMemberCnt);
+		
+		// 테스트용
+		int loginUserNo = 1;
+		String loginUserName = "서혜림";
+		int classNo = 1;
+		String className = "KH 자바스터디 G반";
+		
+		session.setAttribute("loginUserNo", loginUserNo);
+		session.setAttribute("loginUserName", loginUserName);
+		session.setAttribute("classNo", classNo);
+		session.setAttribute("className", className);
+		
+		Attendance a = new Attendance();
+		a.setUserNo(loginUserNo);
+		a.setClassNo(classNo);
+		a = classroomService.getAttendance(a);
+		if (a != null) session.setAttribute("attendance", a);
 		return "main";
 	}
 	
+	@PostMapping("/entry")
+	public String entry(@RequestParam String attEntryCode, @RequestParam int classNo, 
+			@RequestParam int userNo, HttpSession session, RedirectAttributes ra) {
+		// 이미 입실한 경우
+		if (session.getAttribute("attendance") != null) {
+			ra.addFlashAttribute("entryMsg", "이미 입실완료 되었습니다.");
+			return "redirect:/";
+		}
+		// 입실코드가 틀린 경우
+		Classroom c = classroomService.getClassroom(classNo);
+		if (!attEntryCode.equals(c.getAttEntryCode())) {
+			ra.addFlashAttribute("entryMsg", "잘못된 코드입니다.");
+			return "redirect:/";
+		}
+		// attendance db에 데이터 추가하고 세션에 저장
+		Attendance a = new Attendance();
+		a.setUserNo(userNo);
+		a.setClassNo(classNo);
+		int result = classroomService.addAttendance(a);
+		if (result == 1) {
+			session.setAttribute("attendance", classroomService.getAttendance(a));
+			ra.addFlashAttribute("entryMsg", "정상적으로 입실처리 되었습니다.");
+		}
+		return "redirect:/";
+	}
 }

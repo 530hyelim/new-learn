@@ -28,4 +28,5 @@ public class Event {
 	private Date joinDeadline;
 	
 	private String userName;
+	private String dmlType;
 }

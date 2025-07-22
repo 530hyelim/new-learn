@@ -58,15 +58,15 @@
 
 
     <div id="center">
-      <h2>KH 자바스터디 G반</h2>
+      <h2>${className}</h2>
       <a href="">관리자 페이지</a>
     </div>
 
     <div id="right">
       <button id="change-class">클래스룸 변경</button>
-      <form:form action="" method="post">
+      <form action="" method="post">
         <button type="submit">클래스룸 나가기</button>
-      </form:form>
+      </form>
     </div>
   </div>
 </body>

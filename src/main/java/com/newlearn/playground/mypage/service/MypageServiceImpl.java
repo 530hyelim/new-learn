@@ -19,4 +19,19 @@ public class MypageServiceImpl implements MypageService {
 		return mypageDao.loadGuestbook(mypageNo);
 	}
 
+	@Override
+	public int guestbookHide(int guestbookNo) {
+		return mypageDao.guestbookHide(guestbookNo);
+	}
+
+	@Override
+	public int guestbookDelete(int guestbookNo) {
+		return mypageDao.guestbookDelete(guestbookNo);
+	}
+
+	@Override
+	public int guestbookInsert(Guestbook g) {
+		return mypageDao.guestbookInsert(g);
+	}
+
 }

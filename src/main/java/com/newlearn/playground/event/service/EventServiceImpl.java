@@ -19,9 +19,8 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public void insertEvent(Event event) {
-		// TODO Auto-generated method stub
-		
+	public int insertEvent(Event event) {
+		return eventDao.insertEvent(event);
 	}
 
 	@Override
@@ -42,6 +41,11 @@ public class EventServiceImpl implements EventService {
 	@Override
 	public Integer joinMemberCnt(int eventNo) {
 		return eventDao.joinMemberCnt(eventNo);
+	}
+
+	@Override
+	public int updateEvent(Event event) {
+		return eventDao.updateEvent(event);
 	}
 
 }

@@ -34,7 +34,7 @@
 	<div class="content">
 		<div class="left-side">
 			<div class="profile">
-				<h1>사용자</h1>
+				<h1>${loginUserName}</h1>
 				<h4>상태 메세지~~</h4>
 				<button>프로필 수정</button>
 				<button>내가 쓴 글</button>

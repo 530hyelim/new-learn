@@ -12,7 +12,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.newlearn.playground.event.service.EventService;
 import com.newlearn.playground.event.vo.Event;
@@ -29,8 +31,8 @@ public class MypageController {
 	private final MypageService mypageService;
 	private final EventService eventService;
 	
-	@GetMapping
-	public String myPage(Model model) {
+	@GetMapping("/{mypageNo}")
+	public String myPage(@PathVariable("mypageNo") int mypageNo, HttpSession session, Model model) {
 		String imgDir = application.getRealPath("/resources/main");
 		File path = new File(imgDir);
 		if (path.exists()) {
@@ -40,12 +42,13 @@ public class MypageController {
 		            .collect(Collectors.toList());
 		    model.addAttribute("fileList", fileList);
 		}
+		session.setAttribute("mypageNo", mypageNo);
 		return "mypage/mypage";
 	}
 	
 	@GetMapping("/guestbook")
-	public String loadGuestbook(Model model) {
-		int mypageNo = 1; // 마이페이지 사용자 정보
+	public String loadGuestbook(HttpSession session, Model model) {
+		int mypageNo = (int)session.getAttribute("mypageNo");
 		List<Guestbook> gbList = mypageService.loadGuestbook(mypageNo);
 		model.addAttribute("gbList", gbList);
 		return "mypage/guestbook";
@@ -70,15 +73,33 @@ public class MypageController {
 		return "mypage/calendar";
 	}
 	
-	@GetMapping("/calendar/new")
-	public String insertCalendar(Model model) {
-		
-		return "mypage/calendar";
-	}
-	
 	@GetMapping("/storage")
 	public String loadStorage(Model model) {
 		
 		return "mypage/storage";
+	}
+	
+	@PostMapping("/guestbook/hide")
+	public String guestbookHide(@RequestParam int guestbookNo) {
+		int result = mypageService.guestbookHide(guestbookNo);
+		return "redirect:/mypage";
+	}
+	
+	@PostMapping("/guestbook/delete")
+	public String guestbookDelete(@RequestParam int guestbookNo) {
+		int result = mypageService.guestbookDelete(guestbookNo);
+		return "redirect:/mypage";
+	}
+	
+	@PostMapping("/guestbook/new")
+	public String guestbookInsert(@RequestParam String content, @RequestParam int mypageNo, 
+			@RequestParam int userNo, @RequestParam String userName) {
+		Guestbook g = new Guestbook();
+		g.setContent(content);
+		g.setMypageNo(mypageNo);
+		g.setUserNo(userNo);
+		g.setUserName(userName);
+		int result = mypageService.guestbookInsert(g);
+		return "redirect:/mypage";
 	}
 }

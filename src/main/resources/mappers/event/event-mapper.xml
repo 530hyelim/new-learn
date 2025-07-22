@@ -38,4 +38,22 @@
 		select count(*) from event_join_member
 		where event_no = #{eventNo}
 	</select>
+	
+	<insert id="insertEvent">
+		insert into calendar values
+		(seq_event_no.nextval, #{classNo}, #{userNo}, #{eventName}, #{startDate}, #{endDate}, 
+		#{content}, #{place}, sysdate, 'SHARED', 'Y', #{numPpl}, #{joinDeadline})
+	</insert>
+	
+	<update id="updateEvent">
+		update calendar set
+			event_name = #{eventName},
+			start_date = #{startDate},
+			end_date = #{endDate},
+			content = #{content},
+			place = #{place},
+			num_ppl = #{numPpl},
+			join_deadline = #{joinDeadline}
+		where event_no = #{eventNo}
+	</update>
 </mapper>

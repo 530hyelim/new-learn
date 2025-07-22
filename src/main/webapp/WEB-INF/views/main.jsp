@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -10,6 +9,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>new Learn();</title>
+	
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+	
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/calendar.css" type="text/css" />
 </head>
@@ -19,16 +24,38 @@
 	<div class="content">
 		<div class="sidebar-left" style="background-color: yellow;">
 			<div class="mini-profile">
-				<!--<sec:authorize access="isAuthenticated()">
-					<span><sec:authentication property="principal.username"/></span>				
-				</sec:authorize>-->
-				<span>님 환영합니다</span>
-				<span>입실시간 9 : 03 AM</span>
+				<span>${loginUserName}님 환영합니다</span>
+				<span>입실시간 <fmt:formatDate value="${attendance.entryTime}" pattern="h : mm a"/></span>
 			</div>
-			<form action="${pageContext.request.contextPath}/mypage" method="get">
+			<form action="${pageContext.request.contextPath}/mypage/${loginUserNo}" method="get">
 				<button type="submit">마이페이지</button>
 			</form>
-			<button>입실</button>
+			
+			<button type="button" data-toggle="modal" data-target="#exampleModal">입실</button>
+			<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+			   		<div class="modal-content">
+			   			<div class="modal-header">
+			       			<h5 class="modal-title" id="exampleModalLabel">입실코드 입력</h5>
+			       			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			       				<span aria-hidden="true">&times;</span>
+			       			</button>
+			   			</div>
+			   			<form:form method="post" action="${pageContext.request.contextPath}/entry">
+			     			<div class="modal-body">
+			     				<input type="hidden" name="classNo" value="${classNo}">
+			     				<input type="hidden" name="userNo" value="${loginUserNo}">
+					    		<input type="text" name="attEntryCode" required="required"/>
+			     			</div>
+			     			<div class="modal-footer">
+			         			<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+			         			<button type="submit" class="btn btn-primary">확인</button>
+			     			</div>
+			   			</form:form>
+			   		</div>
+				</div>
+			</div>
+			
 			<div class="friend-list">
 				<h4>즐겨찾기</h4>
 				<h4>일반</h4>
@@ -83,7 +110,7 @@
 				<p>제출해야 할 과제가 있습니다</p>
 			</div>
 			<div class="shared-calendar">
-				<form:form id="dateForm" action="${pageContext.request.contextPath}/event" method="get">
+				<form:form id="dateForm" action="${pageContext.request.contextPath}/event/calendar" method="get">
 					<jsp:include page="/WEB-INF/views/event/calendar.jsp" />
 				</form:form>
 			</div>
@@ -93,9 +120,6 @@
 					<p><fmt:formatDate value="${event.key.startDate}" pattern="M월 d일 EEEE h : mm a"/></p>
 					<pre>${event.key.eventName} (${event.value}명 참여중...)</pre>
 					<form action="${pageContext.request.contextPath}/event/detail/${event.key.eventNo}" method="get">
-						<%-- <input type="hidden" name="eventNo" value="${event.key.eventNo}" /> --%>
-						<fmt:formatDate value="${event.key.startDate}" pattern="yyyy-M-d" var="formattedDate"/>
-						<input type="hidden" name="selectedDate" value="${formattedDate}" />
 						<button type="submit">상세보기</button>
 					</form>
 				</c:forEach>
@@ -108,6 +132,9 @@
 		</div>
 	</div>
 </body>
+<c:if test="${not empty entryMsg}">
+	<script>alert("${entryMsg}");</script>
+</c:if>
 <script>
 	function onDateClick(date) {
 	   	const form = document.getElementById("dateForm");
