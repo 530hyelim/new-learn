@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,17 +33,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequestMapping("/ai")
 @RequiredArgsConstructor
+@PropertySource("classpath:driver.properties")
 public class AiController {
 	private final AiService aiService;
+	
+	@Value("${dataSource.openaiApiKey}")
+	private String myApiKey;
 	
 	// Configures using one of:
     // - The `OPENAI_API_KEY` environment variable
     // - The `OPENAI_BASE_URL` and `AZURE_OPENAI_KEY` environment variables
-	private OpenAIClient client = OpenAIOkHttpClient.builder()
-		    // Configures using the `OPENAI_API_KEY`, `OPENAI_ORG_ID`, `OPENAI_PROJECT_ID`, `OPENAI_WEBHOOK_SECRET` and `OPENAI_BASE_URL` environment variables
-		    .fromEnv()
-		    .apiKey("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")
-		    .build();
+	private OpenAIClient client;
+	
+	@PostConstruct
+	public void init() {
+		client = OpenAIOkHttpClient.builder()
+				// Configures using the `OPENAI_API_KEY`, `OPENAI_ORG_ID`, `OPENAI_PROJECT_ID`, `OPENAI_WEBHOOK_SECRET` and `OPENAI_BASE_URL` environment variables
+				.fromEnv()
+				.apiKey(myApiKey)
+				.build();		
+	}
 	
 	private final Map<String, List<Map<String, String>>> conversationHistory = new ConcurrentHashMap<>();
 	
@@ -57,6 +69,7 @@ public class AiController {
 			HttpServletResponse res
 			) {
 		System.out.println("prompt: " + prompt);
+//		System.out.println(myApiKey);
 		
 		// Get or create conversation history for this session
 		List<Map<String, String>> messageHistory = conversationHistory.computeIfAbsent(
@@ -87,6 +100,8 @@ public class AiController {
 				paramsBuilder.addAssistantMessage(msg.get("content"));
 			}
 		}
+		
+		// asdf
 		
 		ChatCompletionStreamOptions options = ChatCompletionStreamOptions.builder().includeUsage(true).build();
 		
