@@ -96,7 +96,8 @@
     });
 	
     $(".ai-chat-sessions-list").on("click", function() {
-    	console.log(this);
+        const sessionNo = $(this).data("session-no");
+    	console.log(sessionNo);
     });
 </script>
 </html>
