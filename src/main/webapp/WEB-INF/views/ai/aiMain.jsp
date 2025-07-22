@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -15,13 +15,25 @@
     <div class="content-wrapper">
         <div class="content">
             <div class="side-nav">
-                
+                <ul>
+                	<c:if test="${not empty aiChatSessionsList }">
+                		<c:forEach var="aiChatSession" items="${aiChatSessionsList }">
+                			<li>${aiChatSession.title }</li>
+                		</c:forEach>
+                	</c:if>
+                </ul>
             </div>
             <div class="main-view">
                 <div class="main-view-top">
-                    <select name="national">
-                        <option value="gpt-4-1-nano" selected>ChatGPT-4.1-nano</option>
-                        <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                    <select name="ai-models-dropdown">
+                    	<c:forEach var="ai" items="${aiList }" varStatus="i">
+                    		<c:if test="${i.index == 0 }">
+                    			<option value="${ai.modelNo }" selected>${ai.modelName }</option>
+                    		</c:if>
+                    		<c:if test="${i.index != 0 }">
+                    			<option value="${ai.modelNo }">${ai.modelName }</option>
+                    		</c:if>
+                    	</c:forEach>
                     </select>
                     <button type="button" id="return-to-main"><a href="${pageContext.request.contextPath}/">나가기</a></button>
                 </div>

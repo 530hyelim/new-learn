@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -18,13 +20,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.newlearn.playground.ai.model.service.AiService;
+import com.newlearn.playground.ai.model.vo.Ai;
+import com.newlearn.playground.ai.model.vo.AiChatSession;
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
-import com.openai.core.http.StreamResponse;
 import com.openai.models.ChatModel;
-import com.openai.models.chat.completions.ChatCompletionChunk;
+import com.openai.models.chat.completions.ChatCompletion;
 import com.openai.models.chat.completions.ChatCompletionCreateParams;
-import com.openai.models.chat.completions.ChatCompletionStreamOptions;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @PropertySource("classpath:driver.properties")
 public class AiController {
 	private final AiService aiService;
+	private final ServletContext application;
 	
 	@Value("${dataSource.openaiApiKey}")
 	private String myApiKey;
@@ -51,13 +54,25 @@ public class AiController {
 				// Configures using the `OPENAI_API_KEY`, `OPENAI_ORG_ID`, `OPENAI_PROJECT_ID`, `OPENAI_WEBHOOK_SECRET` and `OPENAI_BASE_URL` environment variables
 				.fromEnv()
 				.apiKey(myApiKey)
-				.build();		
+				.build();
+		
+		List<Ai> aiList = aiService.getAiList();
+		application.setAttribute("aiList", aiList);
 	}
 	
 	private final Map<String, List<Map<String, String>>> conversationHistory = new ConcurrentHashMap<>();
 	
 	@GetMapping("/main")
-	public String showMain() {
+	public String showMain(
+			HttpSession session
+			) {
+		int userNo = 2;
+		
+		// DB의 ai_chat_sessions 테이블에서 해당 유저의 chat_session 정보들을 불러온다.
+		List<AiChatSession> aiChatSessionsList = aiService.getAiChatSessionsList(userNo);
+		
+		session.setAttribute("aiChatSessionsList", aiChatSessionsList);
+		
 		return "ai/aiMain";
 	}
 	
@@ -69,7 +84,8 @@ public class AiController {
 			HttpServletResponse res
 			) {
 		System.out.println("prompt: " + prompt);
-//		System.out.println(myApiKey);
+		
+		List<Ai> aiList = (List<Ai>)application.getAttribute("aiList");
 		
 		// Get or create conversation history for this session
 		List<Map<String, String>> messageHistory = conversationHistory.computeIfAbsent(
@@ -78,7 +94,7 @@ public class AiController {
 		
 		Map<String, String> developerMessage = new HashMap<>();
 		developerMessage.put("role", "developer");
-		developerMessage.put("content", "Always respond in HMTL format, but your answer will be appended into a div tag, so modify your respond properly.");
+		developerMessage.put("content", "Always respond in HMTL format, but inside of <div></div>. For example, <div>your respond</div>.");
 //		developerMessage.put("content", "");
 		messageHistory.add(developerMessage);
 		
@@ -101,39 +117,15 @@ public class AiController {
 			}
 		}
 		
-		// asdf
-		
-		ChatCompletionStreamOptions options = ChatCompletionStreamOptions.builder().includeUsage(true).build();
-		
-		paramsBuilder.streamOptions(options);
-		
 		ChatCompletionCreateParams params = paramsBuilder.build();
 		
 		StringBuilder sb = new StringBuilder();
-		try (StreamResponse<ChatCompletionChunk> streamResponse = client.chat().completions().createStreaming(params)) {
-		    streamResponse.stream().forEach(chunk -> {
-		        if (!chunk.choices().isEmpty()) {
-		        	chunk.choices().get(0).delta().content().ifPresent(v -> sb.append(v));
-		        	
-//		        	System.out.println(chunk);
-		        	
-//		        	chunk.usage().ifPresent(usage -> {
-//		        		System.out.println(usage);
-//		        	});
-		        }
-		        
-		        
-//		        System.out.println(chunk);
-		        
-//		        if (chunk.choices().get(0).finishReason().isPresent()) {
-//		        	chunk.usage().ifPresent(usage -> {
-//                        usage.
-//                    });
-//		        }
-		    });
-//		    System.out.println("No more chunks!");
-		    System.out.println(sb.toString());
-		}
+		
+		ChatCompletion chatCompletion = client.chat().completions().create(params);
+		
+		System.out.println("chatCompletion: " + chatCompletion);
+		
+		chatCompletion.choices().get(0).message().content().ifPresent(v -> sb.append(v));
 		
 		// Add the AI's response to conversation history
 		Map<String, String> assistantMessage = new HashMap<>();
@@ -141,8 +133,30 @@ public class AiController {
 		assistantMessage.put("content", sb.toString());
 		messageHistory.add(assistantMessage);
 		
-		// res.setCharacterEncoding("utf-8");
-		// return sb.toString();
+		System.out.println("messageHistory: " + messageHistory);
+		System.out.println("conversationHistory: " + conversationHistory);
+		
+		int userNo = 2;
+		int modelNo = 1;
+		long tokensUsed = chatCompletion.usage()
+			    .map(v -> v.totalTokens())
+			    .orElse(0L);
+		
+		System.out.println("tokenUsed: " + tokensUsed);
+		
+		// 비즈니스 로직
+		// 1. 해당 유저가 해당 모델을 사용한적이 있는지 DB에서 확인한다.
+		// 2. 사용한적이 없으면 ai_usage 테이블 insert, 없으면 update.
+		// 3.  
+		
+		Map<String, Object> dbParamMap = new HashMap<>();
+		dbParamMap.put("userNo", userNo);
+		dbParamMap.put("modelNo", modelNo);
+		
+		int usedBefore = aiService.checkUsedBefore(dbParamMap);
+		
+		System.out.println("usedBefore: " + usedBefore);
+		
 		return assistantMessage;
 	}
 }

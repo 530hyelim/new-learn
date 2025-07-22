@@ -22,9 +22,10 @@ CREATE TABLE CLASS (
 	class_no	number		primary key,
 	class_name	varchar2(100)		not null,
 	teacher_no	number		references member(user_no),
-	entry_code	char(5)		NULL,
+	att_entry_code	char(5)		NULL,
 	create_date	date	DEFAULT sysdate,
-	deleted	char(1)		default 'N'
+	deleted	char(1)		default 'N',
+	class_code varchar2(100) not null
 );
 
 CREATE TABLE CLASS_JOIN (
@@ -44,7 +45,7 @@ CREATE TABLE ATTENDANCE (
 	class_no	number		references class,
 	today_date date not null,
 	entry_time	date		default sysdate,
-	exit_time	date		default sysdate,
+	exit_time	date		,
 	att_status varchar2(30) default '미출석',
     constraint pk_attendance primary key (user_no, class_no, today_date)
 );
@@ -270,8 +271,28 @@ CREATE TABLE AI (
 CREATE TABLE AI_USAGE (
 	user_no	number		references member,
 	model_no	number		references ai,
-	use_date date default sysdate,
-	num_used_token_no	number		default 0
+	first_use_date date default sysdate,
+	last_use_date date not null,
+	num_used_token_no	number		default 0,
+	constraint pk_ai_usage primary key(user_no, model_no)
+);
+
+create table ai_chat_session (
+	session_no number primary key,
+	title varchar2(200) not null,
+	created_at date default sysdate,
+	user_no number not null,
+	model_no number not null,
+	last_used_at date not null,
+    constraint fk_chat_sessions foreign key (user_no, model_no) references ai_usage(user_no, model_no)
+);
+
+create table ai_chat_history (
+	history_no number primary key,
+	session_no number references chat_sessions,
+	role varchar2(20) not null,
+	content clob not null,
+	created_date date default sysdate
 );
 
 -------------------- 실행 -------------------------
