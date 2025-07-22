@@ -10,14 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Friend {
-	/* 친구
-	 * 
-	 * 유저번호
-	 * 이름
-	 * 프로필사진
-	 * 상태메세지
-	 * 속한 클래스
-	 */
 	private int userNo;
 	
 	@Data
@@ -25,7 +17,7 @@ public class Friend {
 	public static class FriendDTO{
 		private String userName;
 		private String statusMessage;
-		private String changeName;Z
+		private String changeName;
 		private List<String> classNameList;
 		private int FriendUserNo;
 		private int cnt;

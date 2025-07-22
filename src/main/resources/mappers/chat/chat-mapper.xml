@@ -5,11 +5,9 @@
 		샘플데이터 추가
 	 -->
 	 
-	<resultMap type="friendDTO" id="friendListResultMap">	
-		
-	</resultMap> 
 	<select id="selectFriendList" resultMap="friendListResultMap">
 		SELECT
+			F.USER_NO,
 		    M.USER_NAME, 
 		    MP.STATUS_MESSAGE, 
 		    I.CHANGE_NAME, 
@@ -27,6 +25,22 @@
 		LEFT JOIN CLASS_JOIN MYCJ ON MYCJ.USER_NO = F.USER_NO
 		WHERE F.USER_NO = #{userNo} AND F.RESPONSE_STATUS = '수락'
 	</select>
+	<!-- <resultMap type="friendDTO" id="friendListResultMap">	
+		
+	</resultMap> -->
+	<resultMap type="friendDTO" id="friendListResultMap">
+		<id column="user_no" property="userNo"/>
+		<result column="user_name" property="userName"/>
+		<result column="status_message" property="statusMessage"/>
+		<result column="change_name" property="changeName"/>
+		<result column="friend_user_no" property="friendUserNo"/>
+		<result column="cnt" property="cnt"/>
+	
+		<!-- 클래스 이름 여러 개 매핑 -->
+		<collection property="classNameList" ofType="string">
+			<result column="class_name"/>
+		</collection>
+	</resultMap>
 	
 	<!-- 채팅방 목록 조회 -->
 	<select id="selectChattingRoomList" resultType="ChattingRoom">
