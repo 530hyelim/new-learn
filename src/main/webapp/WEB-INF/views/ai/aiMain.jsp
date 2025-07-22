@@ -18,7 +18,7 @@
                 <ul>
                 	<c:if test="${not empty aiChatSessionsList }">
                 		<c:forEach var="aiChatSession" items="${aiChatSessionsList }">
-                			<li>${aiChatSession.title }</li>
+                			<li class="ai-chat-sessions-list" data-session-no="${aiChatSession.sessionNo }">${aiChatSession.title }</li>
                 		</c:forEach>
                 	</c:if>
                 </ul>
@@ -94,7 +94,9 @@
             }
         });
     });
-
-    /* $("#return-to-main").on("click", function() {}) */
+	
+    $(".ai-chat-sessions-list").on("click", function() {
+    	console.log(this);
+    });
 </script>
 </html>
