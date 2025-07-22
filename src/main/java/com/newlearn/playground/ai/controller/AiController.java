@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.newlearn.playground.ai.model.service.AiService;
-import com.newlearn.playground.ai.model.vo.AI;
+import com.newlearn.playground.ai.model.vo.Ai;
 import com.newlearn.playground.ai.model.vo.AiChatSession;
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
@@ -56,7 +56,7 @@ public class AiController {
 				.apiKey(myApiKey)
 				.build();
 		
-		List<AI> aiList = aiService.getAiList();
+		List<Ai> aiList = aiService.getAiList();
 		application.setAttribute("aiList", aiList);
 	}
 	
@@ -85,7 +85,7 @@ public class AiController {
 			) {
 		System.out.println("prompt: " + prompt);
 		
-		List<AI> aiList = (List<AI>)application.getAttribute("aiList");
+		List<Ai> aiList = (List<Ai>)application.getAttribute("aiList");
 		
 		// Get or create conversation history for this session
 		List<Map<String, String>> messageHistory = conversationHistory.computeIfAbsent(
