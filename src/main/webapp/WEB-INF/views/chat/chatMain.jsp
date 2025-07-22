@@ -10,9 +10,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>chattingRoomList</title>
-    <link rel="stylesheet" href="/page/css/chattingRoomList.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="/page/js/chattingRoomList.js"></script>
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/issue-5-chattingRoomList.css" type="text/css">
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+	<script src="${pageContext.request.contextPath}/resources/js/issue-5-chattingRoomList.js"></script>
 </head>
 <body>
     <div class="container">
@@ -25,7 +25,7 @@
             <div class="friend_list">
                 <div class="friend_top">
                     <div>친구목록</div>
-                    <div>(30명)</div>
+                    <div>(${freiendList.size()}명)</div>
                     <button>채팅방 만들기</button>
                 </div>
                 <div class="friend_mid">

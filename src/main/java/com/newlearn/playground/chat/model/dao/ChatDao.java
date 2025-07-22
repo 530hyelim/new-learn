@@ -21,7 +21,6 @@ public class ChatDao {
 
 	public int openChatRoom(ChatRoom room) {
 		return session.insert("chat.openChatRoom", room);
-		
 	}
 
 	public int joinCheck(ChatRoomJoin join) {

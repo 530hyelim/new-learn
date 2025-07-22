@@ -7,10 +7,12 @@ import com.newlearn.playground.chat.model.vo.Friend;
 
 public interface ChattingRoomListDao {
 
-	List<Friend> selectFriendList();
+	List<Friend> selectFriendList(int userNo);
 	
-	List<ChattingRoom> selectChattingRoomList();
+	List<ChattingRoom> selectChattingRoomList(int userNo);
 
-	int createRoom(ChattingRoom room);
+	int createRoom(ChattingRoom roomInfo);
+
+	List<Friend> friendProfile(int friendNo);
 
 }

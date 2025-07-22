@@ -9,6 +9,7 @@
 	<title>new Learn();</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/calendar.css" type="text/css" />
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -33,10 +34,10 @@
 				<h4>전체채팅</h4>
 				<h4>그룹채팅</h4>
 				<h4>개인채팅</h4>
-				<!-- <button>채팅방관리</button> -->
-				<button onclick="location.href='/newlearn/chat/chatRoomList'">채팅방관리</button>
+				<button id="chat-page-btn"><a href="${pageContext.request.contextPath}/chat/main">채팅방관리</a></button>
 				<button>새채팅</button>
 			</div>
+			
         </div>
 
 		<div class="board" style="background-color: pink;">

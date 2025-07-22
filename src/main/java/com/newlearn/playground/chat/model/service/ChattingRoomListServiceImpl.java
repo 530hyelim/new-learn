@@ -18,21 +18,25 @@ public class ChattingRoomListServiceImpl implements ChattingRoomListService{
 	private ChattingRoomListDao crd;
 	
 	@Override
-	public List<Friend> selectFriendList() {
+	public List<Friend> selectFriendList(int userNo) {
 		// 친구 목록 조회
-		return crd.selectFriendList();
+		return crd.selectFriendList(userNo);
 	}
 	
 	@Override
-	public List<ChattingRoom> selectChattingRoomList() {
+	public List<ChattingRoom> selectChattingRoomList(int userNo) {
 		// 채팅방 목록 조회
-		return crd.selectChattingRoomList();
+		return crd.selectChattingRoomList(userNo);
+	}
+	
+	@Override
+	public int createRoom(ChattingRoom roomInfo) {
+		return crd.createRoom(roomInfo);
 	}
 
 	@Override
-	public int createRoom(ChattingRoom room) {
-		// 채팅방 생성
-		return crd.createRoom(room);
+	public List<Friend> friendProfile(int friendNo) {
+		return crd.friendProfile(friendNo);
 	}
 	
 }
