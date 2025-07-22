@@ -6,7 +6,7 @@ import java.util.Map;
 import org.springframework.stereotype.Service;
 
 import com.newlearn.playground.ai.model.dao.AiDao;
-import com.newlearn.playground.ai.model.vo.Ai_temp;
+import com.newlearn.playground.ai.model.vo.Ai;
 import com.newlearn.playground.ai.model.vo.AiChatSession;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class AiServiceImpl implements AiService {
 	private final AiDao aiDao;
 
 	@Override
-	public List<Ai_temp> getAiList() {
+	public List<Ai> getAiList() {
 		return aiDao.getAiList();
 	}
 
