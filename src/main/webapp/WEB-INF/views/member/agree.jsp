@@ -36,7 +36,7 @@
     <div class="agree-container">
         <h2 class="logo">new Learn();</h2>
         
-        <form id="agreeForm" action="${pageContext.request.contextPath}/member/enrollForm" method="get">
+        <form id="agreeForm" action="${pageContext.request.contextPath}/member/insert" method="get">
             
             <!-- (필수) 이용약관 -->
             <div class="terms-section">

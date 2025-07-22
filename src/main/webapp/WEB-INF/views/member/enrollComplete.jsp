@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
-    
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>    
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!DOCTYPE html>
@@ -52,7 +51,7 @@
                     </svg>
                 </div>
                 <h2 class="complete-title">회원가입 완료</h2>
-                <p class="complete-message"><strong>${userName}</strong>님의 회원가입을 축하합니다!</p>
+                <p class="complete-message"><strong>${userNameForComplete}</strong>님의 회원가입을 축하합니다!</p>
                 <p class="complete-message">회원 정보 확인 및 수정은 <a href="#">마이페이지</a>에서 가능합니다.</p>
                 <a href="#" class="action-btn">로그인 바로가기</a>
             </div>

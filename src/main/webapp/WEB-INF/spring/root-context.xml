@@ -12,7 +12,8 @@
 		- 어플리케이션 전역에서 사용할 bean 객체를 등록하는 역할을 한다.
 	 -->
 	<!-- DB 연결 설정 -->
-	<context:property-placeholder location="classpath:driver.properties" />
+	<context:property-placeholder location="classpath:driver.properties,
+	classpath:email/email.properties" />
 	
 	<!-- 1단계) DB 연결 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
@@ -62,14 +63,19 @@
 	</bean>
 	
 		<!-- 이메일 관련 설정 파일을 포함 -->
-	<!-- <import resource="/email-context.xml"/> -->
+	<bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="${smtp.host}" />
+		<property name="port" value="${smtp.port}" />
+		<property name="username" value="${smtp.username}" />
+		<property name="password" value="${smtp.password}" />
+
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
 </beans>
-
-
-
-
-
-
-
-
-

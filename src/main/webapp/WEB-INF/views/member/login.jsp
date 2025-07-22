@@ -90,7 +90,7 @@
                 <div class="links">
                     <a href="#">아이디 찾기</a> |
                     <a href="#">비밀번호 찾기</a> |
-                    <a href="${pageContext.request.contextPath}/member/enroll">회원가입</a>
+                    <a href="${pageContext.request.contextPath}/member/agree">회원가입</a>
                 </div>
             </div>
             

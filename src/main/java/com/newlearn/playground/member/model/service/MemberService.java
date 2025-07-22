@@ -22,6 +22,10 @@ public interface MemberService {
 
 	HashMap<String, Object> selectOne(String userId);
 	
+	String findId(String userName, String ssn);
+	
+	int updatePassword(String userId, String newPassword);
+	
 	// 아이디 중복 체크
 	  //  int idCheck(String checkId);
 

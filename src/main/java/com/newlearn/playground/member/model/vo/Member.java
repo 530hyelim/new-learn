@@ -24,4 +24,5 @@ public class Member {
     private Date modifyDate;
     private String profileImg;
     private String status;
+    private String ssn;
 }

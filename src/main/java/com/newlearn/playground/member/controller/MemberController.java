@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
@@ -161,29 +162,46 @@ public class MemberController {
 	}
 	
 	@GetMapping("/member/insert")
-	public String enrollForm() {
-		return "member/memberEnrollForm";
+	public String enrollForm(Model model) {
+		model.addAttribute("member", new Member());		
+		return "member/enroll";
 	}
 	
 	@PostMapping("/member/insert")
 	public String insertMember(
-			Member m,
-			Model model,
-			RedirectAttributes ra
-			) {
-		int result = mService.insertMember(m);
-		String viewName = "";
-		
-		if (result > 0) {
-			ra.addFlashAttribute("alertMsg", "회원가입 성공.");
-			viewName = "redirect:/";
-		} else {
-			model.addAttribute("errorMsg", "회원가입 실패.");
-			viewName = "common/errorPage";
-		}
-		
-		return viewName;
+	        Member m,
+	        @RequestParam("ssn1") String ssn1,
+	        @RequestParam("ssn2") String ssn2,
+	        @RequestParam("emailId") String emailId,
+	        @RequestParam("email-input") String emailDomain,
+	        Model model,
+	        RedirectAttributes ra
+	        ) {
+
+	    String ssn = ssn1 + "-" + ssn2;
+	    String email = emailId + "@" + emailDomain;
+
+	    m.setSsn(ssn);
+	    m.setEmail(email);
+
+	    int result = mService.insertMember(m);
+	    String viewName = "";
+
+	    if (result > 0) {
+	        ra.addFlashAttribute("userNameForComplete", m.getUserName()); // 사용자 이름이 뜲
+	        viewName = "redirect:/member/enrollComplete";
+	    } else {
+	        model.addAttribute("errorMsg", "회원가입 실패.");
+	        viewName = "common/errorPage";
+	    }
+	    return viewName;
 	}
+	
+	@GetMapping("/member/enrollComplete")
+	public String enrollComplete() {
+		return "member/enrollComplete";
+	}
+	
 	
 	@GetMapping("/member/myPage")
 	public String myPage() {
@@ -272,37 +290,84 @@ public class MemberController {
 		return res;
 	}
 	
-//	@ResponseBody // 이 메소드는 JSP 페이지가 아닌, 데이터 자체를 반환합니다.
-//	@PostMapping("/emailCert") // POST 방식의 /member/emailCert 요청을 처리합니다.
-//	public String sendEmail(String email) {
-//	    
-//	    // MemberService에 있는 sendEmail 메소드를 호출하여 이메일을 발송하고,
-//	    // 생성된 인증코드를 반환받습니다.
-//	    String certCode = mService.sendEmail(email);
-//	    
-//	    // 반환받은 인증코드를 프론트엔드(JavaScript)로 다시 보내줍니다.
-//	    return certCode;
-//	}
+	@ResponseBody 
+	@PostMapping("/member/emailCert") 
+	public String sendEmail(String email) {
+		
+	    String certCode = mService.sendEmail(email);
+	   
+	    // 반환받은 인증코드를 프론트엔드(JavaScript)로 다시 보내줍니다.
+	    return certCode;
+	}
+	
+	// 아이디 찾기
+	@PostMapping("/findId")
+	public String findId(@RequestParam("userName") String userName,
+	    @RequestParam("ssn1") String ssn1,
+	    @RequestParam("ssn2") String ssn2,
+	    Model model) {
+
+		String ssn = ssn1 + "-" + ssn2;
+		String foundId = mService.findId(userName, ssn);
+		  model.addAttribute("foundId", foundId);
+
+		 return "member/findIdResult";
+	}
+	
+	// 비밀번호 찾기
+		@PostMapping("/findPassword")
+		public String findPassword(@RequestParam("userName") String userName,
+		                             @RequestParam("ssn1") String ssn1,
+		                             @RequestParam("ssn2") String ssn2,
+		                             HttpSession session,
+		                             RedirectAttributes rttr) {
+		    String ssn = ssn1 + "-" + ssn2;
+		    String userId = mService.findId(userName, ssn);
+
+		    if (userId != null) {
+		        session.setAttribute("userIdForReset", userId);
+
+		        // '새 비밀번호 입력' 페이지로 이동
+		        return "redirect:/member/resetPasswordForm";
+
+		    } else {
+		        rttr.addFlashAttribute("message", "일치하는 회원 정보가 없습니다.");
+		        return "redirect:/member/findPassword";
+		    }
+
+		}
+
+		// 비밀번호 찾기(보안)
+		@PostMapping("/resetPassword")
+		public String resetPassword(@RequestParam("newPassword")
+			   String newPassword, HttpSession session) {
+
+		String userId = (String) session.getAttribute("userIdForReset");
+
+		if(userId == null) {
+			return "redirect:/member/findPassword";
+		}
+
+		int result = mService.updatePassword(userId, newPassword);
+
+		session.removeAttribute("userIdForReset");
+
+		return "redirect:/member/changePasswordComplete";
+
+	}
+
+		@GetMapping("/passwordChangeComplete")
+		public String passwordChangeComplete() {
+
+			return "member/changePasswordComplete";
+		}
+	
+	
+	// /member/agree 주소로 요청이 들어오면  agree.jsp를 화면에 나타냄
+	@GetMapping("/member/agree")
+	public String agreeForm() {
+		return "member/agree";
+	}
+	
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
