@@ -9,7 +9,11 @@
 	<title>new Learn();</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/calendar.css" type="text/css" />
+<<<<<<< HEAD
 	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+=======
+	<link rel="icon" href="https://cdn-icons-png.flaticon.com/16/1998/1998614.png">
+>>>>>>> master
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -23,7 +27,9 @@
 				<span>님 환영합니다</span>
 				<span>입실시간 9 : 03 AM</span>
 			</div>
-			<button>마이페이지</button>
+			<form action="${pageContext.request.contextPath}/mypage" method="get">
+				<button type="submit">마이페이지</button>
+			</form>
 			<button>입실</button>
 			<div class="friend-list">
 				<h4>즐겨찾기</h4>
@@ -92,6 +98,7 @@
 				<h4>ASK ANYTHING!</h4>
 				<pre>ChatGPT     Gemini     Claude</pre>
 				<p>질문을 입력하세요</p>
+				<button><a href="${pageContext.request.contextPath}/ai/main">AI 사용하기</a></button>
 			</div>
 		</div>
 	</div>

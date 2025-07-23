@@ -1,3 +1,47 @@
+DROP TABLE chat_img CASCADE CONSTRAINTS;
+DROP TABLE CHAT_MESSAGE_READ CASCADE CONSTRAINTS;
+DROP TABLE CHAT_MESSAGE CASCADE CONSTRAINTS;
+DROP TABLE CHAT_JOIN CASCADE CONSTRAINTS;
+DROP TABLE CHAT_ROOM CASCADE CONSTRAINTS;
+
+DROP TABLE reply_img CASCADE CONSTRAINTS;
+DROP TABLE REPLY CASCADE CONSTRAINTS;
+DROP TABLE board_img CASCADE CONSTRAINTS;
+DROP TABLE board CASCADE CONSTRAINTS;
+
+DROP TABLE EVENT_JOIN_MEMBER CASCADE CONSTRAINTS;
+DROP TABLE CALENDAR CASCADE CONSTRAINTS;
+
+DROP TABLE subscription CASCADE CONSTRAINTS;
+DROP TABLE guest_book CASCADE CONSTRAINTS;
+
+DROP TABLE upload_file CASCADE CONSTRAINTS;
+DROP TABLE ASSIGNMENT_SUBMISSION CASCADE CONSTRAINTS;
+DROP TABLE ASSIGNMENT CASCADE CONSTRAINTS;
+
+DROP TABLE repository CASCADE CONSTRAINTS;
+DROP TABLE mypage_img CASCADE CONSTRAINTS;
+DROP TABLE mypage CASCADE CONSTRAINTS;
+
+DROP TABLE friend CASCADE CONSTRAINTS;
+
+DROP TABLE CLASS_JOIN CASCADE CONSTRAINTS;
+DROP TABLE CLASS CASCADE CONSTRAINTS;
+DROP TABLE ATTENDANCE CASCADE CONSTRAINTS;
+
+DROP TABLE REPORT CASCADE CONSTRAINTS;
+DROP TABLE persistent_login CASCADE CONSTRAINTS;
+
+DROP TABLE image CASCADE CONSTRAINTS;
+DROP TABLE BEER_STORE CASCADE CONSTRAINTS;
+
+DROP TABLE AI_USAGE CASCADE CONSTRAINTS;
+DROP TABLE AI CASCADE CONSTRAINTS;
+
+DROP TABLE member CASCADE CONSTRAINTS;
+
+---------------------------------------------
+
 create table member (
     user_no number primary key,
     user_name varchar2(50) not null,
@@ -22,9 +66,10 @@ CREATE TABLE CLASS (
 	class_no	number		primary key,
 	class_name	varchar2(100)		not null,
 	teacher_no	number		references member(user_no),
-	entry_code	char(5)		NULL,
+	att_entry_code	char(5)		NULL,
 	create_date	date	DEFAULT sysdate,
-	deleted	char(1)		default 'N'
+	deleted	char(1)		default 'N',
+	class_code varchar2(100) not null
 );
 
 CREATE TABLE CLASS_JOIN (
@@ -32,16 +77,20 @@ CREATE TABLE CLASS_JOIN (
 	user_no	number		references member,
 	class_join_date	date		default sysdate,
 	class_role varchar2(30) not null,
+	accouncement_noti char(1) default 'N',
+	assignment_noti char(1) default 'N',
+	shared_event_noti char(1) default 'N',
+	personal_event_noti char(1) default 'N',
     constraint pk_class_join primary key (class_no, user_no)
 );
 
 CREATE TABLE ATTENDANCE (
 	user_no	number		references member,
 	class_no	number		references class,
-	today_date date not null,
 	entry_time	date		default sysdate,
-	exit_time	date		default sysdate,
-    constraint pk_attendance primary key (user_no, class_no, today_date)
+	exit_time	date		,
+	att_status varchar2(30) default '미출석',
+    constraint pk_attendance primary key (user_no, class_no, entry_time)
 );
 
 CREATE TABLE board (
@@ -68,14 +117,15 @@ CREATE TABLE image (
 CREATE TABLE board_img (
 	board_no	number		references board,
 	img_no	number		references image,
-	img_order	number		default 0
+	img_order	number		default 0,
+	constraint pk_board_img primary key (board_no, img_no)
 );
 
 CREATE TABLE REPLY (
 	reply_no	number		primary key,
 	board_no	number		references board,
 	user_no	number		references member,
-	content	varchar2(500)		NOT NULL,
+	content	varchar2(1000)		NOT NULL,
 	like_count	number	DEFAULT 0,
 	create_date	date	DEFAULT sysdate,
 	mod_date	date	DEFAULT sysdate,
@@ -90,25 +140,33 @@ CREATE TABLE persistent_login (
 );
 
 CREATE TABLE reply_img (
-	reply_no	number		primary key,
-	img_no	number		references image
+	reply_no	number		references reply,
+	img_no	number		references image,
+	constraint pk_reply_img primary key(reply_no, img_no)
 );
 
 CREATE TABLE CHAT_ROOM (
 	chat_room_no	number		primary key,
-	class_no	number		references class,
+	user_no	number		references member,
 	chat_title	varchar2(100)		not null,
 	create_date	date		default sysdate,
-	chat_pw	varchar2(50)		not NULL,
+	chat_pw	varchar2(100)		not NULL,
 	chat_public	char(1)		not null,
 	deleted char(1)		default 'N'
+);
+
+create table chat_img (
+	message_no number references chat_message,
+	img_no number references image,
+	constraint pk_chat_img primary key (message_no, img_no)
 );
 
 CREATE TABLE CHAT_JOIN (
 	user_no	number		references member,
 	chat_room_no	number		references chat_room,
 	join_date	date		default sysdate,
-	out_date	date		default sysdate
+	out_date	date		default sysdate,
+	constraint pk_chat_join primary key(user_no, chat_room_no)
 );
 
 CREATE TABLE CHAT_MESSAGE (
@@ -120,12 +178,18 @@ CREATE TABLE CHAT_MESSAGE (
 	deleted	char(1)		default 'N'
 );
 
+create table CHAT_MESSAGE_READ (
+	message_no number references chat_message,
+	user_no number references member,
+	read_status char(1) default 'N',
+	constraint pk_chat_message_read primary key (message_no, user_no)
+);
+
 CREATE TABLE REPORT (
 	report_no	number		primary key,
-	reply_no	number		references reply,
-	board_no	number		references board,
-	message_no	number		references chat_message,
 	user_no	number		references member,
+	report_type varchar2(30) not null,
+	ref_no number not null,
 	report_content	varchar2(200)		not null,
 	report_time	date		default sysdate,
 	report_status	char(1)		default 'N'
@@ -151,12 +215,15 @@ CREATE TABLE mypage (
 	mypage_no	number		primary key,
 	user_no	number		references member,
 	mypage_name	varchar2(200)		not null,
-	status_message	varchar2(1000)		NULL
+	status_message	varchar2(1000)		NULL,
+	max_storage number default 30
 );
 
 CREATE TABLE friend (
 	user_no	number		references member,
 	friend_user_no	number		references member,
+	favorite char(1) default 'N',
+	response_status varchar2(30) default '대기',
 	request_date	date		default sysdate,
 	response_date	date,
     constraint pk_friend primary key (user_no, friend_user_no)
@@ -166,35 +233,41 @@ CREATE TABLE mypage_img (
 	mypage_no	number		references mypage,
 	img_no	number		references image,
 	type	varchar2(50)		not null,
-    constraint pk_mypage_img primary key (img_no)
+    constraint pk_mypage_img primary key (mypage_no, img_no)
 );
 
 CREATE TABLE subscription (
 	sub_no	number		primary key,
 	class_no	number		references class,
 	user_no	number		references member,
+	dont_disturb  char(1) default 'N',
+	guestbook_noti  char(1) default 'Y',
+	chat_noti  char(1) default 'Y',
+	friend_request_noti  char(1) default 'Y',
+	class_invitation_noti  char(1) default 'Y',
 	mapping_url	varchar2(225)		NULL
 );
 
 
 CREATE TABLE EVENT_JOIN_MEMBER (
-	event_no	number		references calendar,
 	user_no	number		references member,
+	event_no	number		references calendar,
 	join_date	date	DEFAULT sysdate,
-    constraint pk_event_join_member primary key (event_no, user_no)
+    constraint pk_event_join_member primary key (user_no, event_no)
 );
 
 CREATE TABLE repository (
 	repo_no	number		primary key,
 	mypage_no	number		references mypage,
-	dir_name	varchar2(100)		not null
+	dir_name	varchar2(100)		not null,
+	parent_repo_no number references repository
 );
 
 CREATE TABLE guest_book (
-	gb_no	number		primary key,
+	guestbook_no	number		primary key,
 	mypage_no	number		references mypage,
 	user_no	number		references member,
-	content	varchar2(1000)		not null,
+	content	clob		not null,
 	create_date	date		default sysdate,
 	visibility	char(1) default 'Y',
 	deleted	char(1)		default 'N'
@@ -215,7 +288,8 @@ CREATE TABLE ASSIGNMENT_SUBMISSION (
 	submission_no	number		primary key,
 	assignment_no	number		references assignment,
 	user_no	number		references member,
-	submission_date	date		default sysdate
+	submission_date	date		default sysdate,
+	grade number
 );
 
 CREATE TABLE upload_file (
@@ -225,8 +299,9 @@ CREATE TABLE upload_file (
 	message_no	number		references chat_message,
 	origin_name	varchar2(225)		not null,
 	change_name	varchar2(225)		not NULL,
-	visibility	varchar2(10)	DEFAULT 'public',
+	visibility	varchar2(20)	DEFAULT 'private',
 	create_date	date		default sysdate,
+	file_size number not null,
     deleted char(1) default 'N'
 );
 
@@ -239,7 +314,28 @@ CREATE TABLE AI (
 CREATE TABLE AI_USAGE (
 	user_no	number		references member,
 	model_no	number		references ai,
-	num_used_token_no	number		default 0
+	first_use_date date default sysdate,
+	last_use_date date not null,
+	num_used_token_no	number		default 0,
+	constraint pk_ai_usage primary key(user_no, model_no)
+);
+
+create table ai_chat_session (
+	session_no number primary key,
+	title varchar2(200) not null,
+	created_at date default sysdate,
+	user_no number not null,
+	model_no number not null,
+	last_used_at date not null,
+    constraint fk_chat_sessions foreign key (user_no, model_no) references ai_usage(user_no, model_no)
+);
+
+create table ai_chat_history (
+	history_no number primary key,
+	session_no number references chat_sessions,
+	role varchar2(20) not null,
+	content clob not null,
+	created_date date default sysdate
 );
 
 -------------------- 실행 -------------------------

@@ -47,6 +47,11 @@
 		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 	
+	<!-- <servlet-mapping>
+	    <servlet-name>default</servlet-name>
+	    <url-pattern>/favicon.ico</url-pattern>
+	</servlet-mapping> -->
+	
 	<!-- 필터 등록 -->
 	<filter>
 		<filter-name>encodingFilter</filter-name>
