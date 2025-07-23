@@ -17,4 +17,6 @@ public class FriendDTO {
 	private List<String> classNameList;
 	private int friendUserNo;
 	private int cnt;
+	private int userClassNo;
+	private int sameClassFrienUserdNo;
 }

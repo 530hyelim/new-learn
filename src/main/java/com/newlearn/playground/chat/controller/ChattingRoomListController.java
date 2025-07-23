@@ -56,57 +56,57 @@ public class ChattingRoomListController {
 		return "chat/chatMain";
 	}
 	
-	/* 채팅방 생성
-	 * 
-	 * 현재 유저가 방장이 되어
-	 * 모달창에 입력한 정보대와 추가한 인원대로 새로운 채팅방을 생성
-	 * 생성된 채팅방을 채팅방 리스트에 추가
-	 */
-	@PostMapping("/createRoom")
-	public String createRoom(
-			ChattingRoom room,
-			RedirectAttributes ra,
-			Authentication auth) {
-		// 로그인한 회원이 방장이 되어 채팅방을 만들게 할 로직
-		Member member = (Member)auth.getPrincipal();
-		int userNo = member.getUserNo();
-		
-		// 채팅방을 만들 때 사용자가 입력해야 할 항목
-		ChattingRoom roomInfo = new ChattingRoom();
-		roomInfo.setCreaterName(room.getCreaterName()); // 개설자
-		roomInfo.setCreaterProfileImg(room.getCreaterProfileImg()); // 개설자 프로필사진
-		roomInfo.setRoomTitle(room.getRoomTitle()); // 방 제목
-		roomInfo.setJoinnerCount(room.getJoinnerCount()); // 참여자 수
-		roomInfo.setRoomPublic(room.getRoomPublic()); // 공개여부
-		roomInfo.setRoomPassworld(room.getRoomPassworld()); // 비밀번호
-		roomInfo.setRoomAlarm(room.getRoomAlarm()); // 알림여부
-		
-		int result = crs.createRoom(roomInfo);
-		if(result == 0) {
-			// 채팅방 생성 실패
-			ra.addFlashAttribute("alertMsg","채팅방 생성 실패");
-		}else {
-			// 채팅방 생성 성공
-			ra.addFlashAttribute("alertMsg","채팅방 생성 성공");
-			chattingRoomList.add(roomInfo);
-		}
-		
-		return "redirect:/chat/chatMain";
-	}
-	
-	/* 친구 프로필정보
-	 * 
-	 * 친구목록에서 선택한 친구의
-	 * 이름, 프로필사진, 상태메세지, 로그인 유저와 겹치는 클래스 수와 클래스명 조회 후 포워딩
-	 */
-	@PostMapping("/friendProfile")
-	public String friendProfile(
-			Friend friend,
-			Model model) {
-		int friendNo = friend.getUserNo();
-		List<Friend> friendInfo = crs.friendProfile(friendNo);
-		model.addAttribute("friendInfo",friendInfo);
-		
-		return "redirect:/chat/chatMain";
-	}
+//	/* 채팅방 생성
+//	 * 
+//	 * 현재 유저가 방장이 되어
+//	 * 모달창에 입력한 정보대와 추가한 인원대로 새로운 채팅방을 생성
+//	 * 생성된 채팅방을 채팅방 리스트에 추가
+//	 */
+//	@PostMapping("/createRoom")
+//	public String createRoom(
+//			ChattingRoom room,
+//			RedirectAttributes ra,
+//			Authentication auth) {
+//		// 로그인한 회원이 방장이 되어 채팅방을 만들게 할 로직
+//		Member member = (Member)auth.getPrincipal();
+//		int userNo = member.getUserNo();
+//		
+//		// 채팅방을 만들 때 사용자가 입력해야 할 항목
+//		ChattingRoom roomInfo = new ChattingRoom();
+//		roomInfo.setCreaterName(room.getCreaterName()); // 개설자
+//		roomInfo.setCreaterProfileImg(room.getCreaterProfileImg()); // 개설자 프로필사진
+//		roomInfo.setRoomTitle(room.getRoomTitle()); // 방 제목
+//		roomInfo.setJoinnerCount(room.getJoinnerCount()); // 참여자 수
+//		roomInfo.setRoomPublic(room.getRoomPublic()); // 공개여부
+//		roomInfo.setRoomPassworld(room.getRoomPassworld()); // 비밀번호
+//		roomInfo.setRoomAlarm(room.getRoomAlarm()); // 알림여부
+//		
+//		int result = crs.createRoom(roomInfo);
+//		if(result == 0) {
+//			// 채팅방 생성 실패
+//			ra.addFlashAttribute("alertMsg","채팅방 생성 실패");
+//		}else {
+//			// 채팅방 생성 성공
+//			ra.addFlashAttribute("alertMsg","채팅방 생성 성공");
+//			chattingRoomList.add(roomInfo);
+//		}
+//		
+//		return "redirect:/chat/chatMain";
+//	}
+//	
+//	/* 친구 프로필정보
+//	 * 
+//	 * 친구목록에서 선택한 친구의
+//	 * 이름, 프로필사진, 상태메세지, 로그인 유저와 겹치는 클래스 수와 클래스명 조회 후 포워딩
+//	 */
+//	@PostMapping("/friendProfile")
+//	public String friendProfile(
+//			Friend friend,
+//			Model model) {
+//		int friendNo = friend.getUserNo();
+//		List<Friend> friendInfo = crs.friendProfile(friendNo);
+//		model.addAttribute("friendInfo",friendInfo);
+//		
+//		return "redirect:/chat/chatMain";
+//	}
 }

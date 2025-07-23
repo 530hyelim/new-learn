@@ -19,7 +19,9 @@ public class Friend {
 		private String statusMessage;
 		private String changeName;
 		private List<String> classNameList;
-		private int FriendUserNo;
+		private int friendUserNo;
 		private int cnt;
+		private int userClassNo;
+		private int sameClassFrienUserdNo;
 	}
 }

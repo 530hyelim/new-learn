@@ -7,13 +7,13 @@
 	 
 	<select id="selectFriendList" resultMap="friendListResultMap">
 		SELECT
-			F.USER_NO,
-		    M.USER_NAME, 
-		    MP.STATUS_MESSAGE, 
-		    I.CHANGE_NAME, 
-		    C.CLASS_NAME,
-		    MYCJ.CLASS_NO,
-		    FRCJ.USER_NO,
+			F.USER_NO, -- 로그인 유저 번호
+		    M.USER_NAME, -- 친구 이름
+		    MP.STATUS_MESSAGE, -- 친구 상메
+		    I.CHANGE_NAME, -- 친구 프사
+		    C.CLASS_NAME, -- 친구 클래스이름
+		    MYCJ.CLASS_NO, -- 내 클래스번호
+		    FRCJ.USER_NO, -- 내 클래스에 있는 유저 번호
 		    (SELECT COUNT(*) FROM CLASS_JOIN CJ WHERE MYCJ.CLASS_NO = CJ.CLASS_NO AND FRCJ.USER_NO = CJ.USER_NO) CNT
 		FROM FRIEND F
 		LEFT JOIN MEMBER M ON M.USER_NO = F.FRIEND_USER_NO
@@ -25,27 +25,34 @@
 		LEFT JOIN CLASS_JOIN MYCJ ON MYCJ.USER_NO = F.USER_NO
 		WHERE F.USER_NO = #{userNo} AND F.RESPONSE_STATUS = '수락'
 	</select>
-	<!-- <resultMap type="friendDTO" id="friendListResultMap">	
-		
-	</resultMap> -->
-	<resultMap type="friendDTO" id="friendListResultMap">
+	<resultMap type="com.newlearn.playground.chat.model.vo.FriendDTO" id="friendListResultMap">
 		<id column="user_no" property="userNo"/>
 		<result column="user_name" property="userName"/>
 		<result column="status_message" property="statusMessage"/>
 		<result column="change_name" property="changeName"/>
+		<!-- <result column="class_no" property="userClassNo"/>
+			 <result column="user_no" property="sameClassFriendUserNo"/> 
+		-->
 		<result column="friend_user_no" property="friendUserNo"/>
 		<result column="cnt" property="cnt"/>
-	
-		<!-- 클래스 이름 여러 개 매핑 -->
-		<collection property="classNameList" ofType="string">
+		<collection property="classNameList" javaType="java.util.List" ofType="string">
 			<result column="class_name"/>
 		</collection>
 	</resultMap>
 	
 	<!-- 채팅방 목록 조회 -->
-	<select id="selectChattingRoomList" resultType="ChattingRoom">
-		
-	</select>
+	<!-- <select id="selectChattingRoomList" resultType="ChattingRoom">
+		SELECT
+			개설자,
+			개설자 프로필사진,
+			방 제목,
+			새 소식 수,
+			참여자 수,
+			알림여부,
+			공개여부,
+			비밀번호
+		FROM
+	</select> -->
 	
 	<!-- 채팅방 생성 -->
 	<insert id="createRoom">
