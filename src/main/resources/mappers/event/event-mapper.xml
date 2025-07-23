@@ -42,7 +42,7 @@
 	<insert id="insertEvent">
 		insert into calendar values
 		(seq_event_no.nextval, #{classNo}, #{userNo}, #{eventName}, #{startDate}, #{endDate}, 
-		#{content}, #{place}, sysdate, 'SHARED', 'Y', #{numPpl}, #{joinDeadline})
+		#{content}, #{place}, sysdate, #{eventType}, 'Y', #{numPpl}, #{joinDeadline})
 	</insert>
 	
 	<update id="updateEvent">

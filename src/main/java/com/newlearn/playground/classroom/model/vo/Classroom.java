@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class Classroom {
 	private int classNo;
 	private String className;
-	private String attEntryCode;
+	private String entryCode;
 	private Date createDate;
 	private String deleted;
 	private String classCode;

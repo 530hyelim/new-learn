@@ -43,8 +43,6 @@
 			   			</div>
 			   			<form:form method="post" action="${pageContext.request.contextPath}/entry">
 			     			<div class="modal-body">
-			     				<input type="hidden" name="classNo" value="${classNo}">
-			     				<input type="hidden" name="userNo" value="${loginUserNo}">
 					    		<input type="text" name="attEntryCode" required="required"/>
 			     			</div>
 			     			<div class="modal-footer">

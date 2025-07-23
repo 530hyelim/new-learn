@@ -2,7 +2,6 @@ package com.newlearn.playground;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,7 +62,7 @@ public class MainController {
 		model.addAttribute("eventWithMemberCnt", eventWithMemberCnt);
 		
 		// 테스트용
-		int loginUserNo = 1;
+		int loginUserNo = 2;
 		String loginUserName = "서혜림";
 		int classNo = 1;
 		String className = "KH 자바스터디 G반";
@@ -82,20 +81,21 @@ public class MainController {
 	}
 	
 	@PostMapping("/entry")
-	public String entry(@RequestParam String attEntryCode, @RequestParam int classNo, 
-			@RequestParam int userNo, HttpSession session, RedirectAttributes ra) {
+	public String entry(@RequestParam String attEntryCode, HttpSession session, RedirectAttributes ra) {
 		// 이미 입실한 경우
 		if (session.getAttribute("attendance") != null) {
 			ra.addFlashAttribute("entryMsg", "이미 입실완료 되었습니다.");
 			return "redirect:/";
 		}
 		// 입실코드가 틀린 경우
+		int classNo = (int)session.getAttribute("classNo");
 		Classroom c = classroomService.getClassroom(classNo);
-		if (!attEntryCode.equals(c.getAttEntryCode())) {
+		if (!attEntryCode.equals(c.getEntryCode())) {
 			ra.addFlashAttribute("entryMsg", "잘못된 코드입니다.");
 			return "redirect:/";
 		}
 		// attendance db에 데이터 추가하고 세션에 저장
+		int userNo = (int)session.getAttribute("loginUserNo");
 		Attendance a = new Attendance();
 		a.setUserNo(userNo);
 		a.setClassNo(classNo);

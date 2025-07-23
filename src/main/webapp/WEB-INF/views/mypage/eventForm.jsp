@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html>
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -11,8 +12,9 @@
        				<span aria-hidden="true">&times;</span>
        			</button>
    			</div>
-   			<form method="post" action="${pageContext.request.contextPath}/event/new">
+   			<form:form method="post" action="${pageContext.request.contextPath}/event/dml">
        			<div class="modal-body">
+       				<input type="hidden" name="eventType" value="PERSONAL"/>
            			제목 <input type="text" name="eventName" required="required" /><br>
 				    장소 <input type="text" name="place" required="required" /><br>
 				    시작시간 <input type="datetime-local" name="startDate" required="required" /><br>
@@ -23,7 +25,7 @@
            			<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
            			<button type="submit" class="btn btn-primary">추가</button>
        			</div>
-   			</form>
+   			</form:form>
    		</div>
 	</div>
 </div>

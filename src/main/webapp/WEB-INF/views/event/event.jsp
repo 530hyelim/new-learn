@@ -62,6 +62,7 @@
 				<form:form modelAttribute="event" method="post"
 	            action="${pageContext.request.contextPath}/event/dml">
 	            	<form:input path="eventNo" type="hidden"/>
+	            	<form:input path="eventType" type="hidden" value="SHARED"/>
 	                제목<form:input path="eventName" placeholder="이벤트 제목을 입력하세요" required="true"/>
 			        장소<form:input path="place" placeholder="어디서 만날까요?" required="true"/>
 			        시작시간<form:input path="startDate" type="datetime-local" required="true"/>
