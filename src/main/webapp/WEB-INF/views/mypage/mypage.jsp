@@ -77,6 +77,9 @@
 		</div>
 	</div>
 </body>
+<c:if test="${not empty eventMsg}">
+	<script>alert("${eventMsg}");</script>
+</c:if>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js"></script>
 <script>
     document.querySelectorAll('.slider[data-simple-slider]').forEach(el => {
@@ -112,5 +115,42 @@
 				document.querySelector(".container").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
 			});
 	}
+	
+	//$('#edit-btn').click(function() { 수정 버튼이 페이지 로딩 이후 load calendar 함수에서 fetch로 불러와서 
+	//동적으로 삽입되고 있기 때문에 이벤트가 등록되지 않음 => 상위 요소에 이벤트 위임
+	$(document).on('click', '.modal-btn', function() {
+		const btn = $(this);
+		const dmlType = btn.data('dmltype');
+		const eventNo = btn.data('eventno');
+		
+		fetch('${pageContext.request.contextPath}/mypage/modal/'+dmlType+'?eventNo='+eventNo)
+		.then(response => {
+			if (!response.ok) throw new Error('에러 발생');
+			return response.text();
+		})
+		.then(html => {
+			document.querySelector(".modal-position").innerHTML = html;
+		    new bootstrap.Modal(document.getElementById('exampleModal')).show();
+		})
+		.catch(error => {
+			document.querySelector(".modal-position").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
+		});
+	});
+	
+	$(document).on('submit', '#searchForm', function(e) {
+		e.preventDefault(); // 기본 동작 방지
+		
+		fetch('${pageContext.request.contextPath}/mypage/storage/search')
+		.then(response => {
+			if (!response.ok) throw new Error('에러 발생');
+			return response.text();
+		})
+		.then(html => {
+			document.querySelector(".storage-main-body").innerHTML = html;
+		})
+		.catch(error => {
+			document.querySelector(".storage-main-body").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
+		});
+	});
 </script>
 </html>

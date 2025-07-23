@@ -64,6 +64,22 @@ body {
     font-size: 14px;
 }
 
+.event-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.event-item span {
+  white-space: nowrap;
+  flex-grow: 1;  /* span이 가능한 공간 다 차지해서 버튼들을 오른쪽 밀어냄 */
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;    /* 버튼 사이 간격 */
+}
+
 /* 일정 추가 버튼 */
 form button {
     margin-top: 10px;

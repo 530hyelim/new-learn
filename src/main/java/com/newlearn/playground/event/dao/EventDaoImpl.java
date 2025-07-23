@@ -48,4 +48,9 @@ public class EventDaoImpl implements EventDao {
 		return session.update("event.updateEvent", event);
 	}
 
+	@Override
+	public int deleteEvent(int eventNo) {
+		return session.delete("event.deleteEvent", eventNo);
+	}
+
 }

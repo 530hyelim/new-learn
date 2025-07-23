@@ -10,29 +10,27 @@
 					<th>NO.${guestbook.guestbookNo}</th>
 					<th>${guestbook.userName}</th>
 					<th>${guestbook.createDate}</th>
-					<td>
+					<td class="button-group">
 						<!-- guestbook의 mypageNo와 auth의 userNo가 같으면 hide -->
 						<c:if test="${guestbook.mypageNo == loginUserNo}">
-							<form action="${pageContext.request.contextPath}/mypage/guestbook/hide" method="post">
+							<form:form action="${pageContext.request.contextPath}/mypage/guestbook/hide" method="post">
 								<input type="hidden" name="guestbookNo" value="${guestbook.guestbookNo}">
 								<button type="submit">HIDE</button>
-							</form>
+							</form:form>
 						</c:if>
-					</td>
-					<td>
 						<!-- guestbook의 userNo와 auth의 userNo가 같으면 delete -->
 						<c:if test="${guestbook.userNo == loginUserNo}">
-							<form action="${pageContext.request.contextPath}/mypage/guestbook/delete" method="post">
+							<form:form action="${pageContext.request.contextPath}/mypage/guestbook/delete" method="post">
 								<input type="hidden" name="guestbookNo" value="${guestbook.guestbookNo}">
 								<button type="submit">DELETE</button>
-							</form>
+							</form:form>
 						</c:if>
 					</td>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<td colspan="5">${guestbook.content}</td>
+					<td colspan="4">${guestbook.content}</td>
 				</tr>
 			</tbody>
 		</table>

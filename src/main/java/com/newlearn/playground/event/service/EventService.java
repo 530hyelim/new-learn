@@ -20,4 +20,6 @@ public interface EventService {
 
 	int updateEvent(Event event);
 
+	int deleteEvent(int eventNo);
+
 }

@@ -1,0 +1,21 @@
+package com.newlearn.playground.mypage.model.vo;
+
+import java.util.Date;
+
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+public class UploadFile {
+	private int fileNo;
+	private int submissionNo;
+	private int repoNo;
+	private int messageNo;
+	private String originName;
+	private String changeName;
+	private String visibility;
+	private Date createDate;
+	private int fileSize;
+	private String deleted;
+}

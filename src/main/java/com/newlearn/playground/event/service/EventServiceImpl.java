@@ -19,11 +19,6 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public int insertEvent(Event event) {
-		return eventDao.insertEvent(event);
-	}
-
-	@Override
 	public List<Event> findAllByDate(String selectedDate) {
 		return eventDao.findAllByDate(selectedDate);
 	}
@@ -44,8 +39,18 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
+	public int insertEvent(Event event) {
+		return eventDao.insertEvent(event);
+	}
+	
+	@Override
 	public int updateEvent(Event event) {
 		return eventDao.updateEvent(event);
+	}
+
+	@Override
+	public int deleteEvent(int eventNo) {
+		return eventDao.deleteEvent(eventNo);
 	}
 
 }

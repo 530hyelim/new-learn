@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="guestbook">
 	<select id="loadGuestbook" resultType="guestbook">
-		select guestbook_no, content, create_date, user_name, user_no
+		select guestbook_no, content, create_date, user_name, user_no, mypage_no
 		from guest_book
 		join member using(user_no)
 		where mypage_no = #{mypageNo}
@@ -11,13 +11,13 @@
 	</select>
 	
 	<update id="guestbookHide">
-		update table guest_book
+		update guest_book
 		set visibility = 'N'
 		where guestbook_no = #{guestbookNo}
 	</update>
 	
 	<update id="guestbookDelete">
-		update table guest_book
+		update guest_book
 		set deleted = 'Y'
 		where guestbook_no = #{guestbookNo}
 	</update>

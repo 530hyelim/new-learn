@@ -20,4 +20,6 @@ public interface EventDao {
 
 	int updateEvent(Event event);
 
+	int deleteEvent(int eventNo);
+
 }
