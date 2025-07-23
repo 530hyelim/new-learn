@@ -5,8 +5,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class AI {
+public class Ai {
 	private int modelNo;
 	private String modelName;
-	private String activteStatus;
+	private String activeStatus;
 }
