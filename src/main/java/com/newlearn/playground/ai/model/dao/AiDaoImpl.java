@@ -6,7 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.newlearn.playground.ai.model.vo.Ai;
+import com.newlearn.playground.ai.model.vo.AI;
 import com.newlearn.playground.ai.model.vo.AiChatSession;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ public class AiDaoImpl implements AiDao {
 	private final SqlSessionTemplate session;
 
 	@Override
-	public List<Ai> getAiList() {
+	public List<AI> getAiList() {
 		return session.selectList("ai.getAiList", "modelNo");
 	}
 
