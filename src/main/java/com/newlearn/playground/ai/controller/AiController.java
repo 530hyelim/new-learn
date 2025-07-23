@@ -8,19 +8,21 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.newlearn.playground.ai.model.service.AiService;
 import com.newlearn.playground.ai.model.vo.Ai;
+import com.newlearn.playground.ai.model.vo.AiChatHistory;
 import com.newlearn.playground.ai.model.vo.AiChatSession;
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
@@ -66,9 +68,8 @@ public class AiController {
 	public String showMain(
 			HttpSession session
 			) {
-		int userNo = 2;
-		
 		// DB의 ai_chat_sessions 테이블에서 해당 유저의 chat_session 정보들을 불러온다.
+		int userNo = 21;
 		List<AiChatSession> aiChatSessionsList = aiService.getAiChatSessionsList(userNo);
 		
 		session.setAttribute("aiChatSessionsList", aiChatSessionsList);
@@ -80,16 +81,53 @@ public class AiController {
 	@ResponseBody
 	public Map<String, String> getPrompt(
 			String prompt,
-			@RequestParam(required = false, defaultValue = "default") String sessionId,
-			HttpServletResponse res
+			@RequestParam(required = false, defaultValue = "0") int sessionNo,
+			RedirectAttributes ra
 			) {
 		System.out.println("prompt: " + prompt);
+		System.out.println("sessionNo: " + sessionNo);
 		
-		List<Ai> aiList = (List<Ai>)application.getAttribute("aiList");
+		int userNo = 21;
+		int modelNo = 1;
+		long tokensUsed = 0;
+		
+		Map<String, Object> aiParamMap = new HashMap<>();
+		aiParamMap.put("userNo", userNo);
+		aiParamMap.put("modelNo", modelNo);
+		aiParamMap.put("sessionNo", sessionNo);
+		aiParamMap.put("tokensUsed", tokensUsed);
+		
+		// 1. 해당 유저가 해당 모델을 사용한적이 있는지 DB에서 확인한다.
+		int usedBefore = aiService.checkUsedBefore(aiParamMap);
+		System.out.println("usedBefore: " + usedBefore);
+		
+		// 2. 사용한적이 없으면 ai_usage 테이블 insert.		
+		if (usedBefore == 0) {
+			int insertAiUsageResult = aiService.insertAiUsage(aiParamMap);
+			System.out.println(insertAiUsageResult);
+		}
+		
+		// 업무로직
+		// 1. 만약 sessionNo 가 0 이라면, 새로운 세션을 생성(ai_chat_session 테이블에 행 삽입).
+		//    아니라면 해당 세션의 데이터를 업데이트.
+		
+		if (sessionNo == 0) {
+			int createChatSessionResult = aiService.createChatSession(aiParamMap);
+			System.out.println("createChatSessionResult: " + createChatSessionResult);
+		} else {
+			int updateChatSessionResult = aiService.updateChatSession(aiParamMap);
+			System.out.println("updateChatSessionResult: " + updateChatSessionResult);
+		}
+		
+		System.out.println("aiParamMap.get(\"sessionNo\"): " + aiParamMap.get("sessionNo"));
+		
+		sessionNo = Integer.parseInt(aiParamMap.get("sessionNo").toString());
+		
+		System.out.println("sessionNo after parseInt: " + sessionNo);
 		
 		// Get or create conversation history for this session
 		List<Map<String, String>> messageHistory = conversationHistory.computeIfAbsent(
-		    sessionId, k -> new ArrayList<>()
+		    "" + sessionNo, k -> new ArrayList<>()
 		);
 		
 		Map<String, String> developerMessage = new HashMap<>();
@@ -136,27 +174,53 @@ public class AiController {
 		System.out.println("messageHistory: " + messageHistory);
 		System.out.println("conversationHistory: " + conversationHistory);
 		
-		int userNo = 2;
-		int modelNo = 1;
-		long tokensUsed = chatCompletion.usage()
+		tokensUsed = chatCompletion.usage()
 			    .map(v -> v.totalTokens())
 			    .orElse(0L);
-		
+		aiParamMap.put("tokensUsed", tokensUsed);
 		System.out.println("tokenUsed: " + tokensUsed);
 		
-		// 비즈니스 로직
-		// 1. 해당 유저가 해당 모델을 사용한적이 있는지 DB에서 확인한다.
-		// 2. 사용한적이 없으면 ai_usage 테이블 insert, 없으면 update.
-		// 3.  
+		// ai_usage 테이블 업데이트.
+		int updateAiUsageResult = aiService.updateAiUsage(aiParamMap);
+		System.out.println("updateAiUsageResult: " + updateAiUsageResult);
 		
-		Map<String, Object> dbParamMap = new HashMap<>();
-		dbParamMap.put("userNo", userNo);
-		dbParamMap.put("modelNo", modelNo);
+		// ai_chat_history 테이블에 데이터 삽입.
+		Map<String, Object> chatHistoryParamMap = new HashMap<>();
+		chatHistoryParamMap.put("userNo", userNo);
+		chatHistoryParamMap.put("sessionNo", sessionNo);
+		chatHistoryParamMap.put("user", prompt);
+		chatHistoryParamMap.put("assistant", sb.toString());
 		
-		int usedBefore = aiService.checkUsedBefore(dbParamMap);
+		int insertAiChatHistoryResult = aiService.insertAiChatHistory(chatHistoryParamMap);
+		System.out.println("insertAiChatHistoryResult: " + insertAiChatHistoryResult);
 		
-		System.out.println("usedBefore: " + usedBefore);
+		assistantMessage.put("sessionNo", "" + aiParamMap.get("sessionNo"));
 		
 		return assistantMessage;
 	}
+	
+	@GetMapping("/sessionListFragment")
+	public String getSessionListFragment(Model model) {
+	    int userNo = 21; // 실제로는 세션 등에서 가져오기
+	    List<AiChatSession> aiChatSessionsList = aiService.getAiChatSessionsList(userNo);
+	    model.addAttribute("aiChatSessionsList", aiChatSessionsList);
+	    
+	    return "ai/sessionListFragment"; // JSP 파일명, 예: ai/sessionListFragment.jsp
+	}
+	
+	@GetMapping("/getChatHistory")
+	@ResponseBody
+	public List<AiChatHistory> getChatHistory(@RequestParam int sessionNo) {
+	    // DB에서 해당 sessionNo의 전체 메시지 SELECT
+	    return aiService.getChatHistory(sessionNo);
+	}
 }
+
+
+
+
+
+
+
+
+

@@ -1,5 +1,6 @@
 package com.newlearn.playground.ai.model.vo;
 
+import java.io.Serializable;
 import java.sql.Date;
 
 import lombok.Data;
@@ -7,7 +8,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class AiChatSession {
+public class AiChatSession implements Serializable {
+	private static final long serialVersionUID = 7956429820325527252L;
 	private int sessionNo;
 	private String title;
 	private Date createdAt; // sql Date 타입임.

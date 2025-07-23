@@ -274,7 +274,7 @@ CREATE TABLE AI_USAGE (
 	model_no	number		references ai,
 	first_use_date date default sysdate,
 	last_use_date date not null,
-	num_used_token_no	number		default 0,
+	num_used_tokens	number		default 0,
 	constraint pk_ai_usage primary key(user_no, model_no)
 );
 
@@ -290,7 +290,8 @@ create table ai_chat_session (
 
 create table ai_chat_history (
 	history_no number primary key,
-	session_no number references chat_sessions,
+	user_no number references ai_chat_session
+	session_no number references ai_chat_session,
 	role varchar2(20) not null,
 	content clob not null,
 	created_date date default sysdate

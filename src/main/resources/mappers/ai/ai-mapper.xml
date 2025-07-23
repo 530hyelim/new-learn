@@ -13,6 +13,49 @@
 	<select id="getAiChatSessionsList" resultType="aiChatSession">
 		select * from ai_chat_session
 		where user_no = #{userNo}
+		order by last_used_at desc
+	</select>
+	
+	<update id="updateAiUsage">
+		update ai_usage
+		set last_use_date = sysdate, num_used_tokens = num_used_tokens + #{tokensUsed}
+		where user_no = #{userNo} and model_no = #{modelNo}
+	</update>
+	
+	<insert id="insertAiUsage">
+		insert into ai_usage
+		values(#{userNo}, #{modelNo}, sysdate, sysdate, #{tokensUsed})
+	</insert>
+	
+	<insert id="createChatSesion">
+		<selectKey keyProperty="sessionNo" resultType="int" order="BEFORE">
+			select seq_ai_chat_session.nextval from dual
+		</selectKey>
+	
+		insert into ai_chat_session
+		values(#{sessionNo}, '테스트 세션 ' || #{sessionNo}, sysdate, #{userNo}, #{modelNo}, sysdate)
+	</insert>
+	
+	<update id="updateChatSession">
+		update ai_chat_session
+		set last_used_at = sysdate
+		where session_no = #{sessionNo}
+	</update>
+	
+	<insert id="insertAiChatHistoryUser">
+		insert into ai_chat_history
+		values(seq_ai_chat_history.nextval, #{sessionNo}, 'user', #{user}, sysdate, #{userNo})
+	</insert>
+	
+	<insert id="insertAiChatHistoryAssistant">
+		insert into ai_chat_history
+		values(seq_ai_chat_history.nextval, #{sessionNo}, 'assistant', #{assistant}, sysdate, #{userNo})
+	</insert>
+	
+	<select id="getChatHistory" resultType="aiChatHistory">
+		select * from ai_chat_history
+		where session_no = #{sessionNo}
+		order by created_date
 	</select>
 </mapper>
 

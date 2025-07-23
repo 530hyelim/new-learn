@@ -19,6 +19,8 @@
     box-sizing: border-box;
     min-width: 270px;
     background-color: antiquewhite;
+    display: flex;
+    flex-direction: column;
 }
 
 .main-view {
@@ -118,4 +120,9 @@
 hr {
     /* border: 1px solid black; */
     width: 100%;
+}
+
+#new-chat {
+    margin-top: 20px;
+    align-self: center;
 }
