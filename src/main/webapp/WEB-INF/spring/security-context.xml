@@ -24,6 +24,18 @@
 		<intercept-url pattern="/member/idCheck" access="permitAll" />
 		<intercept-url pattern="/member/emailCert" access="permitAll"/>
 		
+		
+		<!-- security 임시 -->
+		<intercept-url pattern="/member/agree" access="permitAll" />
+		<intercept-url pattern="/member/insert" access="permitAll" />
+		<intercept-url pattern="/member/enrollComplete" access="permitAll" />
+		<intercept-url pattern="/member/findId" access="permitAll" />
+		<intercept-url pattern="/member/findPassword" access="permitAll" />
+		<intercept-url pattern="/member/resetPasswordForm" access="permitAll" />
+		<intercept-url pattern="/member/resetPassword" access="permitAll" />
+		<intercept-url pattern="/member/changePasswordComplete" access="permitAll" />
+		
+		
 		<!-- 관리자와 관련된 URL은 관리자 권한을 가지고 있어야만 접근 가능하도록 제한 -->
 		<intercept-url pattern="/user/**" access="hasRole('USER')" />
 		<!-- <intercept-url pattern="/**" access="hasAnyRole('USER', 'ADMIN')" /> -->
@@ -91,7 +103,7 @@
 		<authentication-provider user-service-ref="securityServiceImpl">
 			<password-encoder ref="bcryptPasswordEncoder" />
 		</authentication-provider>
-	</authentication-manager>
+	</authentication-manager>	
 </beans:beans>
 
 

@@ -26,5 +26,11 @@ public interface MemberDao {
 	
 	int updatePassword(String userId, String newPassword);
 	
+	/* @param userName 이름
+	 * @param ssn 주민번호
+	 * @return 0 또는 1로 리턴
+	 * */
+	int checkNameAndSsn(String userName, String ssn);
+	
 
 }

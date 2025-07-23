@@ -53,7 +53,7 @@
                 <h2 class="complete-title">회원가입 완료</h2>
                 <p class="complete-message"><strong>${userNameForComplete}</strong>님의 회원가입을 축하합니다!</p>
                 <p class="complete-message">회원 정보 확인 및 수정은 <a href="#">마이페이지</a>에서 가능합니다.</p>
-                <a href="#" class="action-btn">로그인 바로가기</a>
+                <a href="${pageContext.request.contextPath}/member/login" class="action-btn">로그인 바로가기</a>
             </div>
         </c:when>
 
@@ -69,7 +69,7 @@
                 </div>
                 <h2 class="complete-title fail">회원가입 실패</h2>
                 <p class="complete-message">이미 계정이 존재하는 사용자 정보입니다.</p>
-                <a href="#" class="action-btn">로그인 바로가기</a>
+                <a href="${pageContext.request.contextPath}/member/login" class="action-btn">로그인 바로가기</a>
             </div>
         </c:otherwise>
     </c:choose>

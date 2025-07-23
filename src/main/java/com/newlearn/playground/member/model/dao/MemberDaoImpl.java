@@ -18,51 +18,33 @@ public class MemberDaoImpl implements MemberDao{
 	}
 
 	@Override
-	public Member loginUser(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+	public Member loginMember(Member m) {
+		
+		return sqlSession.selectOne("memberMapper.loginMember", m);
 	}
 
 	@Override
 	public int insertMember(Member m) {
-		// TODO Auto-generated method stub
-		return 0;
+		
+		return sqlSession.insert("memberMapper.insertMember", m);
 	}
 
 	@Override
 	public int updateMember(Member m) {
-		// TODO Auto-generated method stub
-		return 0;
+
+		return sqlSession.update("memberMapper.updateMember", m);
 	}
 
 	@Override
 	public int idCheck(String userId) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
-	@Override
-	public void updateMemberChagePwd() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public Member loginMember(Member m) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public HashMap<String, Object> selectOne(String userId) {
-		// TODO Auto-generated method stub
-		return null;
+		return sqlSession.selectOne("memberMapper.idCheck", userId);
 	}
 
 	@Override
 	public void insertAuthority(Member m) {
-		// TODO Auto-generated method stub
-		
+		// sqlSession.insert("memberMapper.insertAuthority", m);
+		// Authority 관련 테이블 나중에 한번 물어보고 주석해제
 	}
 
 	@Override
@@ -82,5 +64,38 @@ public class MemberDaoImpl implements MemberDao{
 		
 		return sqlSession.update("memberMapper.updatePassword", params);
 	}
+	
+	@Override
+	public int checkNameAndSsn(String userName, String ssn) {
+		Map<String, String> params = new HashMap<>();
+		params.put("userName", userName);
+		params.put("ssn", ssn);
+		
+		return sqlSession.selectOne("memberMapper.checkNameAndSsn", params);
+	}
+	
+	
+	
+	
+	
+	// 미사용중인 메소드
+	@Override
+	public Member loginUser(String userId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
+	public void updateMemberChagePwd() {
+		
+	}
+	
+	@Override
+	public HashMap<String, Object> selectOne(String userId) {
+		
+		return null;
+	}
+	
+	
 	
 }

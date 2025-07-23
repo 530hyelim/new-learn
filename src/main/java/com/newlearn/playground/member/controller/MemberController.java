@@ -192,8 +192,8 @@ public class MemberController {
 	        ra.addFlashAttribute("userNameForComplete", m.getUserName()); // 사용자 이름이 뜲
 	        viewName = "redirect:/member/enrollComplete";
 	    } else {
-	        model.addAttribute("errorMsg", "회원가입 실패.");
-	        viewName = "common/errorPage";
+	        ra.addFlashAttribute("result", "fail");
+	        viewName = "redirect:/member/enrollComplete";
 	    }
 	    return viewName;
 	}
@@ -255,11 +255,9 @@ public class MemberController {
 	// 비동기 요청
 	@ResponseBody // 반환되는 값이 값 그 자체임을 의미하는 주석
 	@GetMapping("/member/idCheck")
-	public String idCheck(String userId) {
+	public String idCheck(@RequestParam("checkId") String userId) {
 		int result = mService.idCheck(userId); // 아이디 존재시 1, 없다면 0
-	
-		
-		return "" + result; // /WEB-INF/views/0.jsp -> 1, 0 
+		return "" + result;
 	}
 	
 //	@ResponseBody
@@ -306,13 +304,20 @@ public class MemberController {
 	public String findId(@RequestParam("userName") String userName,
 	    @RequestParam("ssn1") String ssn1,
 	    @RequestParam("ssn2") String ssn2,
-	    Model model) {
+	    Model model,
+	    RedirectAttributes rttr) {
 
 		String ssn = ssn1 + "-" + ssn2;
 		String foundId = mService.findId(userName, ssn);
-		  model.addAttribute("foundId", foundId);
+		if(foundId != null) {
+			model.addAttribute("foundId", foundId);	
+			
+			return "member/findIdResult";  // 아이디 찾기 결과창으로
+		} else {
+			rttr.addFlashAttribute("alertMsg", "일치하는 회원 정보가 없습니다.");
+			return "redirect:/member/findId"; // 실패 메시지
+		}
 
-		 return "member/findIdResult";
 	}
 	
 	// 비밀번호 찾기
@@ -363,12 +368,22 @@ public class MemberController {
 			return "member/changePasswordComplete";
 		}
 	
-	
 	// /member/agree 주소로 요청이 들어오면  agree.jsp를 화면에 나타냄
 	@GetMapping("/member/agree")
 	public String agreeForm() {
 		return "member/agree";
 	}
 	
+	// 아이디 찾기 페이지를 화면에 나타냄
+	@GetMapping("/member/findId")
+	public String findIdForm() {
+		return "member/findId";
+	}
+	
+	// 비밀번호 찾기 페이지를 화면에 나타냄
+	@GetMapping("/member/findPassword")
+	public String findPasswordForm() {
+		return "member/findPassword";
+	}
 	
 }

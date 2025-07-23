@@ -38,11 +38,17 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public int insertMember(Member m) {
-		m.setUserPwd(bcryptPasswordEncoder.encode(m.getUserPwd())); // db저장 전 암호화된 비번으로 변경
+		if(memberDao.idCheck(m.getUserId()) > 0) { // db에 저장 전 아이디 중복 여부 확인
+			return 0;  // 만약 아이디가 존재한다면 컷
+		}
 		
+		if(memberDao.checkNameAndSsn(m.getUserName(), m.getSsn()) > 0) {
+			return 0; // 동일인물이 가입되어 있다면 컷
+		}
+		
+		m.setUserPwd(bcryptPasswordEncoder.encode(m.getUserPwd())); // db저장 전 암호화된 비번으로 변경
 		int result = memberDao.insertMember(m);
-		// 회원 ID와 기본 USER권한 추가
-		memberDao.insertAuthority(m);
+		// memberDao.insertAuthority(m); // 회원 ID와 기본 USER권한 추가
 		return result;
 	}
 
@@ -86,15 +92,15 @@ public class MemberServiceImpl implements MemberService {
 
 			helper.setFrom("gett9812@gmail.com"); // 나중에 실제 이메일 값으로 대체 email.properties 가서 하기
 			helper.setTo(email); // 받는 사람 이메일 주소
-			helper.setSubject("[new Learn();] 회원가입 인증번호입니다."); // 이메일 제목
+			helper.setSubject("[new Learn();] 인증번호입니다."); // 이메일 제목
 
 			// HTML 형식의 본문
-			String htmlContent = "<h1>[new Learn] 회원가입 인증번호</h1>";
+			String htmlContent = "<h1>[new Learn] 인증번호</h1>";
 			htmlContent += "<p>요청하신 인증번호는 다음과 같습니다.</p>";
 			htmlContent += "<div style='background-color:#f0f0f0; padding:20px; text-align:center;'>";
 			htmlContent += "<h2 style='font-size:24px; color:#333;'>" + certCode + "</h2>";
 			htmlContent += "</div>";
-			htmlContent += "<p>이 인증번호를 회원가입 페이지의 인증코드란에 입력해주세요.</p>";
+			htmlContent += "<p>이 인증번호를 요청하신 페이지의 인증코드란에 입력해주세요.</p>";
 
 			helper.setText(htmlContent, true);
 

@@ -208,9 +208,9 @@
             type: 'GET', 
             data: { checkId: userIdVal },
             success: function(result){
-                if(result == 0){ // 중복아님
+                if(result == "0"){ // 0이 아닌 "0"
                     $idFeedback.text('사용 가능한 아이디입니다.').css('color', 'green');
-                } else { // 중복임
+                } else { 
                     $idFeedback.text('이미 사용 중인 아이디입니다.').css('color', 'red');
                 }
             },
