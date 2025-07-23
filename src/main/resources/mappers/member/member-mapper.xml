@@ -14,6 +14,32 @@
 			SET USER_PW = #{newPassword}
 		WHERE USER_ID = #{userId}
 	</update>
+	
+	<insert id="insertMember">
+		INSERT INTO MEMBER (
+				USER_NO, USER_ID, USER_PW, USER_NAME,
+				SSN, PHONE, EMAIL
+		) VALUES (
+				SEQ_UNO.NEXTVAL,
+				#{userId},
+				#{userPwd},
+				#{userName},
+				#{ssn},
+				#{phone},
+				#{email}
+		)
+	</insert>
+
+	<insert id="insertAuthority">
+		INSERT INTO AUTHORITIES (USER_ID, AUTH) VALUES (#{userId}, 'ROLE_USER')
+	</insert>
+	
+	<select id="idCheck" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE USER_ID = #{userId}
+	</select>
+
+
+
 
 
 

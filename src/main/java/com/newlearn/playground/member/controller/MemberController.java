@@ -30,6 +30,7 @@ public class MemberController {
 	@Autowired
 	private MemberService mService;
 	
+	
 	/*
 	 * Spring DI(Dependency Injection)
 	 * - 의존성 주입
