@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.newlearn.playground.chat.model.dao.ChattingRoomListDao;
 import com.newlearn.playground.chat.model.vo.ChattingRoom;
 import com.newlearn.playground.chat.model.vo.Friend;
+import com.newlearn.playground.chat.model.vo.FriendDTO;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -18,7 +19,7 @@ public class ChattingRoomListServiceImpl implements ChattingRoomListService{
 	private ChattingRoomListDao crd;
 	
 	@Override
-	public List<Friend> selectFriendList(int userNo) {
+	public List<FriendDTO> selectFriendList(int userNo) {
 		// 친구 목록 조회
 		return crd.selectFriendList(userNo);
 	}

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.newlearn.playground.chat.model.vo.ChattingRoom;
 import com.newlearn.playground.chat.model.vo.Friend;
+import com.newlearn.playground.chat.model.vo.FriendDTO;
 
 @Repository
 public class ChattingRoomListDaoImpl implements ChattingRoomListDao{
@@ -15,7 +16,7 @@ public class ChattingRoomListDaoImpl implements ChattingRoomListDao{
 	private SqlSessionTemplate session;
 
 	@Override
-	public List<Friend> selectFriendList(int userNo) {
+	public List<FriendDTO> selectFriendList(int userNo) {
 		// 친구 목록 조회
 		return session.selectList("chat.selectFriendList",userNo);
 	}

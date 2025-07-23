@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.newlearn.playground.chat.model.service.ChattingRoomListService;
 import com.newlearn.playground.chat.model.vo.ChattingRoom;
 import com.newlearn.playground.chat.model.vo.Friend;
+import com.newlearn.playground.chat.model.vo.FriendDTO;
 import com.newlearn.playground.member.model.vo.Member;
 
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 public class ChattingRoomListController {
 	@Autowired
 	private ChattingRoomListService crs;
-	
-	private List<Friend> friendList;
-	private List<ChattingRoom> chattingRoomList;
 	
 	/* 메인화면
 	 * 
@@ -43,15 +41,17 @@ public class ChattingRoomListController {
 		// 로그인 기능 추가 후 주석 해제.
 		//Member member = (Member)auth.getPrincipal();
 		//int userNo = member.getUserNo();
-		int userNo = 1;
+		int userNo = 3;
 		
-		// 친구 목록 조회 후 리스트에 담기 
-		friendList = crs.selectFriendList(userNo);
+		// 친구 목록 조회 후 리스트에 담기
+		List<FriendDTO> friendList = crs.selectFriendList(userNo);
 		model.addAttribute("friendList",friendList);
+//		log.debug("friendList : {}",friendList);
 		
 		// 채팅방 목록 조회 후 리스트에 담기
-		chattingRoomList = crs.selectChattingRoomList(userNo);
+		List<ChattingRoom> chattingRoomList = crs.selectChattingRoomList(userNo);
 		model.addAttribute("chattingRoomList",chattingRoomList);
+//		log.debug("chattingRoomList : {}",chattingRoomList);
 		
 		return "chat/chatMain";
 	}

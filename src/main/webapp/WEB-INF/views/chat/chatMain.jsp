@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="sec"
 	uri="http://www.springframework.org/security/tags"%>
@@ -25,90 +26,30 @@
             <div class="friend_list">
                 <div class="friend_top">
                     <div>친구목록</div>
-                    <div>(${freiendList.size()}명)</div>
+                    <div>(${fn:length(friendList)}명)</div>
                     <button>채팅방 만들기</button>
                 </div>
                 <div class="friend_mid">
-                    <ul>
-                        <li class="friend_inf">
-                            <div class="friend_picture">사진</div>
-                            <div class="friend_name_ps">
-                                <div class="friend_name">이름</div>
-                                <div class="friend_ps">상메</div>
-                            </div>
-                        </li>
-                        <li class="friend_inf">
-                            <div class="friend_picture">사진</div>
-                            <div class="friend_name_ps">
-                                <div class="friend_name">이름</div>
-                                <div class="friend_ps">상메</div>
-                            </div>
-                        </li>
-                        <li class="friend_inf">
-                            <div class="friend_picture">사진</div>
-                            <div class="friend_name_ps">
-                                <div class="friend_name">이름</div>
-                                <div class="friend_ps">상메</div>
-                            </div>
-                        </li>
-                        <li class="friend_inf">
-                            <div class="friend_picture">사진</div>
-                            <div class="friend_name_ps">
-                                <div class="friend_name">이름</div>
-                                <div class="friend_ps">상메</div>
-                            </div>
-                        </li>
-                        <li class="friend_inf">
-                            <div class="friend_picture">사진</div>
-                            <div class="friend_name_ps">
-                                <div class="friend_name">이름</div>
-                                <div class="friend_ps">상메</div>
-                            </div>
-                        </li>
-                        <li class="friend_inf">
-                            <div class="friend_picture">사진</div>
-                            <div class="friend_name_ps">
-                                <div class="friend_name">이름</div>
-                                <div class="friend_ps">상메</div>
-                            </div>
-                        </li>
-                        <li class="friend_inf">
-                            <div class="friend_picture">사진</div>
-                            <div class="friend_name_ps">
-                                <div class="friend_name">이름</div>
-                                <div class="friend_ps">상메</div>
-                            </div>
-                        </li>
-                        <li class="friend_inf">
-                            <div class="friend_picture">사진</div>
-                            <div class="friend_name_ps">
-                                <div class="friend_name">이름</div>
-                                <div class="friend_ps">상메</div>
-                            </div>
-                        </li>
-                        <li class="friend_inf">
-                            <div class="friend_picture">사진</div>
-                            <div class="friend_name_ps">
-                                <div class="friend_name">이름</div>
-                                <div class="friend_ps">상메</div>
-                            </div>
-                        </li>
-                        <li class="friend_inf">
-                            <div class="friend_picture">사진</div>
-                            <div class="friend_name_ps">
-                                <div class="friend_name">이름</div>
-                                <div class="friend_ps">상메</div>
-                            </div>
-                        </li>
-                        <li class="friend_inf">
-                            <div class="friend_picture">사진</div>
-                            <div class="friend_name_ps">
-                                <div class="friend_name">이름</div>
-                                <div class="friend_ps">상메</div>
-                            </div>
-                        </li>
-                        
-                    </ul>
+                	<c:choose>
+                		<c:when test="${empty friendList}">
+                			<ul>
+                				<li>친구가 없습니다.</li>
+                			</ul>
+                		</c:when>
+                		<c:otherwise>
+                			<ul>
+	                			<c:forEach items="${friendList}" var="friend">                			
+		                			<li class="friend_inf">
+		                				<div class="friend_picture">${friend.changeName}</div>
+				                        <div class="friend_name_ps">
+				                        	<div class="friend_name">${friend.userName}</div>
+				                            <div class="friend_ps">${friend.statusMessage }</div>
+				                        </div>
+		                			</li>
+	                			</c:forEach>
+                			</ul>
+                		</c:otherwise>
+                	</c:choose>
                 </div>
             </div>
             <div class="chattingroom_list">
@@ -319,20 +260,23 @@
         친구 프로필 모달창
     -->
     <div id="friend_profile_modal">
-        <div class="profile_picture">사진</div>
-        <div class="profile_name">이름</div>
-        <div class="profile_ps">상메</div>
+        <div class="profile_picture">1</div>
+        <div class="profile_name">2</div>
+        <div class="profile_ps">3</div>
         <div class="profile_option">
-            <div class="option1"><input type="button" value="함께 하는 클래스 n개"></div>
-            <div class="option2"><input type="button" value="1:1 채팅"></div>
+            <div class="option1"><button>함께하는 클래스 2개</button></div>
+            <div class="option2"><button>1:1 채팅</button></div>
         </div>
         <div class="back"><input type="button" value="닫기"></div>
     </div>
-    <div id="together_class">
-        <div>KH자바스터디 G반</div>
-        <div class="line"></div>
-        <div>파이썬으로 GPT 혼...</div>
-    </div>
+	<div id="together_class">
+		<ul>
+			<li>
+				<div>4</div>
+			</li>
+		</ul>
+	</div>
+    
 
     <!--
         채팅방 설정 컨트롤러

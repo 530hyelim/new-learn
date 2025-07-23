@@ -4,10 +4,11 @@ import java.util.List;
 
 import com.newlearn.playground.chat.model.vo.ChattingRoom;
 import com.newlearn.playground.chat.model.vo.Friend;
+import com.newlearn.playground.chat.model.vo.FriendDTO;
 
 public interface ChattingRoomListDao {
 
-	List<Friend> selectFriendList(int userNo);
+	List<FriendDTO> selectFriendList(int userNo);
 	
 	List<ChattingRoom> selectChattingRoomList(int userNo);
 

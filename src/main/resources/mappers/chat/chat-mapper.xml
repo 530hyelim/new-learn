@@ -1,66 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="chat">
-	<!-- 친구 목록 조회
-		샘플데이터 추가
-	 -->
-	 
+	<!-- 친구 목록 조회 -->
 	<select id="selectFriendList" resultMap="friendListResultMap">
 		SELECT
-			F.USER_NO, -- 로그인 유저 번호
-		    M.USER_NAME, -- 친구 이름
-		    MP.STATUS_MESSAGE, -- 친구 상메
-		    I.CHANGE_NAME, -- 친구 프사
-		    C.CLASS_NAME, -- 친구 클래스이름
-		    MYCJ.CLASS_NO, -- 내 클래스번호
-		    FRCJ.USER_NO, -- 내 클래스에 있는 유저 번호
-		    (SELECT COUNT(*) FROM CLASS_JOIN CJ WHERE MYCJ.CLASS_NO = CJ.CLASS_NO AND FRCJ.USER_NO = CJ.USER_NO) CNT
+		    M.USER_NO,
+		    I.CHANGE_NAME,
+		    M.USER_NAME,
+		    MP.STATUS_MESSAGE
 		FROM FRIEND F
-		LEFT JOIN MEMBER M ON M.USER_NO = F.FRIEND_USER_NO
-		LEFT JOIN MYPAGE MP ON MP.USER_NO = F.FRIEND_USER_NO
-		LEFT JOIN MYPAGE_IMG MI ON MP.MYPAGE_NO = MI.MYPAGE_NO AND TYPE='profile'
-		LEFT JOIN IMAGE I USING(IMG_NO)
-		LEFT JOIN CLASS_JOIN FRCJ ON FRCJ.USER_NO = F.FRIEND_USER_NO
-		LEFT JOIN CLASS C ON FRCJ.CLASS_NO = C.CLASS_NO
-		LEFT JOIN CLASS_JOIN MYCJ ON MYCJ.USER_NO = F.USER_NO
+		LEFT JOIN MEMBER M ON F.FRIEND_USER_NO = M.USER_NO
+		LEFT JOIN MYPAGE MP ON F.FRIEND_USER_NO = MP.USER_NO
+		LEFT JOIN MYPAGE_IMG MPI ON MP.MYPAGE_NO = MPI.MYPAGE_NO AND TYPE='profile'
+		LEFT JOIN IMAGE I ON MPI.IMG_NO = I.IMG_NO
 		WHERE F.USER_NO = #{userNo} AND F.RESPONSE_STATUS = '수락'
 	</select>
-	<resultMap type="com.newlearn.playground.chat.model.vo.FriendDTO" id="friendListResultMap">
+	<resultMap type="friendDTO" id="friendListResultMap">
 		<id column="user_no" property="userNo"/>
+		<result column="change_name" property="changeName"/>
 		<result column="user_name" property="userName"/>
 		<result column="status_message" property="statusMessage"/>
-		<result column="change_name" property="changeName"/>
-		<!-- <result column="class_no" property="userClassNo"/>
-			 <result column="user_no" property="sameClassFriendUserNo"/> 
-		-->
-		<result column="friend_user_no" property="friendUserNo"/>
-		<result column="cnt" property="cnt"/>
-		<collection property="classNameList" javaType="java.util.List" ofType="string">
-			<result column="class_name"/>
-		</collection>
 	</resultMap>
 	
-	<!-- 채팅방 목록 조회 -->
-	<!-- <select id="selectChattingRoomList" resultType="ChattingRoom">
-		SELECT
-			개설자,
-			개설자 프로필사진,
-			방 제목,
-			새 소식 수,
-			참여자 수,
-			알림여부,
-			공개여부,
-			비밀번호
-		FROM
-	</select> -->
+	채팅방 목록 조회
+	<select id="selectChattingRoomList" resultType="ChattingRoom">
+			
+	</select>
 	
-	<!-- 채팅방 생성 -->
+<!-- 	
+	채팅방 생성
 	<insert id="createRoom">
 		
 	</insert>
 	
-	<!-- 친구 프로필 조회 -->
+	친구 프로필 조회
 	<select id="friendProfile">
 	
-	</select>
+	</select> -->
 </mapper>
