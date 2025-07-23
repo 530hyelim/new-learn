@@ -21,8 +21,10 @@
                     </select>
                     <button type="button">나가기</button>
                 </div>
-                <div class="answer">
-                    <button id="test">테스트용</button>
+                <div class="answer-area">
+                    <div id="answer-box">
+                        
+                    </div>
                 </div>
                 <div class="main-view-bottom">
                     <div class="input-area">
@@ -38,6 +40,35 @@
         </div>
     </div>
 </body>
-<!-- <script src="${pageContext.request.contextPath}/resources/js/ai-main.js"></script> -->
-<script src="../../../resources/js/ai-main.js"></script>
+<script>
+    function autoResize(textarea) {
+        // Reset height to auto to get accurate scrollHeight
+        textarea.style.height = 'auto';
+        
+        // Set height to scrollHeight (content height)
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    // Apply to all auto-resize textareas
+    document.querySelector('#prompt').addEventListener('input', function() {
+        autoResize(this);
+    });
+
+    $("#prompt-send-btn").on("click", function() {
+        //
+        $.ajax({
+            url: "${pageContext.request.contextPath}/ai/getPrompt",
+            data: {
+                prompt: $("#prompt").val()
+            },
+            success: function(result) {
+                console.log(result);
+                $("#answer-box").text(result);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        })
+    });
+</script>
 </html>

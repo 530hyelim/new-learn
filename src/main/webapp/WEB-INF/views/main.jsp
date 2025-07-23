@@ -9,6 +9,7 @@
 	<title>new Learn();</title>
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" type="text/css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/calendar.css" type="text/css" />
+	<link rel="icon" href="https://cdn-icons-png.flaticon.com/16/1998/1998614.png">
 </head>
 <body>
 	<jsp:include page="/WEB-INF/views/common/header.jsp" />
@@ -92,6 +93,7 @@
 				<h4>ASK ANYTHING!</h4>
 				<pre>ChatGPT     Gemini     Claude</pre>
 				<p>질문을 입력하세요</p>
+				<button><a href="${pageContext.request.contextPath}/ai/main">AI 사용하기</a></button>
 			</div>
 		</div>
 	</div>
