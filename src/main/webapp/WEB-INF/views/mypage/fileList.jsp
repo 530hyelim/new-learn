@@ -13,7 +13,14 @@
 <div class="upload-file">
 	<form:form action="${pageContext.request.contextPath}/mypage/storage/upload"
 		id="uploadForm" method="post" enctype="multipart/form-data">
-		<input type="file" id="upfile" class="form-control" name="upfile">
+		<label for="upfile">파일 선택 : </label>
+		<input type="file" id="upfile" class="form-control" name="upfile" multiple required>
+		<label for="directory">저장 경로 선택 : </label>
+		<select id="directory" class="dir-select" name="directory" required>
+			<c:forEach var="repo" items="${repoList}">
+				<option value="${repo.repoNo}">${repo.dirName}</option>
+			</c:forEach>
+        </select>
 		<button type="submit">파일 업로드</button>
 	</form:form>
 </div>

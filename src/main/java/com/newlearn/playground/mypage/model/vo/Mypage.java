@@ -5,11 +5,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Repository {
-	private int repoNo;
+public class Mypage {
 	private int mypageNo;
-	private String dirName;
-	private int parentRepoNo;
-	
-	private int level;
+	private int userNo;
+	private String mypageName;
+	private String statusMessage;
+	private long maxStorage;
 }

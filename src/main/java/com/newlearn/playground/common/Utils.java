@@ -7,10 +7,39 @@ import java.util.Date;
 
 import javax.servlet.ServletContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Utils {
-
+	@Autowired
+	private static ServletContext application;
+	
+	// 파일 또는 이미지 업로드를 위해 이름변경
+	public static String getChangeName(MultipartFile upfile, String type, int mypageNo) {
+		String webPath = "/resources/uploads/"+type+"/"+mypageNo+"/";
+		String serverFolderPath = application.getRealPath(webPath);
+		File dir = new File(serverFolderPath);
+		// 첫 업로드
+		if (!dir.exists()) {
+			dir.mkdirs();
+		}
+		String originName = upfile.getOriginalFilename();
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+		int random = (int)(Math.random() * 90000 + 10000);
+		String ext = originName.substring(originName.lastIndexOf("."));
+		String changeName = currentTime + random + ext;
+		try {
+			upfile.transferTo(new File(serverFolderPath + changeName));
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return changeName;
+	}
+	
+	////////////////////////////////////////////////////////////////////////////////////
+	
 	// 파일 저장 함수
 	// 파일을 저장하면서, 파일명을 수정하고 수정된 파일명을 반환한다.
 	public static String saveFile(MultipartFile upfile, ServletContext application, String boardCode) {

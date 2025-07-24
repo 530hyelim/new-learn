@@ -3,6 +3,7 @@ package com.newlearn.playground.mypage.model.dao;
 import java.util.List;
 
 import com.newlearn.playground.mypage.model.vo.Guestbook;
+import com.newlearn.playground.mypage.model.vo.Mypage;
 
 public interface MypageDao {
 
@@ -13,5 +14,7 @@ public interface MypageDao {
 	int guestbookDelete(int guestbookNo);
 
 	int guestbookInsert(Guestbook g);
+
+	Mypage getMypageByMypageNo(int mypageNo);
 
 }

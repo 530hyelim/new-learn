@@ -77,8 +77,8 @@
 		</div>
 	</div>
 </body>
-<c:if test="${not empty eventMsg}">
-	<script>alert("${eventMsg}");</script>
+<c:if test="${not empty alertMsg}">
+	<script>alert("${alertMsg}");</script>
 </c:if>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js"></script>
 <script>

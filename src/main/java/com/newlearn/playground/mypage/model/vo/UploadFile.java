@@ -16,6 +16,9 @@ public class UploadFile {
 	private String changeName;
 	private String visibility;
 	private Date createDate;
-	private int fileSize;
+	private long fileSize; // db랑 자동으로 매핑 되나?
 	private String deleted;
+	
+	private String selection;
+	private String keyword;
 }

@@ -104,9 +104,9 @@ public class EventController {
 		// 삭제권한 체크
 		int result = eventService.deleteEvent(eventNo);
 		if (result == 1) {
-			ra.addFlashAttribute("eventMsg", "일정이 정상적으로 삭제되었스비낟.");
+			ra.addFlashAttribute("alertMsg", "일정이 정상적으로 삭제되었스비낟.");
 		} else {
-			ra.addFlashAttribute("eventMsg", "일정을 삭제하는 도중 에러가 발생하였습니다.");
+			ra.addFlashAttribute("alertMsg", "일정을 삭제하는 도중 에러가 발생하였습니다.");
 		}
 		return "redirect:/mypage"+session.getAttribute("loginUserNo");
 	}
@@ -118,19 +118,19 @@ public class EventController {
 		// 논리검사
 		// 1. endDate가 startDate보다 더 이전이라면
 		if (event.getEndDate().compareTo(event.getStartDate()) < 0) {
-			ra.addFlashAttribute("eventMsg", "종료날짜는 시작날짜보다 빠를 수 없습니다.");
+			ra.addFlashAttribute("alertMsg", "종료날짜는 시작날짜보다 빠를 수 없습니다.");
 			if (event.getEventType() == EventType.PERSONAL) return "redirect:/mypage/"+session.getAttribute("loginUserNo");
 			return "redirect:/event/detail/"+event.getEventNo();
 		}
 		// 2. endDate가 오늘 날짜보다 더 이전이라면
 		if (event.getEndDate().compareTo(new Date()) < 0) {
-			ra.addFlashAttribute("eventMsg", "종료날짜는 오늘날짜보다 빠를 수 없습니다.");
+			ra.addFlashAttribute("alertMsg", "종료날짜는 오늘날짜보다 빠를 수 없습니다.");
 			if (event.getEventType() == EventType.PERSONAL) return "redirect:/mypage/"+session.getAttribute("loginUserNo");
 			return "redirect:/event/detail/"+event.getEventNo();
 		}
 		// 3. joinDeadline이 startDate보다 더 이전이라면
 		if (event.getEventType() == EventType.SHARED && event.getJoinDeadline().compareTo(event.getStartDate()) < 0) {
-			ra.addFlashAttribute("eventMsg", "이벤트 참여기한은 시작날짜보다 빠를 수 없습니다.");
+			ra.addFlashAttribute("alertMsg", "이벤트 참여기한은 시작날짜보다 빠를 수 없습니다.");
 			if (event.getEventType() == EventType.PERSONAL) return "redirect:/mypage/"+session.getAttribute("loginUserNo");
 			return "redirect:/event/detail/"+event.getEventNo();
 		}
@@ -141,12 +141,12 @@ public class EventController {
 			event.setUserNo((int)session.getAttribute("loginUserNo"));
 			if (event.getEventType() == EventType.PERSONAL) event.setJoinDeadline(new Date()); // nullable 변경?
 			int result = eventService.insertEvent(event);
-			if (result == 1) ra.addFlashAttribute("eventMsg", "새 이벤트가 정상적으로 추가되었습니다.");
+			if (result == 1) ra.addFlashAttribute("alertMsg", "새 이벤트가 정상적으로 추가되었습니다.");
 		}
 		if (event.getDmlType().equals("update")) {
 			if (event.getEventType() == EventType.PERSONAL) event.setJoinDeadline(new Date()); // nullable 변경?
 			int result = eventService.updateEvent(event);
-			if (result == 1) ra.addFlashAttribute("eventMsg", "이벤트가 정상적으로 수정되었습니다.");
+			if (result == 1) ra.addFlashAttribute("alertMsg", "이벤트가 정상적으로 수정되었습니다.");
 		}
 		if (event.getEventType() == EventType.PERSONAL) return "redirect:/mypage/"+session.getAttribute("loginUserNo");
 		return "redirect:/event";

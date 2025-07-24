@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.newlearn.playground.mypage.model.dao.MypageDao;
 import com.newlearn.playground.mypage.model.vo.Guestbook;
+import com.newlearn.playground.mypage.model.vo.Mypage;
 
 @Service
 public class MypageServiceImpl implements MypageService {
@@ -32,6 +33,11 @@ public class MypageServiceImpl implements MypageService {
 	@Override
 	public int guestbookInsert(Guestbook g) {
 		return mypageDao.guestbookInsert(g);
+	}
+
+	@Override
+	public Mypage getMypageByMypageNo(int mypageNo) {
+		return mypageDao.getMypageByMypageNo(mypageNo);
 	}
 
 }

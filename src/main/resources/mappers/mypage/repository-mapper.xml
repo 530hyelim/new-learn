@@ -2,8 +2,24 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="repo">
 	<select id="getRepoList" resultType="repository">
+		select level, r.* from repository r
+			start with parent_repo_no is null and mypage_no = #{mypageNo}
+			connect by prior repo_no = parent_repo_no
+	</select>
+	
+	<select id="getRepoByRepoNo" resultType="repository">
 		select * from repository
+		where repo_no = #{repoNo}
+	</select>
+	
+	<insert id="insertFile">
+		insert into upload_file values
+		(seq_file_no.nextval, #{submissionNo}, #{repoNo}, #{messageNo}, 
+		#{originName}, #{changeName}, 'public', sysdate, #{fileSize}, 'N')
+	</insert>
+	
+	<select id="getFileList" resultType="uploadFile">
+		select * from upload_file
 		where mypage_no = #{mypageNo}
-			and parent_repo_no is null
 	</select>
 </mapper>

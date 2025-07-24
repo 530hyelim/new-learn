@@ -3,16 +3,22 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
+<style>
+	.repo-list button not{
+		display: none;
+	}
+</style>
+
 <div class="left-side">
 	<div class="repo-list">
 		<c:forEach var="repo" items="${repoList}">
-			<button>${repo.dirName}</button>
+			<button class="lvl-${repo.level} prn-${repo.parentRepoNo}">${repo.dirName}</button>
 		</c:forEach>
 	</div>
 	<div class="search-file">
 		<form id="searchForm">
             <div class="select">
-                <select class="custom-select" name="condition">
+                <select class="custom-select" name="selection">
                     <option value="fileName">파일명</option>
                     <option value="dirName">폴더명</option>
                     <option value="fileAndDir">파일명+폴더명</option>

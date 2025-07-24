@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.newlearn.playground.mypage.model.vo.Guestbook;
+import com.newlearn.playground.mypage.model.vo.Mypage;
 
 @Repository
 public class MypageDaoImpl implements MypageDao {
@@ -32,6 +33,11 @@ public class MypageDaoImpl implements MypageDao {
 	@Override
 	public int guestbookInsert(Guestbook g) {
 		return session.insert("guestbook.guestbookInsert", g);
+	}
+
+	@Override
+	public Mypage getMypageByMypageNo(int mypageNo) {
+		return session.selectOne("mypage.getMypageByMypageNo", mypageNo);
 	}
 
 }
