@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>출결관리</title>
+    <link rel="stylesheet" href="/css/출결관리.css">
+  <style>
+   
+  </style>
+</head>
+<body>
+
+ 
+  <div class="header">
+    <div class="title">new Learn();</div>
+    <div class="subtitle">KH 자바스터디 G반</div>
+    <div class="close-btn">✕</div>
+  </div>
+
+  <div class="container">
+    <div class="sidebar">
+      <button class="active"><img src="/IMG/출결관리.png" width="25px" >출결관리</button>
+      <button><img src="/IMG/학생관리.png" width="25px"> 학생 관리</button>
+      <button><img src="/IMG/게시글 관리.png" width="25px"> 게시글 관리</button>
+      <button><img src="/IMG/공지사항 관리.png" width="25px"> 공지사항 관리</button>
+      <button><img src="/IMG/과제관리.png" width="25px"> 과제제출</button>
+      <button><img src="IMG/신고 관리.png" width="25px"> 신고관리 </button>
+    </div>
+
+    
+
+    <div class="content">
+        <div class="title">출결관리</div>
+      <div class="date-select">
+        <input type="date" name="date" >
+      </div>
+    
+
+      <div class="status-summary">
+        <div>출석 30/30</div>
+        <div>결석 0/30</div>
+        <div>지각 0/30</div>
+        <div>조퇴 0/30</div>
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>이름</th>
+            <th>출석현황</th>
+            <th>상태</th>
+            <th>입실시간</th>
+            <th>퇴실시간</th>
+            <th>관리</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 각 학생 행 -->
+          <tr class="row">
+            <td>조성모</td>
+            <td>출석</td>
+            <td>온라인</td>
+            <td>09:00</td>
+            <td>18:10</td>
+            <td>
+              <button class="manage-button">출석 관리</button>
+              <div class="dropdown">
+                <div>출석</div>
+                <div>결석</div>
+                <div>지각</div>
+                <div>조퇴</div>
+              </div>
+            </td>
+          </tr>
+          <tr class="row">
+            <td>심은성</td>
+            <td>출석</td>
+            <td>온라인</td>
+            <td>08:30</td>
+            <td>20:55</td>
+            <td>
+              <button class="manage-button">출석 관리</button>
+              <div class="dropdown">
+                <div>출석</div>
+                <div>결석</div>
+                <div>지각</div>
+                <div>조퇴</div>
+              </div>
+            </td>
+          </tr>
+          <!-- 추가 학생은 여기 계속 복사 -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // 각 "출석 관리" 버튼 클릭 시 드롭다운 열기
+    document.querySelectorAll('.manage-button').forEach(button => {
+      button.addEventListener('click', function (e) {
+        // 모든 드롭다운 닫기
+        document.querySelectorAll('.dropdown').forEach(menu => {
+          menu.classList.remove('show');
+        });
+
+        // 현재 버튼 옆 드롭다운 열기
+        const dropdown = this.nextElementSibling;
+        dropdown.classList.toggle('show');
+
+        e.stopPropagation();
+      });
+    });
+
+    // 바깥 클릭 시 드롭다운 닫기
+    document.addEventListener('click', () => {
+      document.querySelectorAll('.dropdown').forEach(menu => {
+        menu.classList.remove('show');
+      });
+    });
+  </script>
+</body>
+</html>
