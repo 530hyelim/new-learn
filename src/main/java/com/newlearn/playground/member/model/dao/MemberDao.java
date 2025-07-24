@@ -32,5 +32,6 @@ public interface MemberDao {
 	 * */
 	int checkNameAndSsn(String userName, String ssn);
 	
+	String findUserForPasswordReset(String userName, String ssn, String email);
 
 }

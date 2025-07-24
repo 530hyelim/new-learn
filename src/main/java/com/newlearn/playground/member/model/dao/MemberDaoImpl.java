@@ -75,6 +75,30 @@ public class MemberDaoImpl implements MemberDao{
 	}
 	
 	
+	@Override
+	public String findUserForPasswordReset(String userName, String ssn,
+			String email) {
+		Map<String, String> params = new HashMap<>();
+		params.put("userName", userName);
+		params.put("ssn", ssn);
+		params.put("email", email);
+		return sqlSession.selectOne("memberMapper.findUserForPasswordReset", params);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	

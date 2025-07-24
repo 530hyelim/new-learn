@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,6 +30,9 @@ import com.newlearn.playground.member.model.vo.Member;
 public class MemberController {
 	@Autowired
 	private MemberService mService;
+	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
 	
 	
 	/*
@@ -314,38 +318,52 @@ public class MemberController {
 	}
 	
 	// 비밀번호 찾기
-		@PostMapping("/findPassword")
-		public String findPassword(@RequestParam("userName") String userName,
-		                             @RequestParam("ssn1") String ssn1,
-		                             @RequestParam("ssn2") String ssn2,
-		                             HttpSession session,
-		                             RedirectAttributes rttr) {
-		    String ssn = ssn1 + "-" + ssn2;
-		    String userId = mService.findId(userName, ssn);
+	@PostMapping("/member/findPassword")
+	public String findPassword(@RequestParam("userName") String userName,
+			@RequestParam("ssn1") String ssn1,
+	        @RequestParam("ssn2") String ssn2,
+	        @RequestParam("userEmailId") String emailId,
+	        @RequestParam("userEmailDomain") String emailDomain,
+	        HttpSession session,
+	        RedirectAttributes rttr) {
+		
+		String ssn = ssn1 + "-" + ssn2;
+		String email = emailId + "@" + emailDomain; // 이메일 주소 합치기
+		String userId = mService.findUserForPasswordReset(userName, ssn, email);
 
 		    if (userId != null) {
 		        session.setAttribute("userIdForReset", userId);
 
 		        // '새 비밀번호 입력' 페이지로 이동
 		        return "redirect:/member/resetPasswordForm";
-
 		    } else {
-		        rttr.addFlashAttribute("message", "일치하는 회원 정보가 없습니다.");
+		        rttr.addFlashAttribute("message", "입력하신 이름 또는 주민등록번호를 다시 확인해주세요.");
 		        return "redirect:/member/findPassword";
 		    }
-
 		}
 
 		// 비밀번호 찾기(보안)
-		@PostMapping("/resetPassword")
+		@PostMapping("/member/resetPassword")
 		public String resetPassword(@RequestParam("newPassword")
-			   String newPassword, HttpSession session) {
+			   String newPassword, HttpSession session,
+			   RedirectAttributes rttr) {
 
 		String userId = (String) session.getAttribute("userIdForReset");
 
 		if(userId == null) {
-			return "redirect:/member/findPassword";
+			return "redirect:/member/findPassword"; // 세션만료 대비
 		}
+		
+		Member m = new Member();
+	    m.setUserId(userId);
+	    Member currentUser = mService.loginMember(m);
+	    String oldPasswordHash = currentUser.getUserPwd();
+		
+	    if (bcryptPasswordEncoder.matches(newPassword, oldPasswordHash)) {
+	        // 동일한 경우, 에러 메시지와 함께 이전 페이지로 돌려보냅니다.
+	        rttr.addFlashAttribute("message", "기존과 동일한 비밀번호로는 변경할 수 없습니다.");
+	        return "redirect:/member/resetPasswordForm";
+	    }
 
 		int result = mService.updatePassword(userId, newPassword);
 
@@ -355,10 +373,10 @@ public class MemberController {
 
 	}
 
-		@GetMapping("/passwordChangeComplete")
+		@GetMapping("/member/changePasswordComplete")
 		public String passwordChangeComplete() {
 
-			return "member/changePasswordComplete";
+			return "/member/changePasswordComplete";
 		}
 	
 	// /member/agree 주소로 요청이 들어오면  agree.jsp를 화면에 나타냄

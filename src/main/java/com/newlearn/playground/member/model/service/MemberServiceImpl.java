@@ -126,6 +126,17 @@ public class MemberServiceImpl implements MemberService {
 		return memberDao.updatePassword(userId, encryptedPassword);
 	}
 	
+	@Override
+	public String findUserForPasswordReset(String userName, String ssn, 
+			String email) {
+		return memberDao.findUserForPasswordReset(userName, ssn, email);
+	}
 	
 	
+	
+	
+	
+	
+	
+
 }

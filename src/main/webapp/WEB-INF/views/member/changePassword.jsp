@@ -85,9 +85,17 @@
             } else {
                 $pwConfirmFeedback.text('');
             }   
-        });
+        }); 
     });
 </script>
+
+    <script>
+        // 페이지 로드 시, 서버에서 보낸 에러 메시지가 있는지 확인하고 팝업으로 띄웁니다.
+        const message = "${message}";
+        if (message) {
+            alert(message);
+        }
+   </script>
 
 </body>
 </html>

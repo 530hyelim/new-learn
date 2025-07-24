@@ -37,5 +37,13 @@
         <jsp:param name="actionUrl" value="${pageContext.request.contextPath}/member/findPassword"/>
     </jsp:include>
 
+<script>
+	const message = "${message}";
+	
+	if(message) {
+		alert(message);
+	}
+</script>
+
 </body>
 </html>
