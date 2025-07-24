@@ -11,11 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
 public class Utils {
-	@Autowired
-	private static ServletContext application;
-	
 	// 파일 또는 이미지 업로드를 위해 이름변경
-	public static String getChangeName(MultipartFile upfile, String type, int mypageNo) {
+	public static String getChangeName(MultipartFile upfile, ServletContext application, String type, int mypageNo) {
 		String webPath = "/resources/uploads/"+type+"/"+mypageNo+"/";
 		String serverFolderPath = application.getRealPath(webPath);
 		File dir = new File(serverFolderPath);

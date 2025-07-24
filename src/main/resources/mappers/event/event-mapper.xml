@@ -13,7 +13,7 @@
 		select * from (
 			select * from calendar
 			join member using(user_no)
-			where trunc(start_date) >= to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+			where start_date >= sysdate
 				and event_type = 'SHARED'
 				and visibility = 'Y'
 			order by start_date

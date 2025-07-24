@@ -4,7 +4,6 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -63,7 +62,7 @@ public class MypageController {
 	
 	@GetMapping("/guestbook")
 	public String loadGuestbook(HttpSession session, Model model) {
-		int mypageNo = (int)session.getAttribute("mypageNo");
+		int mypageNo = (int)session.getAttribute("loginUserNo"); // mypageNo == loginUserNo
 		List<Guestbook> gbList = mypageService.loadGuestbook(mypageNo);
 		model.addAttribute("gbList", gbList);
 		return "mypage/guestbook";
@@ -132,19 +131,30 @@ public class MypageController {
 	}
 	
 	@GetMapping("/storage")
-	public String loadStorage(HttpSession session) {
-		List<Repository> repoList = repoService.getRepoList((int)session.getAttribute("mypageNo"));
-		session.setAttribute("repoList", repoList);
+	public String loadStorage(HttpSession session, Model model) {
+		int mypageNo = (int)session.getAttribute("mypageNo");
+		List<Repository> repoList = repoService.getRepoList(mypageNo);
+		List<UploadFile> fileList = repoService.getAllFileList(mypageNo);
+		model.addAttribute("repoList", repoList);
+		model.addAttribute("fileList", fileList);
 		return "mypage/storage";
+	}
+	
+	// 폴더 버튼 누르면 오른쪽에 비동기식으로 화면 출력하기
+	@GetMapping("/storage/load")
+	public String loadFile(@RequestParam int repoNo, Model model) {
+		List<UploadFile> fileList = repoService.getFileList(repoNo);
+		Repository repo = repoService.getRepoByRepoNo(repoNo);
+		model.addAttribute("fileList", fileList);
+		model.addAttribute("repo", repo);
+		return "mypage/fileList";
 	}
 	
 	// 내 저장소 div에서 검색기능
 	@GetMapping("/storage/search")
-	public String searchFile(@RequestParam String selection, @RequestParam String keyword, Model model) {
-		UploadFile uf = new UploadFile();
-		uf.setSelection(selection);
-		uf.setKeyword(keyword);
-		List<UploadFile> fileList = repoService.searchFileList(uf);
+	public String searchFile(@RequestParam Map<String, String> paramMap, HttpSession session, Model model) {
+		paramMap.put("mypageNo", (int)session.getAttribute("mypageNo")+"");
+		List<UploadFile> fileList = repoService.searchFileList(paramMap);
 		model.addAttribute("fileList", fileList);
 		return "mypage/fileList";
 	}
@@ -154,10 +164,9 @@ public class MypageController {
 	public String insertFile(@RequestParam int repoNo, @RequestParam(value="upfile") List<MultipartFile> upfiles, 
 			RedirectAttributes ra, HttpSession session) {
 		Repository repo = repoService.getRepoByRepoNo(repoNo);
-		int mypageNo = repo.getMypageNo();
-		Mypage mypage = mypageService.getMypageByMypageNo(mypageNo);
-		List<UploadFile> ufList = repoService.getFileList(mypageNo);
-		long totalStorage = 0;
+		Mypage mypage = mypageService.getMypageByMypageNo(repo.getMypageNo());
+		List<UploadFile> ufList = repoService.getFileList(repoNo);
+		long totalStorage = 0; // 바이트단위
 		if (!ufList.isEmpty()) {
 			for (UploadFile uf : ufList) {
 				totalStorage += uf.getFileSize();
@@ -166,10 +175,10 @@ public class MypageController {
 		for (MultipartFile upfile : upfiles) {
 			if (totalStorage + upfile.getSize() > mypage.getMaxStorage()) {
 				ra.addFlashAttribute("alertMsg", "파일을 업로드 할 수 있는 최대용량을 초과했스빈다.");
-				return "redirect/mypage/"+session.getAttribute("mypageNo");
+				return "redirect:/mypage/"+session.getAttribute("mypageNo");
 			}
 			UploadFile uf = new UploadFile();
-			String changeName = Utils.getChangeName(upfile, "file", mypageNo);
+			String changeName = Utils.getChangeName(upfile, application, "file", repo.getMypageNo());
 			uf.setChangeName(changeName);
 			uf.setOriginName(upfile.getOriginalFilename());
 			uf.setRepoNo(repoNo);
@@ -180,7 +189,7 @@ public class MypageController {
 			}
 		}
 		ra.addFlashAttribute("alertMsg", "파일 업로드 성공");
-		return "redirect/mypage/"+session.getAttribute("mypageNo");
+		return "redirect:/mypage/"+session.getAttribute("mypageNo");
 	}
 	
 }

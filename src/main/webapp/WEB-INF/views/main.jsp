@@ -115,10 +115,10 @@
 			</div>
 			<div class="upcoming-events">
 				<h4>UPCOMING EVENTS</h4>
-				<c:forEach var="event" items="${eventWithMemberCnt}">
-					<p><fmt:formatDate value="${event.key.startDate}" pattern="M월 d일 EEEE h : mm a"/></p>
-					<pre>${event.key.eventName} (${event.value}명 참여중...)</pre>
-					<form action="${pageContext.request.contextPath}/event/detail/${event.key.eventNo}" method="get">
+				<c:forEach var="event" items="${upcomingEvents}">
+					<p><fmt:formatDate value="${event.startDate}" pattern="M월 d일 EEEE h : mm a"/></p>
+					<pre>${event.eventName} (${eventWithMemberCnt[event]}명 참여중...)</pre>
+					<form action="${pageContext.request.contextPath}/event/detail/${event.eventNo}" method="get">
 						<button type="submit">상세보기</button>
 					</form>
 				</c:forEach>

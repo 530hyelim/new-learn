@@ -9,16 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UploadFile {
 	private int fileNo;
-	private int submissionNo;
-	private int repoNo;
-	private int messageNo;
+	private Integer submissionNo;
+	private Integer repoNo;
+	private Integer messageNo;
 	private String originName;
 	private String changeName;
 	private String visibility;
 	private Date createDate;
 	private long fileSize; // db랑 자동으로 매핑 되나?
 	private String deleted;
-	
-	private String selection;
-	private String keyword;
 }

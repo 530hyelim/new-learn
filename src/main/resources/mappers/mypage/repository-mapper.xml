@@ -20,6 +20,39 @@
 	
 	<select id="getFileList" resultType="uploadFile">
 		select * from upload_file
+		where repo_no = #{repoNo}
+			and deleted = 'N'
+	</select>
+	
+	<select id="searchFileList" resultType="uploadFile">
+		select * from upload_file
+		join repository using(repo_no)
 		where mypage_no = #{mypageNo}
+			and deleted = 'N'
+		<if test="keyword != null and keyword != ''">
+			and
+			<choose>
+				<when test="selection.equals('fileName')">
+					file_name like '%'||#{keyword}||'%'
+				</when>
+				<when test="selection.equals('dirName')">
+					dir_name like '%'||#{keyword}||'%'
+				</when>
+				<when test="selection.equals('fileAndDir')">
+					(file_name like '%'||#{keyword}||'%'
+					or
+					dir_name like '%'||#{keyword}||'%')
+				</when>
+			</choose>
+		</if>
+		order by create_date desc
+	</select>
+	
+	<select id="getAllFileList" resultType="uploadFile">
+		select * from upload_file
+		join repository using(repo_no)
+		where mypage_no = #{mypageNo}
+			and deleted = 'N'
+		order by create_date desc
 	</select>
 </mapper>

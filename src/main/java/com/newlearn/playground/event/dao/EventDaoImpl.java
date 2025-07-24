@@ -29,8 +29,8 @@ public class EventDaoImpl implements EventDao {
 	}
 
 	@Override
-	public List<Event> upcomingEvents(String selectedDate) {
-		return session.selectList("event.upcomingEvents", selectedDate);
+	public List<Event> upcomingEvents() {
+		return session.selectList("event.upcomingEvents");
 	}
 
 	@Override

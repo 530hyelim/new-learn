@@ -37,12 +37,7 @@ public class EventController {
 	@GetMapping
 	public String pageload(HttpSession session) {
 		String selectedDate = session.getAttribute("year")+"-"+session.getAttribute("month")+"-"+session.getAttribute("today");
-		List<Event> sharedEvents = eventService.findAllByDate(selectedDate);
-		List<Event> personalEvents = eventService.findAllPersonal(selectedDate);
-		session.setAttribute("sharedEvents", sharedEvents);
-		session.setAttribute("personalEvents", personalEvents);
-		session.setAttribute("selectedDate", selectedDate);
-		return "event/event";
+		return eventPage(selectedDate, session);
 	}
 	
 	// 캘린더에서 날짜 클릭했을 때
@@ -76,19 +71,14 @@ public class EventController {
 	// 클래스룸 페이지에서 상세보기 버튼 클릭했을 때
 	@GetMapping("/detail/{eventNo}")
 	public String eventDetailMain(@PathVariable("eventNo") int eventNo, HttpSession session, Model model) {
-		String selectedDate = session.getAttribute("year")+"-"+session.getAttribute("month")+"-"+session.getAttribute("today");
+		String selectedDate = null; 
 		if (eventNo != 0) {
 			Event selectedEvent = eventService.findByNo(eventNo);
 			model.addAttribute("event", selectedEvent);
 			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d");
 			selectedDate = dateFormat.format(selectedEvent.getStartDate());
 		}
-		List<Event> sharedEvents = eventService.findAllByDate(selectedDate);
-		List<Event> personalEvents = eventService.findAllPersonal(selectedDate);
-		session.setAttribute("sharedEvents", sharedEvents);
-		session.setAttribute("personalEvents", personalEvents);
-		session.setAttribute("selectedDate", selectedDate);
-		return "event/event";
+		return eventPage(selectedDate, session);
 	}
 	
 	// 날짜 형식 변환

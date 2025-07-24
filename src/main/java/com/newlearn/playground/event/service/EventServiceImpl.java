@@ -29,8 +29,8 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<Event> upcomingEvents(String selectedDate) {
-		return eventDao.upcomingEvents(selectedDate);
+	public List<Event> upcomingEvents() {
+		return eventDao.upcomingEvents();
 	}
 
 	@Override

@@ -1,6 +1,7 @@
 package com.newlearn.playground.mypage.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +31,17 @@ public class RepositoryServiceImpl implements RepositoryService {
 	}
 
 	@Override
-	public List<UploadFile> getFileList(int mypageNo) {
-		return repoDao.getFileList(mypageNo);
+	public List<UploadFile> getFileList(int repoNo) {
+		return repoDao.getFileList(repoNo);
+	}
+
+	@Override
+	public List<UploadFile> searchFileList(Map<String, String> paramMap) {
+		return repoDao.searchFileList(paramMap);
+	}
+
+	@Override
+	public List<UploadFile> getAllFileList(int mypageNo) {
+		return repoDao.getAllFileList(mypageNo);
 	}
 }

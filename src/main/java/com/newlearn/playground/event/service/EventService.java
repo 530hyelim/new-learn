@@ -14,7 +14,7 @@ public interface EventService {
 
 	List<Event> findAllPersonal(String selectedDate);
 
-	List<Event> upcomingEvents(String selectedDate);
+	List<Event> upcomingEvents();
 
 	Integer joinMemberCnt(int eventNo);
 

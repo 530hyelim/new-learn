@@ -1,6 +1,7 @@
 package com.newlearn.playground.mypage.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +30,18 @@ public class RepositoryDaoImpl implements RepositoryDao {
 	}
 
 	@Override
-	public List<UploadFile> getFileList(int mypageNo) {
-		return session.selectList("repo.getFileList", mypageNo);
+	public List<UploadFile> getFileList(int repoNo) {
+		return session.selectList("repo.getFileList", repoNo);
+	}
+
+	@Override
+	public List<UploadFile> searchFileList(Map<String, String> paramMap) {
+		return session.selectList("repo.searchFileList", paramMap);
+	}
+
+	@Override
+	public List<UploadFile> getAllFileList(int mypageNo) {
+		return session.selectList("repo.getAllFileList", mypageNo);
 	}
 
 }

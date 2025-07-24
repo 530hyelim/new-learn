@@ -3,14 +3,15 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 
-<style>
-
-</style>
-
 <div class="left-side">
 	<div class="repo-list">
+		<button id="all-files-btn">전체문서함</button>
 		<c:forEach var="repo" items="${repoList}">
-			<button class="lvl-${repo.level} prn-${repo.parentRepoNo}">${repo.dirName}</button>
+			<c:set var="displayOption" value="${repo.level == 1 ? 'block' : 'none'}"/>
+			<div class="repo-item lvl-${repo.level} prn-${repo.parentRepoNo}" style="display: ${displayOption};">
+				<button class="repo-btn" data-repo-level="${repo.level}" data-repo-no="${repo.repoNo}">
+				${repo.dirName}</button>
+			</div>
 		</c:forEach>
 	</div>
 	<div class="search-file">
@@ -31,4 +32,5 @@
 </div>
 <div class="storage-main-body">
 	<!-- 비동기식으로 form 요청 보내서 받아온 데이터 출력하는 곳 -->
+	<jsp:include page="/WEB-INF/views/mypage/fileList.jsp" />
 </div>

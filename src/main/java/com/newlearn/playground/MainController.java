@@ -52,8 +52,7 @@ public class MainController {
 		session.setAttribute("lastDay", lastDay);
 		session.setAttribute("days", days);
 		
-		String selectedDate = year + "-" + month + "-" + today;
-		List<Event> upcomingEvents = eventService.upcomingEvents(selectedDate);
+		List<Event> upcomingEvents = eventService.upcomingEvents();
 		Map<Event, Integer> eventWithMemberCnt = new HashMap<>();
 		for (Event event : upcomingEvents) {
 			eventWithMemberCnt.put(event, eventService.joinMemberCnt(event.getEventNo()));
