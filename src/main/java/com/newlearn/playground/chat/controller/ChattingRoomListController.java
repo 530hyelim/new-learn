@@ -51,7 +51,7 @@ public class ChattingRoomListController {
 		// 채팅방 목록 조회 후 리스트에 담기
 		List<ChattingRoom> chattingRoomList = crs.selectChattingRoomList(userNo);
 		model.addAttribute("chattingRoomList",chattingRoomList);
-//		log.debug("chattingRoomList : {}",chattingRoomList);
+		log.debug("chattingRoomList : {}",chattingRoomList);
 		
 		return "chat/chatMain";
 	}
