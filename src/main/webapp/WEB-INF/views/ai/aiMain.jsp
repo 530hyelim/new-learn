@@ -15,7 +15,9 @@
     <div class="content-wrapper">
         <div class="content">
             <div class="side-nav">
-                <ul>
+                <button id="new-chat" type="button"><h2>새 대화</h2></button>
+                <br>
+                <ul id="side-session-list">
                 	<c:if test="${not empty aiChatSessionsList }">
                 		<c:forEach var="aiChatSession" items="${aiChatSessionsList }">
                 			<li class="ai-chat-sessions-list" data-session-no="${aiChatSession.sessionNo }">${aiChatSession.title }</li>
@@ -65,6 +67,9 @@
         textarea.style.height = textarea.scrollHeight + 'px';
     }
 
+    let sessionNo = 0;
+    let numPromptsSent = 0;
+
     // Apply to all auto-resize textareas
     document.querySelector('#prompt').addEventListener('input', function() {
         autoResize(this);
@@ -73,14 +78,14 @@
     $("#prompt-send-btn").on("click", function() {
         //
         const prompt = $("#prompt").val();
-        const $promptDiv = $("<div class='prompt-bubble'></div>").text(prompt);
-        $("#answer-box").append($promptDiv);
+        $("#answer-box").append($("<div class='prompt-bubble'></div>").text(prompt));
         // $("#answer-box").append("<hr>");
 
         $.ajax({
             url: "${pageContext.request.contextPath}/ai/getPrompt",
             data: {
-                prompt
+                prompt,
+                sessionNo
             },
             //dataType: "html",
             success: function(result) {
@@ -88,16 +93,80 @@
                 // $("#answer-box").html(result);
                 $("#answer-box").append(result.content);
                 // $("#answer-box").append("<hr>");
+                if (sessionNo == 0 && numPromptsSent == 0) {
+                    refreshSessionList();
+                }
+                numPromptsSent++;
+                sessionNo = parseInt(result.sessionNo);
+
+                console.log("sessionNo: " + sessionNo);
             },
             error: function(error) {
                 console.log(error);
             }
         });
     });
+
+    $("#new-chat").on("click", function() {
+        sessionNo = 0;
+        $("#answer-box").empty();
+        numPromptsSent = 0;
+
+        // 서버에 "새 세션 생성" 요청 (insert), 생성된 sessionNo 받아서 sessionNo에 저장
+        // $.post('/ai/newSession', {}, function(newSessionNo) {
+        //     sessionNo = newSessionNo;
+        //     // answer-box 클리어
+        //     $("#answer-box").empty();
+        // });
+    })
 	
-    $(".ai-chat-sessions-list").on("click", function() {
-        const sessionNo = $(this).data("session-no");
-    	console.log(sessionNo);
+    $("#side-session-list").on("click", ".ai-chat-sessions-list", function() {        
+        if ($(this).hasClass("clicked")) {
+            return;
+        }
+        // 다른 li의 clicked 클래스 다 지움
+        $(".ai-chat-sessions-list").removeClass("clicked");
+        // 클릭한 li만 clicked 클래스 추가
+        $(this).addClass("clicked");
+
+        sessionNo = $(this).data("session-no");
+    	console.log("sessionNo: " + sessionNo);
+
+        // 서버에 해당 sessionNo의 히스토리 불러오기 요청
+        // loadChatHistory(sessionNo);
+        $.ajax({
+            url: "${pageContext.request.contextPath}/ai/getChatHistory",
+            data: {
+                sessionNo
+            },
+            success: function(result) {
+                $("#answer-box").empty();
+                for (let i = 0; i < result.length; i++) {
+                    console.log(i);
+                    console.log(result[i].content);
+                    
+                    if (result[i].role === 'user') {
+                        $("#answer-box").append($("<div class='prompt-bubble'></div>").text(result[i].content));
+                    }
+
+                    if (result[i].role === 'assistant') {
+                        $("#answer-box").append(result[i].content);
+                    }
+                }
+                console.log(result);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        });
     });
+
+    // 예: 새 대화 생성 or 채팅방 리스트 갱신 필요할 때!
+    function refreshSessionList() {
+        $.get("${pageContext.request.contextPath}/ai/sessionListFragment", function(html) {
+            // <ul id="side-session-list">로 감싸는 걸 추천!
+            $("#side-session-list").html(html);
+        });
+    }
 </script>
 </html>
