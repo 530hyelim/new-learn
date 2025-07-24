@@ -41,8 +41,9 @@
             <p>회원이 되어 다양한 경험을 해보세요!</p>
         </div>
         
-        <form:form id="enrollForm"
-        action="${pageContext.request.contextPath}/member/insert" method="post">
+        <form id="enrollForm" action="${pageContext.request.contextPath}/member/insert"
+        method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             
             <!-- 아이디 -->
             <div class="form-group">
@@ -119,7 +120,7 @@
             <div class="form-footer">
                 <button type="submit" class="btn-next" disabled>다음</button>
             </div>
-        </form:form>
+        </form>
     </div>
 
 

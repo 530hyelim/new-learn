@@ -34,6 +34,7 @@
 		<intercept-url pattern="/member/resetPasswordForm" access="permitAll" />
 		<intercept-url pattern="/member/resetPassword" access="permitAll" />
 		<intercept-url pattern="/member/changePasswordComplete" access="permitAll" />
+		<intercept-url pattern="/user/**" access="hasRole('USER')" />		
 		
 		
 		<!-- 관리자와 관련된 URL은 관리자 권한을 가지고 있어야만 접근 가능하도록 제한 -->
@@ -51,7 +52,7 @@
 		 -->
 		<form-login
 			login-page="/member/login"
-			login-processing-url="/member/LoginProcess"
+			login-processing-url="/member/login"
 			username-parameter="userId"
 			password-parameter="userPwd"
 		/>

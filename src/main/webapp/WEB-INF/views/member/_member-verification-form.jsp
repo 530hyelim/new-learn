@@ -4,6 +4,7 @@
 
 <div class="find-id-container">
     <form id="verificationForm" action="${param.actionUrl}" method="post">
+    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         
         <div class="form-group">
             <label for="user-name">이름</label>
@@ -27,7 +28,6 @@
                 <input type="text" id="email-domain" name="userEmailDomain">
                 <button type="button" id="email-cert-btn" class="btn-send">인증코드 발송</button>
             </div>
-            <small class="form-text">입력하신 이메일로 인증코드를 발송했습니다.</small>
         </div>
 
         <div class="form-group">
@@ -36,6 +36,7 @@
                 <input type="text" id="email-cert" name="emailCert">
                 <button type="button" id="email-cert-check-btn" class="btn-check">확인</button>
             </div>
+            <small id="email-cert-feedback" class="form-text"></small>
         </div>
 
         <div class="form-footer">
@@ -94,17 +95,19 @@
             const userCertCode = $('#email-cert').val().trim();
 
             if (serverCertCode !== "" && userCertCode === serverCertCode) {
-                alert('인증에 성공하였습니다.');
+                $('#email-cert-feedback').text('인증되었습니다.');
+                $('#email-cert-feedback').css('color', 'green');
                 isEmailCertified = true;
                 $('#next-btn').prop('disabled', false);
+                
             } else {
-                alert('인증코드가 일치하지 않습니다.');
+                $('#email-cert-feedback').text('인증코드가 일치하지 않습니다.').css('color','red');
                 isEmailCertified = false;
                 $('#next-btn').prop('disabled', true);
             }
         });
 
-        $('#findIdForm').on('submit', function(e){
+        $('#verificationForm').on('submit', function(e){
             if (!isEmailCertified) {
                 alert('이메일 인증을 먼저 완료해주세요.');
                 e.preventDefault();

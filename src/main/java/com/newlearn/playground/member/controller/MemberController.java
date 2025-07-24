@@ -300,24 +300,17 @@ public class MemberController {
 	}
 	
 	// 아이디 찾기
-	@PostMapping("/findId")
+	@PostMapping("/member/findId")
 	public String findId(@RequestParam("userName") String userName,
 	    @RequestParam("ssn1") String ssn1,
 	    @RequestParam("ssn2") String ssn2,
-	    Model model,
-	    RedirectAttributes rttr) {
-
+	    Model model) {
+		
 		String ssn = ssn1 + "-" + ssn2;
 		String foundId = mService.findId(userName, ssn);
-		if(foundId != null) {
-			model.addAttribute("foundId", foundId);	
-			
-			return "member/findIdResult";  // 아이디 찾기 결과창으로
-		} else {
-			rttr.addFlashAttribute("alertMsg", "일치하는 회원 정보가 없습니다.");
-			return "redirect:/member/findId"; // 실패 메시지
-		}
-
+		
+		model.addAttribute("foundId", foundId);		
+		return "member/findId_Result";  // 아이디 찾기 결과창으로
 	}
 	
 	// 비밀번호 찾기
@@ -384,6 +377,12 @@ public class MemberController {
 	@GetMapping("/member/findPassword")
 	public String findPasswordForm() {
 		return "member/findPassword";
+	}
+	
+	// 새 비밀번호 설정 페이지를 화면에 나타냄
+	@GetMapping("/member/resetPasswordForm")
+	public String resetPasswordForm() {
+		return "member/changePassword";
 	}
 	
 }

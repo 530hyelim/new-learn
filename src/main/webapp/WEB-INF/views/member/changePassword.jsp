@@ -31,6 +31,7 @@
 
     <div class="find-id-container">
         <form id="resetPwForm" action="${pageContext.request.contextPath}/member/resetPassword" method="post">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
             
             <div class="form-group">
                 <label for="new-password">새 비밀번호</label>

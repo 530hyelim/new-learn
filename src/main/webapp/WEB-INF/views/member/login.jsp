@@ -60,7 +60,7 @@
         
     <!-- 임시<form action="/member/login" method="post" class="login-form"> -->
     
-    	<form id="loginForm" action="/member/login" method="post" class="login-form">
+    	<form id="loginForm" action="${pageContext.request.contextPath}/member/LoginProcess" method="post">
     	<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             <div class="input-group">
                 <span class="input-icon">

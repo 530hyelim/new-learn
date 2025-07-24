@@ -87,7 +87,7 @@
 
 
 
-
+<!-- ... -->
 
 	<logger name="java.sql.Connection">
 		<level value="INFO" />
@@ -104,9 +104,6 @@
 	<logger name="java.sql.ResultSet">
 		<level value="INFO" />
 	</logger>
-
-
-
 
 
 	<root>
