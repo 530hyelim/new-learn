@@ -59,7 +59,7 @@
 
     <div id="center">
       <h2>KH 자바스터디 G반</h2>
-      <a href="">관리자 페이지</a>
+      <a href="${pageContext.request.contextPath}/teacher/main">선생님 페이지</a>
     </div>
 
     <div id="right">
