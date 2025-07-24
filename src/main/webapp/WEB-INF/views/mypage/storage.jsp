@@ -4,9 +4,7 @@
 <!DOCTYPE html>
 
 <style>
-	.repo-list button not{
-		display: none;
-	}
+
 </style>
 
 <div class="left-side">
