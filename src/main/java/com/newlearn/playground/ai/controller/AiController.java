@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.ServletContext;
@@ -62,7 +63,7 @@ public class AiController {
 		application.setAttribute("aiList", aiList);
 	}
 	
-	private final Map<String, List<Map<String, String>>> conversationHistory = new ConcurrentHashMap<>();
+	private final Map<Integer, List<Map<String, String>>> conversationHistory = new ConcurrentHashMap<>();
 	
 	@GetMapping("/main")
 	public String showMain(
@@ -96,6 +97,7 @@ public class AiController {
 		aiParamMap.put("modelNo", modelNo);
 		aiParamMap.put("sessionNo", sessionNo);
 		aiParamMap.put("tokensUsed", tokensUsed);
+		aiParamMap.put("title", "");
 		
 		// 1. 해당 유저가 해당 모델을 사용한적이 있는지 DB에서 확인한다.
 		int usedBefore = aiService.checkUsedBefore(aiParamMap);
@@ -104,7 +106,7 @@ public class AiController {
 		// 2. 사용한적이 없으면 ai_usage 테이블 insert.		
 		if (usedBefore == 0) {
 			int insertAiUsageResult = aiService.insertAiUsage(aiParamMap);
-			System.out.println(insertAiUsageResult);
+			System.out.println("insertAiUsageResult: " + insertAiUsageResult);
 		}
 		
 		// 업무로직
@@ -112,6 +114,39 @@ public class AiController {
 		//    아니라면 해당 세션의 데이터를 업데이트.
 		
 		if (sessionNo == 0) {
+			List<Map<String, String>> CreateTitleList = new ArrayList<>();
+			
+			Map<String, String> createTitleDeveloperMessage = new HashMap<>();
+			createTitleDeveloperMessage.put("role", "developer");
+			createTitleDeveloperMessage.put("content", "Create a title under 30 characters in the language of the user prompt.");
+			CreateTitleList.add(createTitleDeveloperMessage);
+			
+			Map<String, String> createTitleUserMessage = new HashMap<>();
+			createTitleUserMessage.put("role", "user");
+			createTitleUserMessage.put("content", prompt);
+			CreateTitleList.add(createTitleUserMessage);
+			
+			ChatCompletionCreateParams.Builder titleParamsBuilder = ChatCompletionCreateParams.builder().model(ChatModel.GPT_4_1_NANO);
+			
+			for (Map<String, String> msg : CreateTitleList) {
+				if ("developer".equals(msg.get("role"))) {
+					titleParamsBuilder.addDeveloperMessage(msg.get("content"));
+				} else if ("user".equals(msg.get("role"))) {
+					titleParamsBuilder.addUserMessage(msg.get("content"));
+				}
+			}
+			
+			ChatCompletionCreateParams titleParams = titleParamsBuilder.build();
+			ChatCompletion titleCompletion = client.chat().completions().create(titleParams);
+			StringBuilder sbTitle = new StringBuilder();
+			titleCompletion.choices().get(0).message().content().ifPresent(v -> sbTitle.append(v));
+			
+			tokensUsed += titleCompletion.usage()
+				    .map(v -> v.totalTokens())
+				    .orElse(0L);
+			
+			aiParamMap.put("title", sbTitle.toString());
+			
 			int createChatSessionResult = aiService.createChatSession(aiParamMap);
 			System.out.println("createChatSessionResult: " + createChatSessionResult);
 		} else {
@@ -127,12 +162,12 @@ public class AiController {
 		
 		// Get or create conversation history for this session
 		List<Map<String, String>> messageHistory = conversationHistory.computeIfAbsent(
-		    "" + sessionNo, k -> new ArrayList<>()
+		    sessionNo, k -> new ArrayList<>()
 		);
 		
 		Map<String, String> developerMessage = new HashMap<>();
 		developerMessage.put("role", "developer");
-		developerMessage.put("content", "Always respond in HMTL format, but inside of <div></div>. For example, <div>your respond</div>.");
+		developerMessage.put("content", "Always respond in HMTL format, but inside of <div></div>. For example, <div>your respond</div>. Use proper html tags for new line, highlights, different fonts, and etc.");
 //		developerMessage.put("content", "");
 		messageHistory.add(developerMessage);
 		
@@ -156,13 +191,10 @@ public class AiController {
 		}
 		
 		ChatCompletionCreateParams params = paramsBuilder.build();
-		
-		StringBuilder sb = new StringBuilder();
-		
 		ChatCompletion chatCompletion = client.chat().completions().create(params);
-		
 		System.out.println("chatCompletion: " + chatCompletion);
 		
+		StringBuilder sb = new StringBuilder();
 		chatCompletion.choices().get(0).message().content().ifPresent(v -> sb.append(v));
 		
 		// Add the AI's response to conversation history
@@ -174,7 +206,7 @@ public class AiController {
 		System.out.println("messageHistory: " + messageHistory);
 		System.out.println("conversationHistory: " + conversationHistory);
 		
-		tokensUsed = chatCompletion.usage()
+		tokensUsed += chatCompletion.usage()
 			    .map(v -> v.totalTokens())
 			    .orElse(0L);
 		aiParamMap.put("tokensUsed", tokensUsed);
@@ -190,6 +222,15 @@ public class AiController {
 		chatHistoryParamMap.put("sessionNo", sessionNo);
 		chatHistoryParamMap.put("user", prompt);
 		chatHistoryParamMap.put("assistant", sb.toString());
+		
+		System.out.println("userNo: " + userNo);
+		System.out.println("sessionNo: " + sessionNo);
+		System.out.println("prompt: " + prompt);
+		System.out.println("paramMap userNo: " + chatHistoryParamMap.get("userNo"));
+		System.out.println("paramMap sessionNo: " + chatHistoryParamMap.get("sessionNo"));
+		System.out.println("paramMap userNo: " + chatHistoryParamMap.get("userNo"));
+		
+		System.out.println("chatHistoryParamMap" + chatHistoryParamMap);
 		
 		int insertAiChatHistoryResult = aiService.insertAiChatHistory(chatHistoryParamMap);
 		System.out.println("insertAiChatHistoryResult: " + insertAiChatHistoryResult);
@@ -211,8 +252,16 @@ public class AiController {
 	@GetMapping("/getChatHistory")
 	@ResponseBody
 	public List<AiChatHistory> getChatHistory(@RequestParam int sessionNo) {
+		List<AiChatHistory> list = aiService.getChatHistory(sessionNo);
+		conversationHistory.put(sessionNo, list.stream().map((history) -> {
+			Map<String, String> message = new HashMap<>();
+			message.put("role", history.getRole());
+			message.put("content", history.getContent());
+			return message;
+		}).collect(Collectors.toList()));
+		
 	    // DB에서 해당 sessionNo의 전체 메시지 SELECT
-	    return aiService.getChatHistory(sessionNo);
+	    return list; 
 	}
 }
 

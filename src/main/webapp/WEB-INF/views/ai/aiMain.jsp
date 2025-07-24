@@ -120,9 +120,18 @@
         // });
     })
 	
-    $(".ai-chat-sessions-list").on("click", function() {
+    $("#side-session-list").on("click", ".ai-chat-sessions-list", function() {        
+        if ($(this).hasClass("clicked")) {
+            return;
+        }
+        // 다른 li의 clicked 클래스 다 지움
+        $(".ai-chat-sessions-list").removeClass("clicked");
+        // 클릭한 li만 clicked 클래스 추가
+        $(this).addClass("clicked");
+
         sessionNo = $(this).data("session-no");
-    	console.log(sessionNo);
+    	console.log("sessionNo: " + sessionNo);
+
         // 서버에 해당 sessionNo의 히스토리 불러오기 요청
         // loadChatHistory(sessionNo);
         $.ajax({
@@ -157,11 +166,6 @@
         $.get("${pageContext.request.contextPath}/ai/sessionListFragment", function(html) {
             // <ul id="side-session-list">로 감싸는 걸 추천!
             $("#side-session-list").html(html);
-
-            // 동적으로 생긴 .ai-chat-sessions-list에도 다시 이벤트 바인딩 필요!
-            $(".ai-chat-sessions-list").off('click').on('click', function() {
-                // ...세션 클릭 처리...
-            });
         });
     }
 </script>

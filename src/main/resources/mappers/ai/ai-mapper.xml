@@ -18,7 +18,7 @@
 	
 	<update id="updateAiUsage">
 		update ai_usage
-		set last_use_date = sysdate, num_used_tokens = num_used_tokens + #{tokensUsed}
+		set last_used_at = sysdate, num_used_tokens = num_used_tokens + #{tokensUsed}
 		where user_no = #{userNo} and model_no = #{modelNo}
 	</update>
 	
@@ -33,7 +33,7 @@
 		</selectKey>
 	
 		insert into ai_chat_session
-		values(#{sessionNo}, '테스트 세션 ' || #{sessionNo}, sysdate, #{userNo}, #{modelNo}, sysdate)
+		values(#{sessionNo}, #{title}, sysdate, #{userNo}, #{modelNo}, sysdate)
 	</insert>
 	
 	<update id="updateChatSession">
@@ -44,12 +44,12 @@
 	
 	<insert id="insertAiChatHistoryUser">
 		insert into ai_chat_history
-		values(seq_ai_chat_history.nextval, #{sessionNo}, 'user', #{user}, sysdate, #{userNo})
+		values(seq_ai_chat_history.nextval, #{userNo}, #{sessionNo}, 'user', #{user}, sysdate)
 	</insert>
 	
 	<insert id="insertAiChatHistoryAssistant">
 		insert into ai_chat_history
-		values(seq_ai_chat_history.nextval, #{sessionNo}, 'assistant', #{assistant}, sysdate, #{userNo})
+		values(seq_ai_chat_history.nextval, #{userNo}, #{sessionNo}, 'assistant', #{assistant}, sysdate)
 	</insert>
 	
 	<select id="getChatHistory" resultType="aiChatHistory">

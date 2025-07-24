@@ -126,3 +126,7 @@ hr {
     margin-top: 20px;
     align-self: center;
 }
+
+#side-session-list .clicked {
+    color: cornflowerblue;
+}

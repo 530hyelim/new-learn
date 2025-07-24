@@ -54,6 +54,7 @@ public class AiDaoImpl implements AiDao {
 
 	@Override
 	public int insertAiChatHistoryUser(Map<String, Object> chatHistoryParamMap) {
+		System.out.println("Dao chatHistoryParamMap: " + chatHistoryParamMap);
 		return session.insert("ai.insertAiChatHistoryUser", chatHistoryParamMap);
 	}
 

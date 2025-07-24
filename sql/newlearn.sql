@@ -272,29 +272,28 @@ CREATE TABLE AI (
 CREATE TABLE AI_USAGE (
 	user_no	number		references member,
 	model_no	number		references ai,
-	first_use_date date default sysdate,
-	last_use_date date not null,
-	num_used_tokens	number		default 0,
+	created_at date default sysdate not null,
+	last_used_at date not null,
+	num_used_tokens	number		default 0 not null,
 	constraint pk_ai_usage primary key(user_no, model_no)
 );
 
 create table ai_chat_session (
 	session_no number primary key,
 	title varchar2(200) not null,
-	created_at date default sysdate,
-	user_no number not null,
-	model_no number not null,
-	last_used_at date not null,
-    constraint fk_chat_sessions foreign key (user_no, model_no) references ai_usage(user_no, model_no)
+	created_at date default sysdate not null,
+	user_no number references member ,
+	model_no number not references ai,
+	last_used_at date not null
 );
 
 create table ai_chat_history (
 	history_no number primary key,
-	user_no number references ai_chat_session
-	session_no number references ai_chat_session,
+	user_no number references member not null,
+	session_no number references ai_chat_session not null,
 	role varchar2(20) not null,
 	content clob not null,
-	created_date date default sysdate
+	created_date date default sysdate not null
 );
 
 -------------------- 실행 -------------------------
