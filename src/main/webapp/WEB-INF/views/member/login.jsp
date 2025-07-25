@@ -108,31 +108,23 @@
 </div>
 
 <script>
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const userId = document.getElementById('userId').value.trim();
-        const userPw = document.getElementById('userPw').value.trim();
-        
-        if (!userId && !userPw) {
-            showModal('아이디 또는 비밀번호를 확인해주세요.');
-            return;
-        }
-        
-        if (!userId) {
-            showModal('아이디를 입력해주세요.');
-            return;
-        }
-        
-        if (!userPw) {
-            showModal('비밀번호를 입력해주세요.');
-            return;
-        }
-        
-       //  실전에서는 이거 주석 지우고 활성화해야함 this.submit();
-        showModal('로그인 성공! (테스트용)');  // alert
-    });
-    
+	// 로그인 버튼을 클릭하면 실행되는 함수
+	document.getElementById('loginForm').addEventListener('submit', function(e){
+		e.preventDefault();
+		
+		const userId = document.getElementById('userId').value.trim();
+		const userPw = document.getElementById('yserPw').value.trim();
+		
+		// 아이디 or 비밀번호가 비어있는지 체크
+		if(!userId || !userPw) {
+			showModal('아이디 도는 비밀번호를 확인해주세요.'); // 둘중 하나라도 비어있으면
+			return;
+		}
+		
+		this.submit(); // 문제없다면 폼 데이터 제출		
+	});
+	
+     // 모달관련 함수들
     function showModal(message) {
         document.getElementById('modalMessage').textContent = message;
         document.getElementById('validationModal').style.display = 'flex';
@@ -155,7 +147,6 @@
     });
 </script>
 
->>>>>>> issue-4-Member-및-회원가입
 
 </body>
 </html>
