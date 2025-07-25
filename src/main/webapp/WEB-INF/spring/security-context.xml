@@ -22,6 +22,20 @@
 		<intercept-url pattern="/security/insert" access="permitAll" />
 		<intercept-url pattern="/member/login" access="permitAll" />
 		<intercept-url pattern="/member/idCheck" access="permitAll" />
+		<intercept-url pattern="/member/emailCert" access="permitAll"/>
+		
+		
+		<!-- security 임시 -->
+		<intercept-url pattern="/member/agree" access="permitAll" />
+		<intercept-url pattern="/member/insert" access="permitAll" />
+		<intercept-url pattern="/member/enrollComplete" access="permitAll" />
+		<intercept-url pattern="/member/findId" access="permitAll" />
+		<intercept-url pattern="/member/findPassword" access="permitAll" />
+		<intercept-url pattern="/member/resetPasswordForm" access="permitAll" />
+		<intercept-url pattern="/member/resetPassword" access="permitAll" />
+		<intercept-url pattern="/member/changePasswordComplete" access="permitAll" />
+		<intercept-url pattern="/user/**" access="hasRole('USER')" />		
+		
 		
 		<!-- 관리자와 관련된 URL은 관리자 권한을 가지고 있어야만 접근 가능하도록 제한 -->
 		<intercept-url pattern="/user/**" access="hasRole('USER')" />
@@ -38,9 +52,11 @@
 		 -->
 		<form-login
 			login-page="/member/login"
-			login-processing-url="/member/LoginProcess"
+			login-processing-url="/member/login"
 			username-parameter="userId"
 			password-parameter="userPwd"
+			authentication-failure-url="/member/login?error"
+			default-target-url="/myPage"
 		/>
 		
 		<!-- servlet의 mapping url이 아닌 filter의 mapping url -->
@@ -75,8 +91,10 @@
 	</http>
 	
 	<!-- Authentication Manager / Provider 등록 -->
-	<context:component-scan base-package="com.newlearn.playground.security" />
-	<context:component-scan base-package="com.newlearn.playground.member" />
+	<context:component-scan base-package="com.newlearn.playground">
+    <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+	
 	<!-- 
 		authentication-manager
 		- 인증 처리를 담당하는 핵심 컴포넌트
@@ -90,7 +108,7 @@
 		<authentication-provider user-service-ref="securityServiceImpl">
 			<password-encoder ref="bcryptPasswordEncoder" />
 		</authentication-provider>
-	</authentication-manager>
+	</authentication-manager>	
 </beans:beans>
 
 

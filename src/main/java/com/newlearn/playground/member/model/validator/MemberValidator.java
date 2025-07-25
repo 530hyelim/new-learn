@@ -17,23 +17,22 @@ public class MemberValidator implements Validator {
 		
 		return result;
 	}
-
+	
 	@Override
 	public void validate(Object target, Errors errors) {
-		// 유효성 검사 메서드 (위 메서드가 true라면 실행)
-		System.out.println("validate method");
-		Member member = (Member)target;
+		Member member = (Member) target;
+		String userId = member.getUserId();
 		
-		// 유효성 검사 로직
-		if (member.getUserId() != null) {
-			if (member.getUserId().length() < 4 || member.getUserId().length() > 20) {
-				System.out.println("userid length error");
-				errors.rejectValue("userId", "length", "아이디는 4~20자 이내여야 합니다.");
-			}
-			if (!member.getUserId().matches("^[a-zA-Z0-9_]+$")) {
-				errors.rejectValue("userId", "pattern", "아이디는 영문, 숫자, _만 사용 가능합니다.");
-			}
+		// 아이디 길이 검사
+		if(userId == null || userId.length() < 7 || userId.length() > 15) {
+			errors.rejectValue("userId", "length", "아이디는 7~15자 사이로 입력해주세요.");
+		}
+		
+		// 아이디 형식 검사
+		if(userId != null && !userId.matches("^[a-zA-Z0-9]+$")) {
+			errors.rejectValue("userId", "pattern", "아이디는 영문자와 숫자로만 구성되어야 합니다.");
 		}
 	}
-
+	
+	
 }

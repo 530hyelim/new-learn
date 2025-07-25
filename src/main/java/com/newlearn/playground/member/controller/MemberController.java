@@ -1,26 +1,30 @@
 package com.newlearn.playground.member.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.newlearn.playground.member.model.service.MemberService;
+import com.newlearn.playground.member.model.validator.MemberValidator;
 import com.newlearn.playground.member.model.vo.Member;
 
 @Controller // Component-scan에 의해 bean객체 등록
@@ -28,6 +32,13 @@ import com.newlearn.playground.member.model.vo.Member;
 public class MemberController {
 	@Autowired
 	private MemberService mService;
+	
+	@Autowired
+	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
+	@Autowired
+	private MemberValidator memberValidator;
+	
 	
 	/*
 	 * Spring DI(Dependency Injection)
@@ -40,7 +51,7 @@ public class MemberController {
 	@CrossOrigin // 교차출처 허용
 	@RequestMapping(value = "/member/login", method = RequestMethod.GET)
 	public String loginMember() {
-		return "member/login"; // forwarding 될 jsp의 경로
+		return "member/login";
 	}
 	
 	// 스프링의 argument resolver
@@ -114,41 +125,7 @@ public class MemberController {
 //		
 //		return mv;
 //	}
-	
-//	@RequestMapping(value = "/member/login", method = RequestMethod.POST)
-	@PostMapping("/member/login")
-	public ModelAndView login(
-			@ModelAttribute Member m,
-			ModelAndView mv,
-			Model model,
-			HttpSession session, // 로그인 성공시, 사용자 정보를 보관할 객체
-			RedirectAttributes ra
-			) {
-		// 로그인 요청 처리
-		Member loginUser = mService.loginMember(m);
-		// 로그인 성공시 회원정보, 실패시 null값이 전달.
-		
-		if (loginUser != null) {
-			// 사용자 인증 정보(loginUser)를 session에 보관.
-//			session.setAttribute("loginUser", loginUser);
-			model.addAttribute("loginUser", loginUser);
-			
-//			session.setAttribute("alertMsg", "로그인 성공!");
-			ra.addFlashAttribute("alertMsg", "로그인 성공.");
-			/*
-			 * RedirectAttributes의 flashAttribute는 데이터를 sessionScope에 담고,
-			 * 리다이렉트가 완료되면, sessionScope에 있던 데이터를 requestScope로 변경.
-			 * 
-			 */
-		} else {
-//			session.setAttribute("alertMsg", "로그인 실패.");
-			ra.addFlashAttribute("alertMsg", "로그인 실패.");
-		}
-		
-		mv.setViewName("redirect:/"); // 메인페이지로 리다이렉트
-		
-		return mv;
-	}
+
 	
 	@GetMapping("/member/logout")
 	public String logout(HttpSession session, SessionStatus status) {
@@ -161,29 +138,54 @@ public class MemberController {
 	}
 	
 	@GetMapping("/member/insert")
-	public String enrollForm() {
-		return "member/memberEnrollForm";
+	public String enrollForm(Model model) {
+		model.addAttribute("member", new Member());		
+		return "member/enroll";
 	}
 	
 	@PostMapping("/member/insert")
 	public String insertMember(
-			Member m,
-			Model model,
-			RedirectAttributes ra
-			) {
-		int result = mService.insertMember(m);
-		String viewName = "";
+	        @ModelAttribute Member m,
+	        BindingResult bindingResult,   // MemberValidator의 검사 결과를 담음
+	        @RequestParam("ssn1") String ssn1,
+	        @RequestParam("ssn2") String ssn2,
+	        @RequestParam("emailId") String emailId,
+	        @RequestParam("email-input") String emailDomain,
+	        Model model,
+	        RedirectAttributes ra
+	        ) {
 		
-		if (result > 0) {
-			ra.addFlashAttribute("alertMsg", "회원가입 성공.");
-			viewName = "redirect:/";
-		} else {
-			model.addAttribute("errorMsg", "회원가입 실패.");
-			viewName = "common/errorPage";
+		memberValidator.validate(m, bindingResult); // Member 객체 검증
+		
+		if(bindingResult.hasErrors()) {
+			return "member/enroll";
 		}
 		
-		return viewName;
+		// 회원가입
+	    String ssn = ssn1 + "-" + ssn2;
+	    String email = emailId + "@" + emailDomain;
+
+	    m.setSsn(ssn);
+	    m.setEmail(email);
+
+	    int result = mService.insertMember(m);
+	    String viewName = "";
+
+	    if (result > 0) {
+	        ra.addFlashAttribute("userNameForComplete", m.getUserName()); // 사용자 이름이 뜲
+	        viewName = "redirect:/member/enrollComplete";
+	    } else {
+	        ra.addFlashAttribute("result", "fail");
+	        viewName = "redirect:/member/enrollComplete";
+	    }
+	    return viewName;
 	}
+	
+	@GetMapping("/member/enrollComplete")
+	public String enrollComplete() {
+		return "member/enrollComplete";
+	}
+	
 	
 	@GetMapping("/member/myPage")
 	public String myPage() {
@@ -236,11 +238,9 @@ public class MemberController {
 	// 비동기 요청
 	@ResponseBody // 반환되는 값이 값 그 자체임을 의미하는 주석
 	@GetMapping("/member/idCheck")
-	public String idCheck(String userId) {
+	public String idCheck(@RequestParam("checkId") String userId) {
 		int result = mService.idCheck(userId); // 아이디 존재시 1, 없다면 0
-	
-		
-		return "" + result; // /WEB-INF/views/0.jsp -> 1, 0 
+		return "" + result;
 	}
 	
 //	@ResponseBody
@@ -272,37 +272,146 @@ public class MemberController {
 		return res;
 	}
 	
-//	@ResponseBody // 이 메소드는 JSP 페이지가 아닌, 데이터 자체를 반환합니다.
-//	@PostMapping("/emailCert") // POST 방식의 /member/emailCert 요청을 처리합니다.
-//	public String sendEmail(String email) {
-//	    
-//	    // MemberService에 있는 sendEmail 메소드를 호출하여 이메일을 발송하고,
-//	    // 생성된 인증코드를 반환받습니다.
-//	    String certCode = mService.sendEmail(email);
-//	    
-//	    // 반환받은 인증코드를 프론트엔드(JavaScript)로 다시 보내줍니다.
-//	    return certCode;
-//	}
+	@ResponseBody 
+	@PostMapping("/member/emailCert") 
+	public String sendEmail(String email) {
+		
+	    String certCode = mService.sendEmail(email);
+	   
+	    // 반환받은 인증코드를 프론트엔드(JavaScript)로 다시 보내줍니다.
+	    return certCode;
+	}
+	
+	
+	// 비밀번호 비교
+	@ResponseBody
+	@PostMapping("/member/checkSamePassword")
+	public Map<String, Object> checkSamePassword(@RequestParam("newPassword")
+	String newPassword, HttpSession session) {
+		Map<String, Object> response = new HashMap<>();
+		String userId = (String) session.getAttribute("userIdForReset");
+		
+		boolean isSame = false;
+		if(userId != null && newPassword != null && !newPassword.isEmpty()) {
+			Member m = new Member();
+			m.setUserId(userId);
+			Member currentUser = mService.loginMember(m);
+			if (currentUser != null && currentUser.getUserPwd() != null) {
+				isSame = bcryptPasswordEncoder.matches(newPassword, currentUser.getUserPwd());
+			}
+		}
+		
+		response.put("isSame", isSame);
+		return response;
+		
+	}
+	
+	
+	
+	// 아이디 찾기
+	@PostMapping("/member/findId")
+	public String findId(@RequestParam("userName") String userName,
+	    @RequestParam("ssn1") String ssn1,
+	    @RequestParam("ssn2") String ssn2,
+	    Model model) {
+		
+		String ssn = ssn1 + "-" + ssn2;
+		String foundId = mService.findId(userName, ssn);
+		
+		model.addAttribute("foundId", foundId);		
+		return "member/findId_Result";  // 아이디 찾기 결과창으로
+	}
+	
+	// 비밀번호 찾기
+	@PostMapping("/member/findPassword")
+	public String findPassword(@RequestParam("userName") String userName,
+			@RequestParam("ssn1") String ssn1,
+	        @RequestParam("ssn2") String ssn2,
+	        @RequestParam("userEmailId") String emailId,
+	        @RequestParam("userEmailDomain") String emailDomain,
+	        HttpSession session,
+	        RedirectAttributes rttr) {
+		
+		String ssn = ssn1 + "-" + ssn2;
+		String email = emailId + "@" + emailDomain; // 이메일 주소 합치기
+		String userId = mService.findUserForPasswordReset(userName, ssn, email);
+
+		    if (userId != null) {
+		        session.setAttribute("userIdForReset", userId);
+
+		        // '새 비밀번호 입력' 페이지로 이동
+		        return "redirect:/member/resetPasswordForm";
+		    } else {
+		        rttr.addFlashAttribute("message", "입력하신 이름 또는 주민등록번호를 다시 확인해주세요.");
+		        return "redirect:/member/findPassword";
+		    }
+		}
+
+		// 비밀번호 찾기(보안)
+		@PostMapping("/member/resetPassword")
+		public String resetPassword(@RequestParam("newPassword")
+			   String newPassword, HttpSession session,
+			   RedirectAttributes rttr) {
+
+		String userId = (String) session.getAttribute("userIdForReset");
+		
+		if(userId == null) {
+			return "redirect:/member/findPassword"; // 세션만료 대비
+		}
+		
+		Member m = new Member();
+	    m.setUserId(userId);
+	    Member currentUser = mService.loginMember(m);
+	    	    
+	    String oldPasswordHash = currentUser.getUserPwd();
+		
+	    if (bcryptPasswordEncoder.matches(newPassword, oldPasswordHash)) {
+	        // 동일한 경우, 에러 메시지와 함께 이전 페이지로 돌려보냅니다.
+	        rttr.addFlashAttribute("message", "기존과 동일한 비밀번호로는 변경할 수 없습니다.");
+	        return "redirect:/member/resetPasswordForm";
+	    }
+
+		int result = mService.updatePassword(userId, newPassword);
+
+		session.removeAttribute("userIdForReset");
+
+		return "redirect:/member/changePasswordComplete";
+
+	}
+
+		@GetMapping("/member/changePasswordComplete")
+		public String passwordChangeComplete() {
+
+			return "/member/changePasswordComplete";
+		}
+	
+		
+		
+		
+		
+	// /member/agree 주소로 요청이 들어오면  agree.jsp를 화면에 나타냄
+	@GetMapping("/member/agree")
+	
+	public String agreeForm() {
+		return "member/agree";
+	}
+	
+	// 아이디 찾기 페이지를 화면에 나타냄
+	@GetMapping("/member/findId")
+	public String findIdForm() {
+		return "member/findId";
+	}
+	
+	// 비밀번호 찾기 페이지를 화면에 나타냄
+	@GetMapping("/member/findPassword")
+	public String findPasswordForm() {
+		return "member/findPassword";
+	}
+	
+	// 새 비밀번호 설정 페이지를 화면에 나타냄
+	@GetMapping("/member/resetPasswordForm")
+	public String resetPasswordForm() {
+		return "member/changePassword";
+	}
 	
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -44,7 +44,10 @@
 		bean
 		- 스프링 프레임워크가 관리하는 의존성으로, 딱 1번만 생성하고 필요한 위치에 주입해준다.
 	 -->
-	<context:component-scan base-package="com.newlearn.playground" />
+
+	<context:component-scan base-package="com.newlearn.playground" use-default-filters="false">
+    <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 	
 	<!-- @Transactional 어노테이션 활성화 -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
