@@ -55,6 +55,8 @@
 			login-processing-url="/member/login"
 			username-parameter="userId"
 			password-parameter="userPwd"
+			authentication-failure-url="/member/login?error"
+			default-target-url="/myPage"
 		/>
 		
 		<!-- servlet의 mapping url이 아닌 filter의 mapping url -->

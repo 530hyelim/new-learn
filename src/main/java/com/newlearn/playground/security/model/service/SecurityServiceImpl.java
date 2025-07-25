@@ -21,13 +21,14 @@ public class SecurityServiceImpl implements SecurityService {
 	 * 4. 조회된 사용자 정보를 시큐리티 매니저에게 넘겨 비밀번호 및 권한 검증에 사용. 
 	 */
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {		
 		UserDetails member = dao.loadUserByUsername(username);
 		
-		if (member == null) {
+		if (member == null) {			
 			throw new UsernameNotFoundException(username);
 		}
-		
+			
+		System.out.println("### 로그인 성공: Spring Security가 DB에서 사용자 정보를 찾았습니다 -> " + member);
 		return member;
 	}
 

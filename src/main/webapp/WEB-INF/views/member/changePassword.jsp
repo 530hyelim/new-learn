@@ -79,7 +79,7 @@ $(document).ready(function(){
         clearTimeout(debounceTimer); 
 
         const userPw = $newPw.val();
-        const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{7,20}$/;
+        const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&^])[A-Za-z\d$@$!%*#?&^]{7,20}$/;
 
         // 형식 검사
         if (!pwRegex.test(userPw)) {

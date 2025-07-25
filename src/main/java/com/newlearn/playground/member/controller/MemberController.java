@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,10 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.newlearn.playground.member.model.service.MemberService;
+import com.newlearn.playground.member.model.validator.MemberValidator;
 import com.newlearn.playground.member.model.vo.Member;
 
 @Controller // Component-scan에 의해 bean객체 등록
@@ -34,6 +35,9 @@ public class MemberController {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptPasswordEncoder;
+	
+	@Autowired
+	private MemberValidator memberValidator;
 	
 	
 	/*
@@ -47,7 +51,7 @@ public class MemberController {
 	@CrossOrigin // 교차출처 허용
 	@RequestMapping(value = "/member/login", method = RequestMethod.GET)
 	public String loginMember() {
-		return "member/login"; // forwarding 될 jsp의 경로
+		return "member/login";
 	}
 	
 	// 스프링의 argument resolver
@@ -121,41 +125,7 @@ public class MemberController {
 //		
 //		return mv;
 //	}
-	
-//	@RequestMapping(value = "/member/login", method = RequestMethod.POST)
-	@PostMapping("/member/login")
-	public ModelAndView login(
-			@ModelAttribute Member m,
-			ModelAndView mv,
-			Model model,
-			HttpSession session, // 로그인 성공시, 사용자 정보를 보관할 객체
-			RedirectAttributes ra
-			) {
-		// 로그인 요청 처리
-		Member loginUser = mService.loginMember(m);
-		// 로그인 성공시 회원정보, 실패시 null값이 전달.
-		
-		if (loginUser != null) {
-			// 사용자 인증 정보(loginUser)를 session에 보관.
-//			session.setAttribute("loginUser", loginUser);
-			model.addAttribute("loginUser", loginUser);
-			
-//			session.setAttribute("alertMsg", "로그인 성공!");
-			ra.addFlashAttribute("alertMsg", "로그인 성공.");
-			/*
-			 * RedirectAttributes의 flashAttribute는 데이터를 sessionScope에 담고,
-			 * 리다이렉트가 완료되면, sessionScope에 있던 데이터를 requestScope로 변경.
-			 * 
-			 */
-		} else {
-//			session.setAttribute("alertMsg", "로그인 실패.");
-			ra.addFlashAttribute("alertMsg", "로그인 실패.");
-		}
-		
-		mv.setViewName("redirect:/"); // 메인페이지로 리다이렉트
-		
-		return mv;
-	}
+
 	
 	@GetMapping("/member/logout")
 	public String logout(HttpSession session, SessionStatus status) {
@@ -175,7 +145,8 @@ public class MemberController {
 	
 	@PostMapping("/member/insert")
 	public String insertMember(
-	        Member m,
+	        @ModelAttribute Member m,
+	        BindingResult bindingResult,   // MemberValidator의 검사 결과를 담음
 	        @RequestParam("ssn1") String ssn1,
 	        @RequestParam("ssn2") String ssn2,
 	        @RequestParam("emailId") String emailId,
@@ -183,7 +154,14 @@ public class MemberController {
 	        Model model,
 	        RedirectAttributes ra
 	        ) {
-
+		
+		memberValidator.validate(m, bindingResult); // Member 객체 검증
+		
+		if(bindingResult.hasErrors()) {
+			return "member/enroll";
+		}
+		
+		// 회원가입
 	    String ssn = ssn1 + "-" + ssn2;
 	    String email = emailId + "@" + emailDomain;
 

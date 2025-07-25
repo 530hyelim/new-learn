@@ -190,8 +190,13 @@
     // 아이디 유효성 검사
     $userId.on('keyup', function(){
         const userIdVal = $userId.val();
-        if (userIdVal.length > 0 && (userIdVal.length < 7 || userIdVal.length > 15)) {
+        const idRegex = /^[a-zA-Z0-9]*$/;
+        if(!idRegex.test(userIdVal)) {
+        	$idFeedback.text('아이디는 영문자와 숫자로만 구성해주세요.').css('color', 'red');
+        	
+        } else if (userIdVal.length > 0 && (userIdVal.length < 7 || userIdVal.length > 15)) {
             $idFeedback.text('아이디는 7~15자 사이로 입력해주세요.').css('color', 'red');
+
         } else {
             $idFeedback.text('');
         }
@@ -224,7 +229,7 @@
     // 비밀번호 유효성 검사
     $userPw.on('keyup', function(){
         const userPwVal = $userPw.val();
-        const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{7,20}$/;
+        const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&^])[A-Za-z\d$@$!%*#?&^]{7,20}$/;
         if (pwRegex.test(userPwVal)) {
             $pwFeedback.text('사용 가능한 비밀번호입니다.').css('color', 'green');
         } else {
