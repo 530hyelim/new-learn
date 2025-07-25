@@ -1,6 +1,7 @@
 package com.newlearn.playground.event.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +25,9 @@ public class EventDaoImpl implements EventDao {
 	}
 
 	@Override
-	public List<Event> findAllPersonal(String selectedDate) {
-		return session.selectList("event.findAllPersonal", selectedDate);
+	public List<Event> findAllPersonal(Map<String, String> paramMap) {
+		System.out.println(paramMap);
+		return session.selectList("event.findAllPersonal", paramMap);
 	}
 
 	@Override

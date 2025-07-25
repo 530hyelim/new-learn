@@ -31,7 +31,7 @@
             </c:if>
             <c:set var="isToday" value="${day == today}" />
             <td class="hover ${isToday ? 'today' : ''}"
-                onclick="onDateClick('${year}-${month}-${day}')">
+                onclick="onDateClick('${month}-${day}')">
                 ${day}
             </td>
             <c:set var="cellCount" value="${cellCount + 1}" />

@@ -11,4 +11,6 @@ public class Mypage {
 	private String mypageName;
 	private String statusMessage;
 	private long maxStorage;
+	
+	private String userName;
 }

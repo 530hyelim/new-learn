@@ -1,6 +1,7 @@
 package com.newlearn.playground.event.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.newlearn.playground.event.vo.Event;
 
@@ -12,7 +13,7 @@ public interface EventService {
 
 	List<Event> findAllByDate(String selectedDate);
 
-	List<Event> findAllPersonal(String selectedDate);
+	List<Event> findAllPersonal(Map<String, String> paramMap);
 
 	List<Event> upcomingEvents();
 

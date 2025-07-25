@@ -1,6 +1,7 @@
 package com.newlearn.playground.event.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class EventServiceImpl implements EventService {
 	}
 
 	@Override
-	public List<Event> findAllPersonal(String selectedDate) {
-		return eventDao.findAllPersonal(selectedDate);
+	public List<Event> findAllPersonal(Map<String, String> paramMap) {
+		return eventDao.findAllPersonal(paramMap);
 	}
 
 	@Override

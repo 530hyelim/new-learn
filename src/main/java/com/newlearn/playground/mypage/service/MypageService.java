@@ -1,6 +1,7 @@
 package com.newlearn.playground.mypage.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.newlearn.playground.mypage.model.vo.Guestbook;
 import com.newlearn.playground.mypage.model.vo.Mypage;
@@ -16,5 +17,7 @@ public interface MypageService {
 	int guestbookInsert(Guestbook g);
 
 	Mypage getMypageByMypageNo(int mypageNo);
+
+	int getMontlyAttCnt(Map<String, String> paramMap);
 
 }

@@ -3,7 +3,7 @@
 <mapper namespace="class">
 	<select id="getAttendance" resultType="attendance">
 		select * from attendance
-		where trunc(entry_time) = trunc(sysdate)
+		where trunc(entry_time) = to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
 			and class_no = #{classNo}
 			and user_no = #{userNo}
 	</select>
@@ -14,7 +14,13 @@
 	</select>
 	
 	<insert id="addAttendance">
-		insert into attendance values
-		(#{userNo}, #{classNo}, sysdate, null, null)
+		insert into attendance(user_no, class_no, entry_time) values
+		(#{userNo}, #{classNo}, sysdate)
 	</insert>
+	
+	<select id="getClasslist" resultType="classroom">
+		select * from class
+		join class_join using(class_no)
+		where user_no = #{mypageNo}
+	</select>
 </mapper>

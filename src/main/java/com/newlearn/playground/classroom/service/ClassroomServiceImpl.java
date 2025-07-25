@@ -1,5 +1,7 @@
 package com.newlearn.playground.classroom.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,5 +28,10 @@ public class ClassroomServiceImpl implements ClassroomService {
 	public int addAttendance(Attendance a) {
 		return classroomDao.addAttendance(a);
 	}
-	
+
+	@Override
+	public List<Classroom> getClasslist(int mypageNo) {
+		return classroomDao.getClasslist(mypageNo);
+	}
+
 }

@@ -1,6 +1,7 @@
 package com.newlearn.playground.event.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import com.newlearn.playground.event.vo.Event;
 
@@ -10,7 +11,7 @@ public interface EventDao {
 
 	Event findByNo(int eventNo);
 
-	List<Event> findAllPersonal(String selectedDate);
+	List<Event> findAllPersonal(Map<String, String> paramMap);
 
 	List<Event> upcomingEvents();
 

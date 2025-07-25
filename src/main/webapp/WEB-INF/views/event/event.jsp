@@ -8,7 +8,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>new Learn();</title>
+	<title>공유이벤트 페이지</title>
 	
 	<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
@@ -53,8 +53,10 @@
 				(<fmt:formatDate value="${event.startDate}" pattern="h : mm a"/>)</a>
 			</c:forEach>
 			<!-- 새 이벤트 추가 버튼 -->
-			<button type="button" data-toggle="modal" data-target="#exampleModal">추가</button>
-			<jsp:include page="/WEB-INF/views/mypage/eventForm.jsp" />
+			<form action="${pageContext.request.contextPath}/mypage/${loginUserNo}" method="get">
+				<input type="hidden" name="from" value="event">
+				<button type="submit">추가</button>
+			</form>
 		</div>
 		<div class="main-body">
 			<!-- 이벤트 폼 -->

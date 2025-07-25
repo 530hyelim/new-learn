@@ -28,8 +28,8 @@
 	
 	<select id="findAllPersonal" resultType="event">
 		select * from calendar
-		join member using(user_no)
-		where trunc(start_date) = to_date(#{selectedDate}, 'YYYY-FMMM-FMDD')
+		where user_no = #{mypageNo}
+			and trunc(start_date) = to_date(#{date}, 'YYYY-FMMM-FMDD')
 			and event_type = 'PERSONAL'
 			and visibility = 'Y'
 	</select>
@@ -56,4 +56,11 @@
 			join_deadline = #{joinDeadline}
 		where event_no = #{eventNo}
 	</update>
+	
+	<delete id="deleteEvent">
+		delete from calendar
+		where event_no = #{eventNo}
+	</delete>
+	
+	
 </mapper>

@@ -1,5 +1,7 @@
 package com.newlearn.playground.classroom.model.dao;
 
+import java.util.List;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -25,6 +27,11 @@ public class ClassroomDaoImpl implements ClassroomDao {
 	@Override
 	public int addAttendance(Attendance a) {
 		return session.insert("class.addAttendance", a);
+	}
+
+	@Override
+	public List<Classroom> getClasslist(int mypageNo) {
+		return session.selectList("class.getClasslist", mypageNo);
 	}
 
 }

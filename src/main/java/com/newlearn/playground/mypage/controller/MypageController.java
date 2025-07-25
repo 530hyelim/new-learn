@@ -4,6 +4,7 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.newlearn.playground.classroom.model.vo.Attendance;
+import com.newlearn.playground.classroom.service.ClassroomService;
 import com.newlearn.playground.common.Utils;
 import com.newlearn.playground.event.service.EventService;
 import com.newlearn.playground.event.vo.Event;
@@ -44,9 +47,13 @@ public class MypageController {
 	private final MypageService mypageService;
 	private final EventService eventService;
 	private final RepositoryService repoService;
+	private final ClassroomService classService;
 	
 	@GetMapping("/{mypageNo}")
-	public String myPage(@PathVariable("mypageNo") int mypageNo, HttpSession session, Model model) {
+	public String myPage(@PathVariable("mypageNo") int mypageNo, HttpSession session, 
+			@RequestParam(name = "from", defaultValue = "mypage") String from,
+			@RequestParam(name = "to", defaultValue = "guestbook") String to, Model model) {
+		// 슬라이딩 이미지 로딩
 		String imgDir = application.getRealPath("/resources/main");
 		File path = new File(imgDir);
 		if (path.exists()) {
@@ -56,35 +63,55 @@ public class MypageController {
 		            .collect(Collectors.toList());
 		    model.addAttribute("fileList", fileList);
 		}
+		model.addAttribute("mypage", mypageService.getMypageByMypageNo(mypageNo));
+		model.addAttribute("classList", classService.getClasslist(mypageNo));
+		model.addAttribute("to", to);
+		model.addAttribute("from", from);
 		session.setAttribute("mypageNo", mypageNo);
 		return "mypage/mypage";
 	}
 	
 	@GetMapping("/guestbook")
-	public String loadGuestbook(HttpSession session, Model model) {
-		int mypageNo = (int)session.getAttribute("loginUserNo"); // mypageNo == loginUserNo
+	public String loadGuestbook(HttpSession session, @RequestParam int mypageNo, Model model) {
 		List<Guestbook> gbList = mypageService.loadGuestbook(mypageNo);
 		model.addAttribute("gbList", gbList);
 		return "mypage/guestbook";
 	}
 	
 	@GetMapping("/calendar")
-	public String loadCalendar(HttpSession session, Model model) {
-		String selectedDate = (int)session.getAttribute("year") + "-";
-		selectedDate += (int)session.getAttribute("month") + "-";
-		selectedDate += (int)session.getAttribute("today");
-		List<Event> personalEvents = eventService.findAllPersonal(selectedDate);
-		model.addAttribute("personalEvents", personalEvents);
-		model.addAttribute("selectedDate", selectedDate);
-		return "mypage/calendar";
+	public String loadCalendar(@RequestParam(value = "date", required = false) String date, 
+			@RequestParam String mypageNo, HttpSession session, Model model) {
+	    if (date == null || date.trim().isEmpty()) {
+	        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-M-d");
+	        date = dateFormat.format(new Date());
+	    }
+	    Attendance a = new Attendance();
+	    a.setUserNo(Integer.parseInt(mypageNo));
+	    a.setClassNo((int)session.getAttribute("classNo"));
+	    a.setSelectedDate(date);
+	    model.addAttribute("attendance", classService.getAttendance(a));
+	    Map<String, String> paramMap = new HashMap<>();
+	    paramMap.put("date", date);
+	    paramMap.put("mypageNo", mypageNo);
+	    String month = date.substring(0, date.lastIndexOf("-"));
+	    String day = date.substring(date.lastIndexOf("-") + 1);
+	    paramMap.put("month", month);
+	    paramMap.put("day", day);
+	    List<Event> personalEvents = eventService.findAllPersonal(paramMap);
+	    model.addAttribute("personalEvents", personalEvents);
+	    model.addAttribute("selectedDate", date);
+	    model.addAttribute("month", month);
+	    model.addAttribute("day", day);
+	    model.addAttribute("monthlyAttRate", calcAttRate(day, paramMap, session));
+	    return "mypage/calendar";
 	}
 	
-	@GetMapping("/calendar/{date}")
-	public String loadCalendar(@PathVariable("date") String date, HttpSession session, Model model) {
-		List<Event> personalEvents = eventService.findAllPersonal(date);
-		model.addAttribute("personalEvents", personalEvents);
-		model.addAttribute("selectedDate", date);
-		return "mypage/calendar";
+	// 월 별 출석률 계산
+	private double calcAttRate(String day, Map<String, String> paramMap, HttpSession session) {
+	    paramMap.put("classNo", ((int)session.getAttribute("classNo"))+"");
+		int monthlyAttCnt = mypageService.getMontlyAttCnt(paramMap);
+		double daysOfMonth = Double.parseDouble(day);
+		return monthlyAttCnt / daysOfMonth * 100;
 	}
 	
 	@PostMapping("/guestbook/hide")
@@ -131,8 +158,7 @@ public class MypageController {
 	}
 	
 	@GetMapping("/storage")
-	public String loadStorage(HttpSession session, Model model) {
-		int mypageNo = (int)session.getAttribute("mypageNo");
+	public String loadStorage(HttpSession session, @RequestParam int mypageNo, Model model) {
 		List<Repository> repoList = repoService.getRepoList(mypageNo);
 		List<UploadFile> fileList = repoService.getAllFileList(mypageNo);
 		model.addAttribute("repoList", repoList);
@@ -152,8 +178,9 @@ public class MypageController {
 	
 	// 내 저장소 div에서 검색기능
 	@GetMapping("/storage/search")
-	public String searchFile(@RequestParam Map<String, String> paramMap, HttpSession session, Model model) {
-		paramMap.put("mypageNo", (int)session.getAttribute("mypageNo")+"");
+	public String searchFile(@RequestParam Map<String, String> paramMap, HttpSession session, 
+			@RequestParam String mypageNo, Model model) {
+		paramMap.put("mypageNo", mypageNo);
 		List<UploadFile> fileList = repoService.searchFileList(paramMap);
 		model.addAttribute("fileList", fileList);
 		return "mypage/fileList";

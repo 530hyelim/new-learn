@@ -1,6 +1,7 @@
 package com.newlearn.playground.mypage.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +39,11 @@ public class MypageDaoImpl implements MypageDao {
 	@Override
 	public Mypage getMypageByMypageNo(int mypageNo) {
 		return session.selectOne("mypage.getMypageByMypageNo", mypageNo);
+	}
+
+	@Override
+	public int getMontlyAttCnt(Map<String, String> paramMap) {
+		return session.selectOne("mypage.getMontlyAttCnt", paramMap);
 	}
 
 }

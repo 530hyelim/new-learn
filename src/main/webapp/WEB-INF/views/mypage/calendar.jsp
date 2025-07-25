@@ -12,9 +12,9 @@
 	</div>
 	<div class="right-side">
 		<div class="monthly-attendance">
-			<h3>7월 출석률 : 81%</h3>
-			<p>8일 입실시간 9 : 03 AM</p>
-			<p>8일 퇴실시간 5 : 53 PM</p>
+			<h3>${month}월 출석률 : ${monthlyAttRate}%</h3>
+			<p>${day}일 입실시간 ${attendance.entryTime}</p>
+			<p>${day}일 퇴실시간 ${attendance.exitTime}</p>
 		</div>
 		<div class="send-notifications">
 			<h3>알림 설정</h3>
@@ -30,18 +30,16 @@
 				${event.eventName} : ${event.content}</span>
 				<div class="button-group">
 					<button class="modal-btn" data-dmltype="edit" data-eventno="${event.eventNo}">수정</button>
-					<form action="${pageContext.request.contextPath}/event/delete?eventNo=${event.eventNo}" method="get">
+					<form action="${pageContext.request.contextPath}/event/delete" method="get">
+						<input type="hidden" name="eventNo" value="${event.eventNo}"/>
 						<button type="submit">삭제</button>
 					</form>
 				</div>
 			</div>
 		</c:forEach>
-		<button class="modal-btn" data-dmltype="create" data-eventno="0">새 개인일정 추가</button>
+		<button class="modal-btn new-personal-btn" data-dmltype="create" data-eventno="0">새 개인일정 추가</button>
 		<div class="modal-position">
 			<!-- 이벤트폼 모달창 비동기요청 보내서 이벤트객체 바인딩시켜서 뷰 출력 div -->
 		</div>
 	</div>
-</div>
-<div class="bottom-side">
-	<h1>${selectedDate}</h1>
 </div>

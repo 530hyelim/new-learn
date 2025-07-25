@@ -9,8 +9,8 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지</title>
+
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<!-- <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
@@ -34,15 +34,16 @@
 	<div class="content">
 		<div class="left-side">
 			<div class="profile">
-				<h1>${loginUserName}</h1>
-				<h4>상태 메세지~~</h4>
+				<h1>${mypage.userName}</h1>
+				<h4>${mypage.statusMessage}</h4>
 				<button>프로필 수정</button>
 				<button>내가 쓴 글</button>
 			</div>
 			<div class="classroom-list">
 				<h3>내 클래스룸</h3>
-				<p>KH 자바클래스 G반</p>
-				<p>파이썬으로 GPT 혼내주기</p>
+				<c:forEach var="classroom" items="${classList}">
+					<p>${classroom.className}</p>
+				</c:forEach>
 				<button>탈퇴</button>
 				<button>추가</button>
 			</div>
@@ -77,124 +78,42 @@
 		</div>
 	</div>
 </body>
+<script>
+	const contextPath = '${pageContext.request.contextPath}';
+	const mypageNo = ${mypageNo};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/mypage.js"></script>
+<c:choose>
+	<c:when test="${to eq 'event'}">
+		<c:choose>
+			<c:when test="${from eq 'event'}">
+				<script>
+					loadContent('calendar', function() {
+						const calendarBtn = document.querySelector(".new-personal-btn");
+			            if (calendarBtn) {
+			                calendarBtn.click();
+			            } else {
+			                console.warn("버튼을 찾을 수 없습니다.");
+			            }
+					});
+				</script>
+			</c:when>
+			<c:otherwise>
+				<script>
+					loadContent('calendar');
+				</script>
+			</c:otherwise>
+		</c:choose>
+	</c:when>
+	<c:otherwise>
+		<script>
+			loadContent('guestbook');
+		</script>
+	</c:otherwise>
+</c:choose>
+
 <c:if test="${not empty alertMsg}">
 	<script>alert("${alertMsg}");</script>
 </c:if>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/simple-slider/1.0.0/simpleslider.min.js"></script>
-<script>
-    document.querySelectorAll('.slider[data-simple-slider]').forEach(el => {
-        simpleslider.getSlider(el);
-    });
-    
-    loadContent('guestbook');
-    
-    function loadContent(type) {
-    	fetch('${pageContext.request.contextPath}/mypage/' + type)
-    		.then(response => {
-    			if (!response.ok) throw new Error('에러 발생');
-    			return response.text();
-    		})
-    		.then(html => {
-    			document.querySelector(".container").innerHTML = html;
-    		})
-    		.catch(error => {
-    			document.querySelector(".container").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
-    		});
-    }
-    
-	function onDateClick(date) {
-		fetch('${pageContext.request.contextPath}/mypage/calendar/' + date)
-			.then(response => {
-				if (!response.ok) throw new Error('에러 발생');
-				return response.text();
-			})
-			.then(html => {
-				document.querySelector(".container").innerHTML = html;
-			})
-			.catch(error => {
-				document.querySelector(".container").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
-			});
-	}
-	
-	//$('#edit-btn').click(function() { 수정 버튼이 페이지 로딩 이후 load calendar 함수에서 fetch로 불러와서 
-	//동적으로 삽입되고 있기 때문에 이벤트가 등록되지 않음 => 상위 요소에 이벤트 위임
-	$(document).on('click', '.modal-btn', function() {
-		const btn = $(this);
-		const dmlType = btn.data('dmltype');
-		const eventNo = btn.data('eventno');
-		
-		fetch('${pageContext.request.contextPath}/mypage/modal/'+dmlType+'?eventNo='+eventNo)
-		.then(response => {
-			if (!response.ok) throw new Error('에러 발생');
-			return response.text();
-		})
-		.then(html => {
-			document.querySelector(".modal-position").innerHTML = html;
-		    new bootstrap.Modal(document.getElementById('exampleModal')).show();
-		})
-		.catch(error => {
-			document.querySelector(".modal-position").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
-		});
-	});
-	
-	$(document).on('submit', '#searchForm', function(e) {
-		e.preventDefault(); // 기본 동작 방지
-		
-		fetch('${pageContext.request.contextPath}/mypage/storage/search')
-		.then(response => {
-			if (!response.ok) throw new Error('에러 발생');
-			return response.text();
-		})
-		.then(html => {
-			document.querySelector(".storage-main-body").innerHTML = html;
-		})
-		.catch(error => {
-			document.querySelector(".storage-main-body").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
-		});
-	});
-	
-	$(document).on('click', '.repo-btn', function() {
-		const btn = $(this);
-		const parentRepoNo = $(this).data('repo-no');
-		const currentLevel = parseInt($(this).data('repo-level'));
-		const nextLevel = currentLevel + 1;
-		const target = $('.repo-item.lvl-'+nextLevel+'.prn-'+parentRepoNo);
-		
-		$('.repo-item').each(function() {
-			const itemLevel = parseInt($(this).find('.repo-btn').data('repo-level'));
-			if (itemLevel > currentLevel) {
-				$(this).slideUp(200);				
-			}
-		});
-		if (target.css("display") === "none") {
-			target.slideDown(200);
-		}
-		
-		fetch('${pageContext.request.contextPath}/mypage/storage/load?repoNo='+parentRepoNo)
-		.then(response => {
-			if (!response.ok) throw new Error('에러 발생');
-			return response.text();
-		})
-		.then(html => {
-			document.querySelector(".storage-main-body").innerHTML = html;
-		})
-		.catch(error => {
-			document.querySelector(".storage-main-body").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
-		});
-	});
-	
-	$(document).on('click', '#all-files-btn', function() {
-		fetch('${pageContext.request.contextPath}/mypage/storage/search')
-		.then(response => {
-			if (!response.ok) throw new Error('에러 발생');
-			return response.text();
-		})
-		.then(html => {
-			document.querySelector(".storage-main-body").innerHTML = html;
-		})
-		.catch(error => {
-			document.querySelector(".storage-main-body").innerHTML = '<p>콘텐츠를 불러오지 못했습니다.</p>';
-		});
-	});
-</script>
 </html>

@@ -1,7 +1,9 @@
 package com.newlearn.playground;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,18 +76,14 @@ public class MainController {
 		Attendance a = new Attendance();
 		a.setUserNo(loginUserNo);
 		a.setClassNo(classNo);
+		a.setSelectedDate(new SimpleDateFormat("yyyy-M-d").format(new Date()));
 		a = classroomService.getAttendance(a);
-		if (a != null) session.setAttribute("attendance", a);
+		model.addAttribute("attendance", a);
 		return "main";
 	}
 	
 	@PostMapping("/entry")
 	public String entry(@RequestParam String attEntryCode, HttpSession session, RedirectAttributes ra) {
-		// 이미 입실한 경우
-		if (session.getAttribute("attendance") != null) {
-			ra.addFlashAttribute("entryMsg", "이미 입실완료 되었습니다.");
-			return "redirect:/";
-		}
 		// 입실코드가 틀린 경우
 		int classNo = (int)session.getAttribute("classNo");
 		Classroom c = classroomService.getClassroom(classNo);
@@ -93,14 +91,20 @@ public class MainController {
 			ra.addFlashAttribute("entryMsg", "잘못된 코드입니다.");
 			return "redirect:/";
 		}
-		// attendance db에 데이터 추가하고 세션에 저장
+		// 이미 입실한 경우
 		int userNo = (int)session.getAttribute("loginUserNo");
 		Attendance a = new Attendance();
 		a.setUserNo(userNo);
 		a.setClassNo(classNo);
+		a.setSelectedDate(new SimpleDateFormat("yyyy-M-d").format(new Date()));
+		if (classroomService.getAttendance(a) != null) {
+			ra.addFlashAttribute("entryMsg", "이미 입실완료 되었습니다.");
+			return "redirect:/";
+		}
+		// attendance db에 데이터 추가하고 세션에 저장
 		int result = classroomService.addAttendance(a);
 		if (result == 1) {
-			session.setAttribute("attendance", classroomService.getAttendance(a));
+			//session.setAttribute("attendance", classroomService.getAttendance(a));
 			ra.addFlashAttribute("entryMsg", "정상적으로 입실처리 되었습니다.");
 		}
 		return "redirect:/";
