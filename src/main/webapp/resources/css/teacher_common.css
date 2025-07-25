@@ -11,9 +11,16 @@ body {
 }
 
 .content {
-    flex-grow: 1;
+    /* flex-grow: 1; */
     background: white;
     margin: 20px;
     border-radius: 10px;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+}
+
+h1 {
+    align-self: center;
 }

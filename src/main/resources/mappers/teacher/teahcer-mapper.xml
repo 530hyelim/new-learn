@@ -1,15 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="teacher">
-	<select id="getTotalStudentNum" resultType="int">
-		select count(*) from class_join
+	<select id="getStudentList" resultType="student">
+		select user_no, user_name, email, class_join_date
+		from class_join join member using (user_no)
 		where class_no = #{classNo} and class_role = 'student'
 	</select>
-	<select id="getAttList" resultType="attendance">
+	
+	<select id="getAttList" resultType="teacherAttendance">
 		select user_no, user_name, entry_time, exit_time, att_status
 		from attendance join member using (user_no)
-		where class_no = #{classNo} and trunc(entry_time) = trunc(sysdate)
+		where class_no = #{classNo} and trunc(entry_time) = #{selectedDate}
 	</select>
+	
+	<update id="attendanceUpdate">
+		update attendance
+		set att_status = #{attStatusForUpdate}
+		where user_no = #{userNo} and class_no = #{classNo}
+	</update>
+	
+	<delete id="studentKick">
+		delete from class_join
+		where user_no = #{userNo} and class_no = #{classNo}
+	</delete>
 </mapper>
 
 

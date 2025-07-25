@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @Data
-public class Attendance {
+public class Student {
 	private int userNo;
 	private String userName;
-	private Date entryTime;
-	private Date exitTime;
-	private String attStatus;
+	private String email;
+	private Date classJoinDate;
 }
