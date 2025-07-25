@@ -61,19 +61,19 @@
 		location.href = "${pageContext.request.contextPath}/teacher/attManage/${classNo}";
 	});
 	$("#student-manage-btn").on("click", function() {
-		location.href = "${pageContext.request.contextPath}/teacher/studentManage";
+		location.href = "${pageContext.request.contextPath}/teacher/studentManage/${classNo}";
 	});
 	$("#board-manage-btn").on("click", function() {
-		location.href = "${pageContext.request.contextPath}/teacher/boardManage";
+		location.href = "${pageContext.request.contextPath}/teacher/boardManage/${classNo}";
 	});
 	$("#notice-manage-btn").on("click", function() {
-		location.href = "${pageContext.request.contextPath}/teacher/noticeManage";
+		location.href = "${pageContext.request.contextPath}/teacher/noticeManage/${classNo}";
 	});
 	$("#assignment-manage-btn").on("click", function() {
-		location.href = "${pageContext.request.contextPath}/teacher/assignmentManage";
+		location.href = "${pageContext.request.contextPath}/teacher/assignmentManage/${classNo}";
 	});
 	$("#report-manage-btn").on("click", function() {
-		location.href = "${pageContext.request.contextPath}/teacher/reportManage";
+		location.href = "${pageContext.request.contextPath}/teacher/reportManage/${classNo}";
 	});
 </script>
 </html>

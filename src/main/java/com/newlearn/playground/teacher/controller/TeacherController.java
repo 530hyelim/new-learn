@@ -1,5 +1,7 @@
 package com.newlearn.playground.teacher.controller;
 
+import java.util.List;
+
 import javax.servlet.ServletContext;
 
 import org.springframework.stereotype.Controller;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.newlearn.playground.teacher.model.service.TeacherService;
+import com.newlearn.playground.teacher.model.vo.Attendance;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +24,7 @@ public class TeacherController {
 	private final ServletContext application;
 	private final TeacherService tService;
 	
-	@GetMapping("/main")
+	@GetMapping("/main/{classNo}")
 	public String teacherMain() {
 		return "teacher/teacherMain";
 	}
@@ -31,33 +34,37 @@ public class TeacherController {
 			Model model,
 			@PathVariable("classNo") int classNo
 			) {
-//		List<Attendance> attList = tService.getAttList(classNo);
-		System.out.println(classNo);
+		System.out.println("classNo: " + classNo);
+
+		List<Attendance> attList = tService.getAttList(classNo);
+		System.out.println("attList: " + attList);
+		System.out.println("attList size: " + attList.size());
+		
 		
 		return "teacher/teacherAttendanceManagement";
 	}
 	
-	@GetMapping("/studentManage")
+	@GetMapping("/studentManage/{classNo}")
 	public String studentManage() {
 		return "teacher/teacherStudentManagement";
 	}
 	
-	@GetMapping("/boardManage")
+	@GetMapping("/boardManage/{classNo}")
 	public String boardManage() {
 		return "teacher/teacherBoardManagement";
 	}
 	
-	@GetMapping("/noticeManage")
+	@GetMapping("/noticeManage/{classNo}")
 	public String noticeManage() {
 		return "teacher/teacherNoticeManagement";
 	}
 	
-	@GetMapping("/assignmentManage")
+	@GetMapping("/assignmentManage/{classNo}")
 	public String assignmentManage() {
 		return "teacher/teacherAssignmentManagement";
 	}
 	
-	@GetMapping("/reportManage")
+	@GetMapping("/reportManage/{classNo}")
 	public String reportManage() {
 		return "teacher/teacherReportManagement";
 	}

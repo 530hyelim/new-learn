@@ -1,7 +1,7 @@
 package com.newlearn.playground.ai.model.vo;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

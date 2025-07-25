@@ -1,6 +1,6 @@
 package com.newlearn.playground.teacher.model.vo;
 
-import java.sql.Date;
+import java.util.Date;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Attendance {
 	private int userNo;
-	private int classNo;
+	private String userName;
 	private Date entryTime;
 	private Date exitTime;
 	private String attStatus;
