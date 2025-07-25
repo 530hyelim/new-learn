@@ -2,7 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="memberMapper">
 
-	<select id="loginMember" resultType="member">
+<resultMap id="memberResultSet" type="member">
+    <id property="userNo" column="USER_NO"/>
+    <result property="userId" column="USER_ID"/>
+    <result property="userPwd" column="USER_PW"/>
+    <result property="userName" column="USER_NAME"/>
+    <result property="email" column="EMAIL"/>
+    <result property="phone" column="PHONE"/>
+    <result property="ssn" column="SSN"/>
+    <result property="status" column="MEMBER_STATUS"/>
+    <result property="enrollDate" column="JOIN_DATE"/>
+</resultMap>
+
+
+	<select id="loginMember" resultMap="memberResultSet">
 		SELECT * FROM MEMBER
 		WHERE USER_ID = #{userId}
 			AND MEMBER_STATUS = 'Y'	
@@ -63,6 +76,12 @@
 			AND EMAIL = #{email}
 			AND MEMBER_STATUS = 'Y'
 	</select>
+
+
+
+
+
+
 
 
 

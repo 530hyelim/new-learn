@@ -5,6 +5,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="_csrf" content="${_csrf.token}"/>
+<meta name="_csrf_header" content="${_csrf.headerName}"/>
 <title>비밀번호 변경</title>
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/find-id.css">
 </head>
@@ -53,40 +55,81 @@
     
 <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <script>
-    $(document).ready(function(){
-        const $newPw = $('#new-password');
-        const $confirmPw = $('#confirm-password');
-        const $pwFeedback = $('#pw-feedback');
-        const $pwConfirmFeedback = $('#pw-confirm-feedback');
-
-        // 새 비밀번호 유효성 검사
-        $newPw.on('keyup', function(){
-            const userPw = $newPw.val();
-            const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{7,20}$/;
-
-            if (pwRegex.test(userPw)) {
-                $pwFeedback.text('사용 가능한 비밀번호입니다.').css('color', 'green');
-            } else {
-                $pwFeedback.text('비밀번호는 영문, 숫자, 특수문자를 포함하여 7~20자여야 합니다.').css('color', 'red');
+$(document).ready(function(){
+    // CSRF 토큰을 모든 AJAX 요청에 자동으로 포함시키는 설정
+    const token = $("meta[name='_csrf']").attr("content");
+    const header = $("meta[name='_csrf_header']").attr("content");
+    $.ajaxSetup({
+        beforeSend: function(xhr) {
+            if (header && token) {
+                xhr.setRequestHeader(header, token);
             }
-        });
-
-        // 비밀번호 일치 확인
-        $newPw.add($confirmPw).on('keyup', function(){
-            const newPw = $newPw.val();
-            const confirmPw = $confirmPw.val();
-
-            if (confirmPw.length > 0) { 
-                if (newPw === confirmPw) {
-                    $pwConfirmFeedback.text('비밀번호가 일치합니다.').css('color', 'green');
-                } else {
-                    $pwConfirmFeedback.text('비밀번호가 일치하지 않습니다.').css('color', 'red');
-                }
-            } else {
-                $pwConfirmFeedback.text('');
-            }   
-        }); 
+        }
     });
+
+    const $newPw = $('#new-password');
+    const $confirmPw = $('#confirm-password');
+    const $pwFeedback = $('#pw-feedback');
+    const $pwConfirmFeedback = $('#pw-confirm-feedback');
+    
+    let debounceTimer; // 타이머
+
+    // 새 비밀번호 유효성 검사
+    $newPw.on('keyup', function(){
+        clearTimeout(debounceTimer); 
+
+        const userPw = $newPw.val();
+        const pwRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{7,20}$/;
+
+        // 형식 검사
+        if (!pwRegex.test(userPw)) {
+            $pwFeedback.text('비밀번호는 영문, 숫자, 특수문자를 포함하여 7~20자여야 합니다.').css('color', 'red');
+            return; // 만약 형식이 맞지 않으면 끝이니 리턴
+        }
+
+        // 형식은 맞다면 서버에 비밀번호 동일 여부 검사를 요청
+        debounceTimer = setTimeout(function() {
+            $.ajax({
+                url: '${pageContext.request.contextPath}/member/checkSamePassword',
+                type: 'POST',
+                data: { newPassword: userPw },
+                success: function(response) {
+                    // 검사 결과에 따라 메시지 표시
+                    if (response.isSame) {
+                        $pwFeedback.text('기존 비밀번호와 동일합니다.').css('color', 'red');
+                    } else {
+                        $pwFeedback.text('사용 가능한 비밀번호입니다.').css('color', 'green');
+                    }
+                },
+                error: function() {
+                    $pwFeedback.text('검사 중 오류가 발생했습니다.').css('color', 'red');
+                }
+            });
+        }, 500); // 0.5초
+    });
+
+    // 비밀번호 일치 확인 (기존 코드와 동일)
+    $newPw.add($confirmPw).on('keyup', function(){
+        const newPw = $newPw.val();
+        const confirmPw = $confirmPw.val();
+
+        if (confirmPw.length > 0) { 
+            if (newPw === confirmPw) {
+                $pwConfirmFeedback.text('비밀번호가 일치합니다.').css('color', 'green');
+            } else {
+                $pwConfirmFeedback.text('비밀번호가 일치하지 않습니다.').css('color', 'red');
+            }
+        } else {
+            $pwConfirmFeedback.text('');
+        }   
+    });
+    
+    // 페이지 로드 시, 서버에서 보낸 에러 메시지 팝업 (기존 코드와 동일)
+    const message = "${message}";
+    if (message) {
+        alert(message);
+    }
+});
 </script>
 
     <script>

@@ -1,6 +1,7 @@
 package com.newlearn.playground.member.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -303,6 +304,32 @@ public class MemberController {
 	    return certCode;
 	}
 	
+	
+	// 비밀번호 비교
+	@ResponseBody
+	@PostMapping("/member/checkSamePassword")
+	public Map<String, Object> checkSamePassword(@RequestParam("newPassword")
+	String newPassword, HttpSession session) {
+		Map<String, Object> response = new HashMap<>();
+		String userId = (String) session.getAttribute("userIdForReset");
+		
+		boolean isSame = false;
+		if(userId != null && newPassword != null && !newPassword.isEmpty()) {
+			Member m = new Member();
+			m.setUserId(userId);
+			Member currentUser = mService.loginMember(m);
+			if (currentUser != null && currentUser.getUserPwd() != null) {
+				isSame = bcryptPasswordEncoder.matches(newPassword, currentUser.getUserPwd());
+			}
+		}
+		
+		response.put("isSame", isSame);
+		return response;
+		
+	}
+	
+	
+	
 	// 아이디 찾기
 	@PostMapping("/member/findId")
 	public String findId(@RequestParam("userName") String userName,
@@ -349,7 +376,7 @@ public class MemberController {
 			   RedirectAttributes rttr) {
 
 		String userId = (String) session.getAttribute("userIdForReset");
-
+		
 		if(userId == null) {
 			return "redirect:/member/findPassword"; // 세션만료 대비
 		}
@@ -357,6 +384,7 @@ public class MemberController {
 		Member m = new Member();
 	    m.setUserId(userId);
 	    Member currentUser = mService.loginMember(m);
+	    	    
 	    String oldPasswordHash = currentUser.getUserPwd();
 		
 	    if (bcryptPasswordEncoder.matches(newPassword, oldPasswordHash)) {
@@ -379,8 +407,13 @@ public class MemberController {
 			return "/member/changePasswordComplete";
 		}
 	
+		
+		
+		
+		
 	// /member/agree 주소로 요청이 들어오면  agree.jsp를 화면에 나타냄
 	@GetMapping("/member/agree")
+	
 	public String agreeForm() {
 		return "member/agree";
 	}
