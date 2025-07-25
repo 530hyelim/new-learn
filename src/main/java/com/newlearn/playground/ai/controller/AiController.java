@@ -82,7 +82,7 @@ public class AiController {
 	@ResponseBody
 	public Map<String, String> getPrompt(
 			String prompt,
-			@RequestParam(required = false, defaultValue = "0") int sessionNo,
+			int sessionNo,
 			RedirectAttributes ra
 			) {
 		System.out.println("prompt: " + prompt);
@@ -251,7 +251,8 @@ public class AiController {
 	
 	@GetMapping("/getChatHistory")
 	@ResponseBody
-	public List<AiChatHistory> getChatHistory(@RequestParam int sessionNo) {
+	public List<AiChatHistory> getChatHistory(int sessionNo) {
+		System.out.println(sessionNo);
 		List<AiChatHistory> list = aiService.getChatHistory(sessionNo);
 		conversationHistory.put(sessionNo, list.stream().map((history) -> {
 			Map<String, String> message = new HashMap<>();
