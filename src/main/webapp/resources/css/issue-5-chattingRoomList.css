@@ -334,7 +334,7 @@ input[type=text]{
     width: 200px;
     margin-left: 47px;
 }
-input[type="checkbox"]{
+input[type="radio"]{
     width: 25px;
     height: 25px;
     margin-left: 5px;
@@ -542,7 +542,7 @@ input[type="checkbox"]{
 #setroommodal_creater input[type=text]{
     height: 25px;
 }
-#setroommodal_creater .room_title_text{
+#setroommodal_creater .room_title_text_creater{
     display: block;
     margin: auto;
     width: 80%;
@@ -677,7 +677,7 @@ input[type="checkbox"]{
 #setroommodal_member input[type=text]{
     height: 25px;
 }
-#setroommodal_member .room_title_text{
+#setroommodal_member .room_title_text_member{
     display: block;
     margin: auto;
     width: 80%;

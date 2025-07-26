@@ -1,6 +1,7 @@
 package com.newlearn.playground.chat.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,18 @@ public class ChattingRoomListDaoImpl implements ChattingRoomListDao{
 	}
 
 	@Override
-	public int createRoom(ChattingRoom roomInfo) {
-		// 채팅방 생성
-		return session.insert("chat.createRoom",roomInfo);
+	public int createRoom(Map<String, Object> createRoomInf) {
+		return session.insert("chat.createRoom",createRoomInf);
+	}
+	
+	@Override
+	public int insertUserJoin(Map<String, Object> createRoomInf) {
+		return session.insert("chat.insertUserJoin");
+	}
+
+	@Override
+	public int insertFriendJoin(Map<String, Object> createRoomInf) {
+		return session.insert("chat.insertFriendJoin");
 	}
 
 	@Override

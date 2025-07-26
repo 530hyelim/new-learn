@@ -11,6 +11,7 @@ public class ChattingRoomDTO {
 	private int chatRoomNo;
 	private String chatTitle;
 	private String chatPublic;
+	private String chatPw;
 	private String userName;
 	private String changeName;
 	private int participantCount;
